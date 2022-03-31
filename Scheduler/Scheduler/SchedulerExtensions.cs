@@ -57,7 +57,7 @@ namespace Scheduler
         {
             if (i == 0)
             {
-                nextExecutionTime = CalculateRecurringFirstMonthly(scheduler, nextExecutionTime);
+                nextExecutionTime = CalculateRecurringFirstMonthly(scheduler);
             }
             else
             {
@@ -66,15 +66,16 @@ namespace Scheduler
             return nextExecutionTime;
         }
 
-        private static DateTime CalculateRecurringFirstMonthly(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
+        private static DateTime CalculateRecurringFirstMonthly(SchedulerConfiguration scheduler)
         {
+            DateTime nextExecutionTime;
             if (scheduler.MonthlyConf == MonthlyConfType.Day)
             {
                 nextExecutionTime = CalculateRecurringFirstMonthlyDay(scheduler);
             }
             else
             {
-                nextExecutionTime = CalculateRecurringFirstMonthlyThe(scheduler, nextExecutionTime);
+                nextExecutionTime = CalculateRecurringFirstMonthlyThe(scheduler);
             }
             return nextExecutionTime;
         }
@@ -89,15 +90,16 @@ namespace Scheduler
             return nextExecutionTime;
         }
 
-        private static DateTime CalculateRecurringFirstMonthlyThe(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
+        private static DateTime CalculateRecurringFirstMonthlyThe(SchedulerConfiguration scheduler)
         {
+            DateTime nextExecutionTime;
             if (scheduler.CurrentDate.Day < (7 * ((int)scheduler.OrderDay + 1)))
             {
                 nextExecutionTime = CalculateRecurringFirstMonthlyTheSameMonth(scheduler);
             }
             else
             {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheOtherMonth(scheduler, nextExecutionTime);
+                nextExecutionTime = CalculateRecurringFirstMonthlyTheOtherMonth(scheduler);
             }
             return nextExecutionTime;
         }
@@ -320,8 +322,9 @@ namespace Scheduler
             return nextExecutionTime;
         }
 
-        private static DateTime CalculateRecurringFirstMonthlyTheOtherMonth(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
+        private static DateTime CalculateRecurringFirstMonthlyTheOtherMonth(SchedulerConfiguration scheduler)
         {
+            DateTime nextExecutionTime;
             if ((int)scheduler.OccursDay < 7)
             {
                 nextExecutionTime = CalculateRecurringFirstMonthlyTheOtherMonthEspecificDay(scheduler);

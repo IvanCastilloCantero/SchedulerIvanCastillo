@@ -23,10 +23,39 @@ namespace Scheduler
 
         public static string CalculateDescriptionRecurringMonthly(SchedulerConfiguration scheduler)
         {
-            string description = string.Empty;
+            string description;
             if (scheduler.MonthlyConf == MonthlyConfType.Day)
             {
                 description = CalculateDescriptionRecurringMonthlyDay(scheduler);
+            } else
+            {
+                description = CalculateDescriptionRecurringMonthlyThe(scheduler);
+            }
+            return description;
+        }
+
+        private static string CalculateDescriptionRecurringMonthlyThe(SchedulerConfiguration scheduler)
+        {
+            string description; 
+            if (scheduler.OccursEvery > 1)
+            {
+                 description = "Occurs the " + scheduler.OrderDay.ToString().ToLower()
+                    + " " + scheduler.OccursDay.ToString().ToLower()
+                    + " of every " + scheduler.Frequency
+                    + " months every " + scheduler.OccursEvery.ToString()
+                    + " hours between " + scheduler.StartingAt.ToShortTimeString()
+                    + " and " + scheduler.EndingAt.ToShortTimeString()
+                    + " starting on " + scheduler.StartDate.ToShortDateString();
+            } 
+            else
+            {
+                description = "Occurs the " + scheduler.OrderDay.ToString().ToLower()
+                    + " " + scheduler.OccursDay.ToString().ToLower()
+                    + " of every " + scheduler.Frequency
+                    + " months every " + scheduler.OccursEvery.ToString()
+                    + " hour between " + scheduler.StartingAt.ToShortTimeString()
+                    + " and " + scheduler.EndingAt.ToShortTimeString()
+                    + " starting on " + scheduler.StartDate.ToShortDateString();
             }
             return description;
         }

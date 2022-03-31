@@ -1245,6 +1245,7 @@ namespace SchedulerTest
             var informations = scheduler.CalculateNextExecution(4);
 
             informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 3, 1, 4, 0, 0));
+            informations[0].Description.Should().Be("Occurs the first weekend_day of every 3 months every 2 hours between 4:00 and 8:00 starting on 01/01/2020");
             informations[1].NextExecutionTime.Should().Be(new DateTime(2020, 3, 1, 6, 0, 0));
             informations[2].NextExecutionTime.Should().Be(new DateTime(2020, 3, 1, 8, 0, 0));
             informations[3].NextExecutionTime.Should().Be(new DateTime(2020, 4, 4, 4, 0, 0));
