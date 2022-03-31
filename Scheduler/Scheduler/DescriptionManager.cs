@@ -34,9 +34,9 @@ namespace Scheduler
         private static string CalculateDescriptionRecurringMonthlyDay(SchedulerConfiguration scheduler)
         {
             string description = "Occurs day " + scheduler.Day.ToString()
-                + " every " + scheduler.EveryMonths
+                + " every " + scheduler.Frequency
                 + " months every " + scheduler.OccursEvery.ToString()
-                + " " + scheduler.TipoTiempo.ToString().ToLower()
+                + " " + scheduler.UnitTime.ToString().ToLower()
                 + " between " + scheduler.StartingAt.ToShortTimeString() 
                 + " and " + scheduler.EndingAt.ToShortTimeString() 
                 + " starting on " + scheduler.StartDate.ToShortDateString();
@@ -94,10 +94,10 @@ namespace Scheduler
 
         public static string CalculateDescriptionRecurringWeeklyMessage(SchedulerConfiguration scheduler, string days)
         {
-            string description = "Occurs every " + scheduler.EveryWeeks.ToString()
+            string description = "Occurs every " + scheduler.Frequency.ToString()
                 + " weeks " + days + " every "
                 + scheduler.OccursEvery + " "
-                + scheduler.TipoTiempo.ToString().ToLower() + " between "
+                + scheduler.UnitTime.ToString().ToLower() + " between "
                 + scheduler.StartingAt.ToShortTimeString()
                 + " and " + scheduler.EndingAt.ToShortTimeString()
                 + " starting on " + scheduler.CurrentDate.ToShortDateString();

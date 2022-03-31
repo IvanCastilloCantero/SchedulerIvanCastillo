@@ -7,21 +7,16 @@ namespace Scheduler
     {
         public DateTime CurrentDate { get; set; }
         public ExecutionType Type { get; set; }
-        public bool Enable { get; set; }
         public DateTime DateTime { get; set; }
         public OccursType Occurs { get; set; }
-        public int Days { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
-        public DateTime OccursOnceAt { get; set; }
+        public int Frequency { get; set; }
+        public DateTime StartDate { get; set; }        
         public int OccursEvery { get; set; }
-        public UnitTime TipoTiempo { get; set; }
+        public UnitTime UnitTime { get; set; }
         public DateTime StartingAt { get; set; }
         public DateTime EndingAt { get; set; }
         public List<DayOfWeek> DayOfWeeks { get; set; }
-        public int EveryWeeks { get; set; }
         public int Day { get; set; }
-        public int EveryMonths { get; set; }
         public Occurrency OrderDay { get; set; }
         public DayOccurrency OccursDay { get; set; }
         public MonthlyConfType MonthlyConf { get; set; }
@@ -36,7 +31,7 @@ namespace Scheduler
 
     public enum Occurrency { First, Second, Third, Forth, Last}
 
-    public enum DayOccurrency { Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday, day, weekday, weekend_day}
+    public enum DayOccurrency { Monday = 1, Tuesday = 2, Wednesday = 3, Thursday = 4, Friday = 5, Saturday = 6, Sunday = 0, day = 7, weekday = 8, weekend_day = 9}
 
     public enum MonthlyConfType { Day, The}
 }

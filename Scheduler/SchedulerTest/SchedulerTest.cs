@@ -16,7 +16,6 @@ namespace SchedulerTest
                 CurrentDate = new DateTime(2020, 1, 4),
                 Type = ExecutionType.Once,
                 DateTime = new DateTime(2020, 1, 8, 14, 0, 0),
-                Days = 0,
                 StartDate = new DateTime(2020, 1, 1)
             };
 
@@ -33,10 +32,9 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 1, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Weekly,
                 StartDate = new DateTime(2020, 1, 1),
-                EveryWeeks = 2,
+                Frequency = 2,
                 DayOfWeeks = new List<DayOfWeek> { DayOfWeek.Monday },
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -57,10 +55,9 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 1, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Weekly,
                 StartDate = new DateTime(2020, 1, 1),
-                EveryWeeks = 2,
+                Frequency = 2,
                 DayOfWeeks = new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Tuesday },
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -81,10 +78,9 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 1, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Weekly,
                 StartDate = new DateTime(2020, 1, 1),
-                EveryWeeks = 2,
+                Frequency = 2,
                 DayOfWeeks = new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Wednesday },
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -105,10 +101,9 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 1, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Weekly,
                 StartDate = new DateTime(2020, 1, 1),
-                EveryWeeks = 2,
+                Frequency = 2,
                 DayOfWeeks = new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Thursday },
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -129,10 +124,9 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 1, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Weekly,
                 StartDate = new DateTime(2020, 1, 1),
-                EveryWeeks = 2,
+                Frequency = 2,
                 DayOfWeeks = new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Friday },
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -153,10 +147,9 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 1, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Weekly,
                 StartDate = new DateTime(2020, 1, 1),
-                EveryWeeks = 2,
+                Frequency = 2,
                 DayOfWeeks = new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Friday },
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -177,10 +170,9 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 1, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Weekly,
                 StartDate = new DateTime(2020, 1, 1),
-                EveryWeeks = 2,
+                Frequency = 2,
                 DayOfWeeks = new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday },
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -201,10 +193,9 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 1, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Weekly,
                 StartDate = new DateTime(2020, 1, 1),
-                EveryWeeks = 2,
+                Frequency = 2,
                 DayOfWeeks = new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Thursday, DayOfWeek.Friday },
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -225,10 +216,9 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 1, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Weekly,
                 StartDate = new DateTime(2020, 1, 1),
-                EveryWeeks = 2,
+                Frequency = 2,
                 DayOfWeeks = new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Thursday, DayOfWeek.Friday },
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -249,10 +239,9 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 1, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Weekly,
                 StartDate = new DateTime(2020, 1, 1),
-                EveryWeeks = 2,
+                Frequency = 2,
                 DayOfWeeks = new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Thursday },
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -273,10 +262,9 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 1, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Weekly,
                 StartDate = new DateTime(2020, 1, 1),
-                EveryWeeks = 2,
+                Frequency = 2,
                 DayOfWeeks = new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Friday },
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -297,10 +285,9 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 1, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Weekly,
                 StartDate = new DateTime(2020, 1, 1),
-                EveryWeeks = 2,
+                Frequency = 2,
                 DayOfWeeks = new List<DayOfWeek> { DayOfWeek.Tuesday, DayOfWeek.Wednesday },
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -321,10 +308,9 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 1, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Weekly,
                 StartDate = new DateTime(2020, 1, 1),
-                EveryWeeks = 2,
+                Frequency = 2,
                 DayOfWeeks = new List<DayOfWeek> { DayOfWeek.Tuesday, DayOfWeek.Thursday },
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -345,10 +331,9 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 1, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Weekly,
                 StartDate = new DateTime(2020, 1, 1),
-                EveryWeeks = 2,
+                Frequency = 2,
                 DayOfWeeks = new List<DayOfWeek> { DayOfWeek.Tuesday, DayOfWeek.Friday },
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -369,10 +354,9 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 1, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Weekly,
                 StartDate = new DateTime(2020, 1, 1),
-                EveryWeeks = 2,
+                Frequency = 2,
                 DayOfWeeks = new List<DayOfWeek> { DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Thursday },
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -393,10 +377,9 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 1, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Weekly,
                 StartDate = new DateTime(2020, 1, 1),
-                EveryWeeks = 2,
+                Frequency = 2,
                 DayOfWeeks = new List<DayOfWeek> { DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Friday },
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -417,10 +400,9 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 1, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Weekly,
                 StartDate = new DateTime(2020, 1, 1),
-                EveryWeeks = 2,
+                Frequency = 2,
                 DayOfWeeks = new List<DayOfWeek> { DayOfWeek.Wednesday, DayOfWeek.Friday },
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -441,10 +423,9 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 1, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Weekly,
                 StartDate = new DateTime(2020, 1, 1),
-                EveryWeeks = 2,
+                Frequency = 2,
                 DayOfWeeks = new List<DayOfWeek> { DayOfWeek.Wednesday, DayOfWeek.Thursday },
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -465,10 +446,9 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 1, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Weekly,
                 StartDate = new DateTime(2020, 1, 1),
-                EveryWeeks = 2,
+                Frequency = 2,
                 DayOfWeeks = new List<DayOfWeek> { DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Friday },
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -489,10 +469,9 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 1, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Weekly,
                 StartDate = new DateTime(2020, 1, 1),
-                EveryWeeks = 2,
+                Frequency = 2,
                 DayOfWeeks = new List<DayOfWeek> { DayOfWeek.Thursday, DayOfWeek.Friday },
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -512,10 +491,9 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 15, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Weekly,
                 StartDate = new DateTime(2020, 1, 1),
-                EveryWeeks = 2,
+                Frequency = 2,
                 DayOfWeeks = new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Friday },
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -536,10 +514,9 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 15, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Weekly,
                 StartDate = new DateTime(2020, 1, 1),
-                EveryWeeks = 2,
+                Frequency = 2,
                 DayOfWeeks = new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Friday },
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -575,10 +552,9 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 1, 5, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Weekly,
                 StartDate = new DateTime(2020, 1, 1),
-                EveryWeeks = 2,
+                Frequency = 2,
                 DayOfWeeks = new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Thursday, DayOfWeek.Friday },
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -602,10 +578,9 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 3, 6, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Weekly,
                 StartDate = new DateTime(2020, 1, 1),
-                EveryWeeks = 2,
+                Frequency = 2,
                 DayOfWeeks = new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Thursday, DayOfWeek.Friday },
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -632,10 +607,9 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 3, 6, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Weekly,
                 StartDate = new DateTime(2020, 1, 1),
-                EveryWeeks = 3,
+                Frequency = 3,
                 DayOfWeeks = new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Thursday, DayOfWeek.Friday },
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -662,10 +636,9 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 3, 6, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Weekly,
                 StartDate = new DateTime(2020, 1, 1),
-                EveryWeeks = 4,
+                Frequency = 4,
                 DayOfWeeks = new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Thursday, DayOfWeek.Friday },
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -692,10 +665,9 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 1, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Weekly,
                 StartDate = new DateTime(2020, 1, 1),
-                EveryWeeks = 2,
+                Frequency = 2,
                 DayOfWeeks = new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Thursday, DayOfWeek.Friday },
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -725,10 +697,9 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 1, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Weekly,
                 StartDate = new DateTime(2020, 1, 1),
-                EveryWeeks = 2,
+                Frequency = 2,
                 DayOfWeeks = new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Thursday, DayOfWeek.Friday },
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -749,10 +720,9 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 1, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Weekly,
                 StartDate = new DateTime(2020, 1, 1),
-                EveryWeeks = 2,
+                Frequency = 2,
                 DayOfWeeks = new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Thursday, DayOfWeek.Friday },
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -788,10 +758,9 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 5, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Weekly,
                 StartDate = new DateTime(2020, 1, 1),
-                EveryWeeks = 2,
+                Frequency = 2,
                 DayOfWeeks = new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Thursday, DayOfWeek.Friday },
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -831,11 +800,10 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 9, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Monthly,
                 MonthlyConf = MonthlyConfType.Day,
                 Day = 8,
-                EveryMonths = 3,
+                Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -856,11 +824,10 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 9, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Monthly,
                 MonthlyConf = MonthlyConfType.Day,
                 Day = 8,
-                EveryMonths = 3,
+                Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -890,12 +857,11 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 1, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Monthly,
                 MonthlyConf = MonthlyConfType.The,
                 OrderDay = Occurrency.First,
                 OccursDay = DayOccurrency.Monday,
-                EveryMonths = 3,
+                Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -904,7 +870,7 @@ namespace SchedulerTest
 
             var informations = scheduler.CalculateNextExecution(1);
 
-            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 6));
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 6, 4, 0, 0));
         }
 
         [Fact]
@@ -914,12 +880,11 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 1, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Monthly,
                 MonthlyConf = MonthlyConfType.The,
                 OrderDay = Occurrency.First,
                 OccursDay = DayOccurrency.Tuesday,
-                EveryMonths = 3,
+                Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -928,7 +893,7 @@ namespace SchedulerTest
 
             var informations = scheduler.CalculateNextExecution(1);
 
-            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 7));
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 7, 4, 0, 0));
         }
 
         [Fact]
@@ -938,12 +903,11 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 1, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Monthly,
                 MonthlyConf = MonthlyConfType.The,
                 OrderDay = Occurrency.First,
                 OccursDay = DayOccurrency.Wednesday,
-                EveryMonths = 3,
+                Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -952,7 +916,30 @@ namespace SchedulerTest
 
             var informations = scheduler.CalculateNextExecution(1);
 
-            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 1));
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 1, 4, 0, 0));
+        }
+
+        [Fact]
+        public void Calculate_Recurring_Execution_One_Time_Monthly_The_First_Wednesday_Same_Month_Other_Month()
+        {
+            SchedulerConfiguration scheduler = new()
+            {
+                CurrentDate = new DateTime(2020, 1, 2, 0, 0, 0),
+                Type = ExecutionType.Recurring,
+                Occurs = OccursType.Monthly,
+                MonthlyConf = MonthlyConfType.The,
+                OrderDay = Occurrency.First,
+                OccursDay = DayOccurrency.Wednesday,
+                Frequency = 3,
+                StartDate = new DateTime(2020, 1, 1),
+                OccursEvery = 2,
+                StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
+                EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
+            };
+
+            var informations = scheduler.CalculateNextExecution(1);
+
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 5, 4, 0, 0));
         }
 
         [Fact]
@@ -962,12 +949,11 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 1, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Monthly,
                 MonthlyConf = MonthlyConfType.The,
                 OrderDay = Occurrency.First,
                 OccursDay = DayOccurrency.Thursday,
-                EveryMonths = 3,
+                Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -976,7 +962,7 @@ namespace SchedulerTest
 
             var informations = scheduler.CalculateNextExecution(1);
 
-            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 2));
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 2, 4, 0, 0));
         }
 
         [Fact]
@@ -986,12 +972,11 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 1, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Monthly,
                 MonthlyConf = MonthlyConfType.The,
                 OrderDay = Occurrency.First,
                 OccursDay = DayOccurrency.Friday,
-                EveryMonths = 3,
+                Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -1000,7 +985,7 @@ namespace SchedulerTest
 
             var informations = scheduler.CalculateNextExecution(1);
 
-            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 3));
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 3, 4, 0, 0));
         }
 
         [Fact]
@@ -1010,12 +995,11 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 1, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Monthly,
                 MonthlyConf = MonthlyConfType.The,
                 OrderDay = Occurrency.First,
                 OccursDay = DayOccurrency.Saturday,
-                EveryMonths = 3,
+                Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -1024,7 +1008,7 @@ namespace SchedulerTest
 
             var informations = scheduler.CalculateNextExecution(1);
 
-            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 4));
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 4, 4, 0, 0));
         }
 
         [Fact]
@@ -1034,12 +1018,11 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 1, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Monthly,
                 MonthlyConf = MonthlyConfType.The,
                 OrderDay = Occurrency.First,
                 OccursDay = DayOccurrency.Sunday,
-                EveryMonths = 3,
+                Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -1048,7 +1031,7 @@ namespace SchedulerTest
 
             var informations = scheduler.CalculateNextExecution(1);
 
-            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 5));
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 5, 4, 0, 0));
         }
 
         [Fact]
@@ -1058,12 +1041,11 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 1, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Monthly,
                 MonthlyConf = MonthlyConfType.The,
                 OrderDay = Occurrency.First,
                 OccursDay = DayOccurrency.weekday,
-                EveryMonths = 3,
+                Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -1072,7 +1054,79 @@ namespace SchedulerTest
 
             var informations = scheduler.CalculateNextExecution(1);
 
-            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 1));
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 1, 4, 0, 0));
+        }
+
+        [Fact]
+        public void Calculate_Recurring_Execution_Four_Times_Monthly_The_First_WeekDay()
+        {
+            SchedulerConfiguration scheduler = new()
+            {
+                CurrentDate = new DateTime(2020, 1, 1, 0, 0, 0),
+                Type = ExecutionType.Recurring,
+                Occurs = OccursType.Monthly,
+                MonthlyConf = MonthlyConfType.The,
+                OrderDay = Occurrency.First,
+                OccursDay = DayOccurrency.weekday,
+                Frequency = 3,
+                StartDate = new DateTime(2020, 1, 1),
+                OccursEvery = 2,
+                StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
+                EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
+            };
+
+            var informations = scheduler.CalculateNextExecution(4);
+
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 1, 4, 0, 0));
+            informations[1].NextExecutionTime.Should().Be(new DateTime(2020, 1, 1, 6, 0, 0));
+            informations[2].NextExecutionTime.Should().Be(new DateTime(2020, 1, 1, 8, 0, 0));
+            informations[3].NextExecutionTime.Should().Be(new DateTime(2020, 2, 3, 4, 0, 0));
+        }
+
+        [Fact]
+        public void Calculate_Recurring_Execution_One_Time_Monthly_The_First_WeekDay_Same_Month_High_Hour()
+        {
+            SchedulerConfiguration scheduler = new()
+            {
+                CurrentDate = new DateTime(2020, 1, 1, 9, 0, 0),
+                Type = ExecutionType.Recurring,
+                Occurs = OccursType.Monthly,
+                MonthlyConf = MonthlyConfType.The,
+                OrderDay = Occurrency.First,
+                OccursDay = DayOccurrency.weekday,
+                Frequency = 3,
+                StartDate = new DateTime(2020, 1, 1),
+                OccursEvery = 2,
+                StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
+                EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
+            };
+
+            var informations = scheduler.CalculateNextExecution(1);
+
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 3, 4, 0, 0));
+        }
+
+        [Fact]
+        public void Calculate_Recurring_Execution_One_Time_Monthly_The_First_WeekDay_Same_Month_When_First_Day_Is_Weekend()
+        {
+            SchedulerConfiguration scheduler = new()
+            {
+                CurrentDate = new DateTime(2020, 2, 1, 0, 0, 0),
+                Type = ExecutionType.Recurring,
+                Occurs = OccursType.Monthly,
+                MonthlyConf = MonthlyConfType.The,
+                OrderDay = Occurrency.First,
+                OccursDay = DayOccurrency.weekday,
+                Frequency = 3,
+                StartDate = new DateTime(2020, 1, 1),
+                OccursEvery = 2,
+                StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
+                EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
+            };
+
+            var informations = scheduler.CalculateNextExecution(1);
+
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 3, 4, 0, 0));
         }
 
         [Fact]
@@ -1082,12 +1136,11 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 1, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Monthly,
                 MonthlyConf = MonthlyConfType.The,
                 OrderDay = Occurrency.First,
                 OccursDay = DayOccurrency.day,
-                EveryMonths = 3,
+                Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -1096,7 +1149,56 @@ namespace SchedulerTest
 
             var informations = scheduler.CalculateNextExecution(1);
 
-            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 1));
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 1, 4, 0, 0));
+        }
+
+        [Fact]
+        public void Calculate_Recurring_Execution_One_Time_Monthly_The_First_Day_Same_Month_Hour_High()
+        {
+            SchedulerConfiguration scheduler = new()
+            {
+                CurrentDate = new DateTime(2020, 1, 1, 9, 0, 0),
+                Type = ExecutionType.Recurring,
+                Occurs = OccursType.Monthly,
+                MonthlyConf = MonthlyConfType.The,
+                OrderDay = Occurrency.First,
+                OccursDay = DayOccurrency.day,
+                Frequency = 3,
+                StartDate = new DateTime(2020, 1, 1),
+                OccursEvery = 2,
+                StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
+                EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
+            };
+
+            var informations = scheduler.CalculateNextExecution(1);
+
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 1, 4, 0, 0));
+        }
+
+        [Fact]
+        public void Calculate_Recurring_Execution_Four_Times_Monthly_The_First_Day()
+        {
+            SchedulerConfiguration scheduler = new()
+            {
+                CurrentDate = new DateTime(2020, 1, 1, 9, 0, 0),
+                Type = ExecutionType.Recurring,
+                Occurs = OccursType.Monthly,
+                MonthlyConf = MonthlyConfType.The,
+                OrderDay = Occurrency.First,
+                OccursDay = DayOccurrency.day,
+                Frequency = 3,
+                StartDate = new DateTime(2020, 1, 1),
+                OccursEvery = 2,
+                StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
+                EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
+            };
+
+            var informations = scheduler.CalculateNextExecution(4);
+
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 1, 4, 0, 0));
+            informations[1].NextExecutionTime.Should().Be(new DateTime(2020, 2, 1, 6, 0, 0));
+            informations[2].NextExecutionTime.Should().Be(new DateTime(2020, 2, 1, 8, 0, 0));
+            informations[3].NextExecutionTime.Should().Be(new DateTime(2020, 3, 1, 4, 0, 0));
         }
 
         [Fact]
@@ -1106,12 +1208,11 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 1, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Monthly,
                 MonthlyConf = MonthlyConfType.The,
                 OrderDay = Occurrency.First,
                 OccursDay = DayOccurrency.weekend_day,
-                EveryMonths = 3,
+                Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -1120,7 +1221,56 @@ namespace SchedulerTest
 
             var informations = scheduler.CalculateNextExecution(1);
 
-            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 4));
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 4, 4, 0, 0));
+        }
+
+        [Fact]
+        public void Calculate_Recurring_Execution_Four_Times_Monthly_The_First_Weekend_Day()
+        {
+            SchedulerConfiguration scheduler = new()
+            {
+                CurrentDate = new DateTime(2020, 3, 1, 0, 0, 0),
+                Type = ExecutionType.Recurring,
+                Occurs = OccursType.Monthly,
+                MonthlyConf = MonthlyConfType.The,
+                OrderDay = Occurrency.First,
+                OccursDay = DayOccurrency.weekend_day,
+                Frequency = 3,
+                StartDate = new DateTime(2020, 1, 1),
+                OccursEvery = 2,
+                StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
+                EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
+            };
+
+            var informations = scheduler.CalculateNextExecution(4);
+
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 3, 1, 4, 0, 0));
+            informations[1].NextExecutionTime.Should().Be(new DateTime(2020, 3, 1, 6, 0, 0));
+            informations[2].NextExecutionTime.Should().Be(new DateTime(2020, 3, 1, 8, 0, 0));
+            informations[3].NextExecutionTime.Should().Be(new DateTime(2020, 4, 4, 4, 0, 0));
+        }
+
+        [Fact]
+        public void Calculate_Recurring_Execution_One_Time_Monthly_The_First_Weekend_Day_Same_Month_High_Hour()
+        {
+            SchedulerConfiguration scheduler = new()
+            {
+                CurrentDate = new DateTime(2020, 2, 1, 9, 0, 0),
+                Type = ExecutionType.Recurring,
+                Occurs = OccursType.Monthly,
+                MonthlyConf = MonthlyConfType.The,
+                OrderDay = Occurrency.First,
+                OccursDay = DayOccurrency.weekend_day,
+                Frequency = 3,
+                StartDate = new DateTime(2020, 1, 1),
+                OccursEvery = 2,
+                StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
+                EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
+            };
+
+            var informations = scheduler.CalculateNextExecution(1);
+
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 3, 1, 4, 0, 0));
         }
 
         [Fact]
@@ -1130,12 +1280,11 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 9, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Monthly,
                 MonthlyConf = MonthlyConfType.The,
                 OrderDay = Occurrency.First,
                 OccursDay = DayOccurrency.Monday,
-                EveryMonths = 3,
+                Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -1144,7 +1293,7 @@ namespace SchedulerTest
 
             var informations = scheduler.CalculateNextExecution(1);
 
-            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 3));
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 3, 4, 0, 0));
         }
 
         [Fact]
@@ -1154,12 +1303,11 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 9, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Monthly,
                 MonthlyConf = MonthlyConfType.The,
                 OrderDay = Occurrency.First,
                 OccursDay = DayOccurrency.Tuesday,
-                EveryMonths = 3,
+                Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -1168,7 +1316,7 @@ namespace SchedulerTest
 
             var informations = scheduler.CalculateNextExecution(1);
 
-            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 4));
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 4, 4, 0, 0));
         }
 
         [Fact]
@@ -1178,12 +1326,11 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 9, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Monthly,
                 MonthlyConf = MonthlyConfType.The,
                 OrderDay = Occurrency.First,
                 OccursDay = DayOccurrency.Wednesday,
-                EveryMonths = 3,
+                Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -1192,7 +1339,7 @@ namespace SchedulerTest
 
             var informations = scheduler.CalculateNextExecution(1);
 
-            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 5));
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 5, 4 ,0 ,0));
         }
 
         [Fact]
@@ -1202,12 +1349,11 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 9, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Monthly,
                 MonthlyConf = MonthlyConfType.The,
                 OrderDay = Occurrency.First,
                 OccursDay = DayOccurrency.Thursday,
-                EveryMonths = 3,
+                Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -1216,7 +1362,7 @@ namespace SchedulerTest
 
             var informations = scheduler.CalculateNextExecution(1);
 
-            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 6));
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 6, 4, 0, 0));
         }
 
         [Fact]
@@ -1226,12 +1372,11 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 9, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Monthly,
                 MonthlyConf = MonthlyConfType.The,
                 OrderDay = Occurrency.First,
                 OccursDay = DayOccurrency.Friday,
-                EveryMonths = 3,
+                Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -1240,7 +1385,7 @@ namespace SchedulerTest
 
             var informations = scheduler.CalculateNextExecution(1);
 
-            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 7));
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 7, 4, 0, 0));
         }
 
         [Fact]
@@ -1250,12 +1395,11 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 9, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Monthly,
                 MonthlyConf = MonthlyConfType.The,
                 OrderDay = Occurrency.First,
                 OccursDay = DayOccurrency.Saturday,
-                EveryMonths = 3,
+                Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -1264,7 +1408,7 @@ namespace SchedulerTest
 
             var informations = scheduler.CalculateNextExecution(1);
 
-            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 1));
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 1, 4, 0, 0));
         }
 
         [Fact]
@@ -1274,12 +1418,11 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 9, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Monthly,
                 MonthlyConf = MonthlyConfType.The,
                 OrderDay = Occurrency.First,
                 OccursDay = DayOccurrency.Sunday,
-                EveryMonths = 3,
+                Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -1288,7 +1431,7 @@ namespace SchedulerTest
 
             var informations = scheduler.CalculateNextExecution(1);
 
-            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 2));
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 2, 4 ,0 ,0));
         }
 
         [Fact]
@@ -1298,12 +1441,11 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 9, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Monthly,
                 MonthlyConf = MonthlyConfType.The,
                 OrderDay = Occurrency.First,
                 OccursDay = DayOccurrency.weekday,
-                EveryMonths = 3,
+                Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -1312,7 +1454,7 @@ namespace SchedulerTest
 
             var informations = scheduler.CalculateNextExecution(1);
 
-            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 3));
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 3, 4, 0, 0));
         }
 
         [Fact]
@@ -1322,12 +1464,11 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 9, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Monthly,
                 MonthlyConf = MonthlyConfType.The,
                 OrderDay = Occurrency.First,
                 OccursDay = DayOccurrency.day,
-                EveryMonths = 3,
+                Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -1336,7 +1477,7 @@ namespace SchedulerTest
 
             var informations = scheduler.CalculateNextExecution(1);
 
-            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 1));
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 1, 4, 0, 0));
         }
 
         [Fact]
@@ -1346,12 +1487,11 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 9, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Monthly,
                 MonthlyConf = MonthlyConfType.The,
                 OrderDay = Occurrency.First,
                 OccursDay = DayOccurrency.weekend_day,
-                EveryMonths = 3,
+                Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -1360,9 +1500,32 @@ namespace SchedulerTest
 
             var informations = scheduler.CalculateNextExecution(1);
 
-            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 1));
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 1, 4, 0, 0));
         }
 
+        [Fact]
+        public void Calculate_Recurring_Execution_One_Time_Monthly_The_First_Weekend_Day_Other_Month_When_First_Day_Is_WeekDay()
+        {
+            SchedulerConfiguration scheduler = new()
+            {
+                CurrentDate = new DateTime(2020, 3, 9, 0, 0, 0),
+                Type = ExecutionType.Recurring,
+                Occurs = OccursType.Monthly,
+                MonthlyConf = MonthlyConfType.The,
+                OrderDay = Occurrency.First,
+                OccursDay = DayOccurrency.weekend_day,
+                Frequency = 3,
+                StartDate = new DateTime(2020, 1, 1),
+                OccursEvery = 2,
+                StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
+                EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
+            };
+
+            var informations = scheduler.CalculateNextExecution(1);
+
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 4, 4, 4, 0, 0));
+        }
+        
         [Fact]
         public void Calculate_Recurring_Execution_One_Time_Monthly_The_Second_Monday_Same_Month()
         {
@@ -1370,12 +1533,11 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 1, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Monthly,
                 MonthlyConf = MonthlyConfType.The,
                 OrderDay = Occurrency.Second,
                 OccursDay = DayOccurrency.Monday,
-                EveryMonths = 3,
+                Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -1384,7 +1546,7 @@ namespace SchedulerTest
 
             var informations = scheduler.CalculateNextExecution(1);
 
-            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 13));
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 13, 4, 0, 0));
         }
         [Fact]
         public void Calculate_Recurring_Execution_One_Time_Monthly_The_Second_Tuesday_Same_Month()
@@ -1393,12 +1555,11 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 1, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Monthly,
                 MonthlyConf = MonthlyConfType.The,
                 OrderDay = Occurrency.Second,
                 OccursDay = DayOccurrency.Tuesday,
-                EveryMonths = 3,
+                Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -1407,7 +1568,7 @@ namespace SchedulerTest
 
             var informations = scheduler.CalculateNextExecution(1);
 
-            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 14));
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 14, 4, 0, 0));
         }
 
         [Fact]
@@ -1417,12 +1578,11 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 1, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Monthly,
                 MonthlyConf = MonthlyConfType.The,
                 OrderDay = Occurrency.Second,
                 OccursDay = DayOccurrency.Wednesday,
-                EveryMonths = 3,
+                Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -1431,7 +1591,7 @@ namespace SchedulerTest
 
             var informations = scheduler.CalculateNextExecution(1);
 
-            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 8));
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 8, 4, 0, 0));
         }
 
         [Fact]
@@ -1441,12 +1601,11 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 1, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Monthly,
                 MonthlyConf = MonthlyConfType.The,
                 OrderDay = Occurrency.Second,
                 OccursDay = DayOccurrency.Thursday,
-                EveryMonths = 3,
+                Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -1455,7 +1614,7 @@ namespace SchedulerTest
 
             var informations = scheduler.CalculateNextExecution(1);
 
-            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 9));
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 9, 4, 0, 0));
         }
 
         [Fact]
@@ -1465,12 +1624,11 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 1, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Monthly,
                 MonthlyConf = MonthlyConfType.The,
                 OrderDay = Occurrency.Second,
                 OccursDay = DayOccurrency.Friday,
-                EveryMonths = 3,
+                Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -1479,7 +1637,7 @@ namespace SchedulerTest
 
             var informations = scheduler.CalculateNextExecution(1);
 
-            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 10));
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 10, 4, 0, 0));
         }
 
         [Fact]
@@ -1489,12 +1647,11 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 1, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Monthly,
                 MonthlyConf = MonthlyConfType.The,
                 OrderDay = Occurrency.Second,
                 OccursDay = DayOccurrency.Saturday,
-                EveryMonths = 3,
+                Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -1503,7 +1660,7 @@ namespace SchedulerTest
 
             var informations = scheduler.CalculateNextExecution(1);
 
-            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 11));
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 11, 4, 0, 0));
         }
 
         [Fact]
@@ -1513,12 +1670,11 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 1, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Monthly,
                 MonthlyConf = MonthlyConfType.The,
                 OrderDay = Occurrency.Second,
                 OccursDay = DayOccurrency.Sunday,
-                EveryMonths = 3,
+                Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -1527,7 +1683,7 @@ namespace SchedulerTest
 
             var informations = scheduler.CalculateNextExecution(1);
 
-            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 12));
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 12, 4, 0, 0));
         }
 
         [Fact]
@@ -1537,12 +1693,11 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 1, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Monthly,
                 MonthlyConf = MonthlyConfType.The,
                 OrderDay = Occurrency.Second,
                 OccursDay = DayOccurrency.weekday,
-                EveryMonths = 3,
+                Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -1551,7 +1706,7 @@ namespace SchedulerTest
 
             var informations = scheduler.CalculateNextExecution(1);
 
-            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 8));
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 8, 4, 0, 0));
         }
 
         [Fact]
@@ -1561,12 +1716,11 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 1, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Monthly,
                 MonthlyConf = MonthlyConfType.The,
                 OrderDay = Occurrency.Second,
                 OccursDay = DayOccurrency.day,
-                EveryMonths = 3,
+                Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -1575,7 +1729,7 @@ namespace SchedulerTest
 
             var informations = scheduler.CalculateNextExecution(1);
 
-            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 2));
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 2, 4, 0, 0));
         }
 
         [Fact]
@@ -1585,12 +1739,11 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 2, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Monthly,
                 MonthlyConf = MonthlyConfType.The,
                 OrderDay = Occurrency.Second,
                 OccursDay = DayOccurrency.day,
-                EveryMonths = 3,
+                Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -1599,7 +1752,7 @@ namespace SchedulerTest
 
             var informations = scheduler.CalculateNextExecution(1);
 
-            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 2));
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 2, 4, 0, 0));
         }
 
         [Fact]
@@ -1609,12 +1762,11 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 1, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Monthly,
                 MonthlyConf = MonthlyConfType.The,
                 OrderDay = Occurrency.Second,
                 OccursDay = DayOccurrency.weekend_day,
-                EveryMonths = 3,
+                Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -1623,7 +1775,7 @@ namespace SchedulerTest
 
             var informations = scheduler.CalculateNextExecution(1);
 
-            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 11));
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 11, 4, 0, 0));
         }
 
         [Fact]
@@ -1633,12 +1785,11 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 15, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Monthly,
                 MonthlyConf = MonthlyConfType.The,
                 OrderDay = Occurrency.Second,
                 OccursDay = DayOccurrency.Monday,
-                EveryMonths = 3,
+                Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -1647,7 +1798,7 @@ namespace SchedulerTest
 
             var informations = scheduler.CalculateNextExecution(1);
 
-            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 10));
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 10, 4, 0, 0));
         }
         [Fact]
         public void Calculate_Recurring_Execution_One_Time_Monthly_The_Second_Tuesday_Other_Month()
@@ -1656,12 +1807,11 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 15, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Monthly,
                 MonthlyConf = MonthlyConfType.The,
                 OrderDay = Occurrency.Second,
                 OccursDay = DayOccurrency.Tuesday,
-                EveryMonths = 3,
+                Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -1670,7 +1820,7 @@ namespace SchedulerTest
 
             var informations = scheduler.CalculateNextExecution(1);
 
-            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 11));
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 11, 4, 0, 0));
         }
 
         [Fact]
@@ -1680,12 +1830,11 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 15, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Monthly,
                 MonthlyConf = MonthlyConfType.The,
                 OrderDay = Occurrency.Second,
                 OccursDay = DayOccurrency.Wednesday,
-                EveryMonths = 3,
+                Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -1694,7 +1843,7 @@ namespace SchedulerTest
 
             var informations = scheduler.CalculateNextExecution(1);
 
-            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 12));
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 12, 4, 0, 0));
         }
 
         [Fact]
@@ -1704,12 +1853,11 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 15, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Monthly,
                 MonthlyConf = MonthlyConfType.The,
                 OrderDay = Occurrency.Second,
                 OccursDay = DayOccurrency.Thursday,
-                EveryMonths = 3,
+                Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -1718,7 +1866,7 @@ namespace SchedulerTest
 
             var informations = scheduler.CalculateNextExecution(1);
 
-            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 13));
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 13, 4, 0, 0));
         }
 
         [Fact]
@@ -1728,12 +1876,11 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 15, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Monthly,
                 MonthlyConf = MonthlyConfType.The,
                 OrderDay = Occurrency.Second,
                 OccursDay = DayOccurrency.Friday,
-                EveryMonths = 3,
+                Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -1742,7 +1889,7 @@ namespace SchedulerTest
 
             var informations = scheduler.CalculateNextExecution(1);
 
-            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 14));
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 14, 4, 0, 0));
         }
 
         [Fact]
@@ -1752,12 +1899,11 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 15, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Monthly,
                 MonthlyConf = MonthlyConfType.The,
                 OrderDay = Occurrency.Second,
                 OccursDay = DayOccurrency.Saturday,
-                EveryMonths = 3,
+                Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -1766,7 +1912,7 @@ namespace SchedulerTest
 
             var informations = scheduler.CalculateNextExecution(1);
 
-            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 8));
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 8, 4, 0, 0));
         }
 
         [Fact]
@@ -1776,12 +1922,11 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 15, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Monthly,
                 MonthlyConf = MonthlyConfType.The,
                 OrderDay = Occurrency.Second,
                 OccursDay = DayOccurrency.Sunday,
-                EveryMonths = 3,
+                Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -1790,7 +1935,7 @@ namespace SchedulerTest
 
             var informations = scheduler.CalculateNextExecution(1);
 
-            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 9));
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 9, 4, 0, 0));
         }
 
         [Fact]
@@ -1800,12 +1945,11 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 15, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Monthly,
                 MonthlyConf = MonthlyConfType.The,
                 OrderDay = Occurrency.Second,
                 OccursDay = DayOccurrency.weekday,
-                EveryMonths = 3,
+                Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -1814,7 +1958,7 @@ namespace SchedulerTest
 
             var informations = scheduler.CalculateNextExecution(1);
 
-            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 10));
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 10, 4, 0, 0));
         }
 
         [Fact]
@@ -1824,12 +1968,11 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 3, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Monthly,
                 MonthlyConf = MonthlyConfType.The,
                 OrderDay = Occurrency.Second,
                 OccursDay = DayOccurrency.day,
-                EveryMonths = 3,
+                Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -1838,7 +1981,7 @@ namespace SchedulerTest
 
             var informations = scheduler.CalculateNextExecution(1);
 
-            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 2));
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 2, 4, 0, 0));
         }
 
         [Fact]
@@ -1848,12 +1991,11 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 15, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Monthly,
                 MonthlyConf = MonthlyConfType.The,
                 OrderDay = Occurrency.Second,
                 OccursDay = DayOccurrency.weekend_day,
-                EveryMonths = 3,
+                Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -1862,7 +2004,7 @@ namespace SchedulerTest
 
             var informations = scheduler.CalculateNextExecution(1);
 
-            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 8));
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 8, 4, 0, 0));
         }
         [Fact]
         public void Calculate_Recurring_Execution_One_Time_Monthly_The_Third_Monday_Same_Month()
@@ -1871,12 +2013,11 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 1, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Monthly,
                 MonthlyConf = MonthlyConfType.The,
                 OrderDay = Occurrency.Third,
                 OccursDay = DayOccurrency.Monday,
-                EveryMonths = 3,
+                Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -1885,7 +2026,7 @@ namespace SchedulerTest
 
             var informations = scheduler.CalculateNextExecution(1);
 
-            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 20));
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 20, 4, 0 ,0));
         }
         [Fact]
         public void Calculate_Recurring_Execution_One_Time_Monthly_The_Third_Tuesday_Same_Month()
@@ -1894,12 +2035,11 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 1, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Monthly,
                 MonthlyConf = MonthlyConfType.The,
                 OrderDay = Occurrency.Third,
                 OccursDay = DayOccurrency.Tuesday,
-                EveryMonths = 3,
+                Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -1908,7 +2048,7 @@ namespace SchedulerTest
 
             var informations = scheduler.CalculateNextExecution(1);
 
-            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 21));
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 21, 4, 0, 0));
         }
 
         [Fact]
@@ -1918,12 +2058,11 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 1, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Monthly,
                 MonthlyConf = MonthlyConfType.The,
                 OrderDay = Occurrency.Third,
                 OccursDay = DayOccurrency.Wednesday,
-                EveryMonths = 3,
+                Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -1932,7 +2071,33 @@ namespace SchedulerTest
 
             var informations = scheduler.CalculateNextExecution(1);
 
-            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 15));
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 15, 4, 0, 0));
+        }
+
+        [Fact]
+        public void Calculate_Recurring_Execution_Four_Times_Monthly_The_Third_Wednesday()
+        {
+            SchedulerConfiguration scheduler = new()
+            {
+                CurrentDate = new DateTime(2020, 1, 1, 0, 0, 0),
+                Type = ExecutionType.Recurring,
+                Occurs = OccursType.Monthly,
+                MonthlyConf = MonthlyConfType.The,
+                OrderDay = Occurrency.Third,
+                OccursDay = DayOccurrency.Wednesday,
+                Frequency = 3,
+                StartDate = new DateTime(2020, 1, 1),
+                OccursEvery = 2,
+                StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
+                EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
+            };
+
+            var informations = scheduler.CalculateNextExecution(4);
+
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 15, 4, 0, 0));
+            informations[1].NextExecutionTime.Should().Be(new DateTime(2020, 1, 15, 6, 0, 0));
+            informations[2].NextExecutionTime.Should().Be(new DateTime(2020, 1, 15, 8, 0, 0));
+            informations[3].NextExecutionTime.Should().Be(new DateTime(2020, 4, 15, 4, 0, 0));
         }
 
         [Fact]
@@ -1942,12 +2107,11 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 1, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Monthly,
                 MonthlyConf = MonthlyConfType.The,
                 OrderDay = Occurrency.Third,
                 OccursDay = DayOccurrency.Thursday,
-                EveryMonths = 3,
+                Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -1956,7 +2120,33 @@ namespace SchedulerTest
 
             var informations = scheduler.CalculateNextExecution(1);
 
-            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 16));
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 16, 4, 0, 0));
+        }
+
+        [Fact]
+        public void Calculate_Recurring_Execution_Four_Times_Monthly_The_Third_Thursday()
+        {
+            SchedulerConfiguration scheduler = new()
+            {
+                CurrentDate = new DateTime(2020, 1, 1, 0, 0, 0),
+                Type = ExecutionType.Recurring,
+                Occurs = OccursType.Monthly,
+                MonthlyConf = MonthlyConfType.The,
+                OrderDay = Occurrency.Third,
+                OccursDay = DayOccurrency.Thursday,
+                Frequency = 3,
+                StartDate = new DateTime(2020, 1, 1),
+                OccursEvery = 2,
+                StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
+                EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
+            };
+
+            var informations = scheduler.CalculateNextExecution(4);
+
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 16, 4, 0, 0));
+            informations[1].NextExecutionTime.Should().Be(new DateTime(2020, 1, 16, 6, 0, 0));
+            informations[2].NextExecutionTime.Should().Be(new DateTime(2020, 1, 16, 8, 0, 0));
+            informations[3].NextExecutionTime.Should().Be(new DateTime(2020, 4, 16, 4, 0, 0));
         }
 
         [Fact]
@@ -1966,12 +2156,11 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 1, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Monthly,
                 MonthlyConf = MonthlyConfType.The,
                 OrderDay = Occurrency.Third,
                 OccursDay = DayOccurrency.Friday,
-                EveryMonths = 3,
+                Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -1980,7 +2169,7 @@ namespace SchedulerTest
 
             var informations = scheduler.CalculateNextExecution(1);
 
-            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 17));
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 17, 4, 0, 0));
         }
 
         [Fact]
@@ -1990,12 +2179,11 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 1, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Monthly,
                 MonthlyConf = MonthlyConfType.The,
                 OrderDay = Occurrency.Third,
                 OccursDay = DayOccurrency.Saturday,
-                EveryMonths = 3,
+                Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -2004,7 +2192,7 @@ namespace SchedulerTest
 
             var informations = scheduler.CalculateNextExecution(1);
 
-            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 18));
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 18, 4 ,0 ,0));
         }
 
         [Fact]
@@ -2014,12 +2202,11 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 1, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Monthly,
                 MonthlyConf = MonthlyConfType.The,
                 OrderDay = Occurrency.Third,
                 OccursDay = DayOccurrency.Sunday,
-                EveryMonths = 3,
+                Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -2028,7 +2215,7 @@ namespace SchedulerTest
 
             var informations = scheduler.CalculateNextExecution(1);
 
-            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 19));
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 19, 4, 0, 0));
         }
 
         [Fact]
@@ -2038,12 +2225,11 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 1, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Monthly,
                 MonthlyConf = MonthlyConfType.The,
                 OrderDay = Occurrency.Third,
                 OccursDay = DayOccurrency.weekday,
-                EveryMonths = 3,
+                Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -2052,7 +2238,7 @@ namespace SchedulerTest
 
             var informations = scheduler.CalculateNextExecution(1);
 
-            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 20));
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 15, 4, 0, 0));
         }
 
         [Fact]
@@ -2062,12 +2248,11 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 1, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Monthly,
                 MonthlyConf = MonthlyConfType.The,
                 OrderDay = Occurrency.Third,
                 OccursDay = DayOccurrency.day,
-                EveryMonths = 3,
+                Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -2076,7 +2261,7 @@ namespace SchedulerTest
 
             var informations = scheduler.CalculateNextExecution(1);
 
-            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 3));
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 3, 4, 0 ,0));
         }
 
         [Fact]
@@ -2086,12 +2271,11 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 2, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Monthly,
                 MonthlyConf = MonthlyConfType.The,
                 OrderDay = Occurrency.Third,
                 OccursDay = DayOccurrency.day,
-                EveryMonths = 3,
+                Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -2100,7 +2284,7 @@ namespace SchedulerTest
 
             var informations = scheduler.CalculateNextExecution(1);
 
-            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 3));
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 3, 4, 0, 0));
         }
 
         [Fact]
@@ -2110,12 +2294,11 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 3, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Monthly,
                 MonthlyConf = MonthlyConfType.The,
                 OrderDay = Occurrency.Third,
                 OccursDay = DayOccurrency.day,
-                EveryMonths = 3,
+                Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -2124,7 +2307,7 @@ namespace SchedulerTest
 
             var informations = scheduler.CalculateNextExecution(1);
 
-            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 3));
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 3, 4, 0, 0));
         }
 
         [Fact]
@@ -2134,12 +2317,11 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 1, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Monthly,
                 MonthlyConf = MonthlyConfType.The,
                 OrderDay = Occurrency.Third,
                 OccursDay = DayOccurrency.weekend_day,
-                EveryMonths = 3,
+                Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -2148,7 +2330,7 @@ namespace SchedulerTest
 
             var informations = scheduler.CalculateNextExecution(1);
 
-            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 11));
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 18, 4, 0, 0));
         }
 
         [Fact]
@@ -2156,14 +2338,13 @@ namespace SchedulerTest
         {
             SchedulerConfiguration scheduler = new()
             {
-                CurrentDate = new DateTime(2020, 1, 15, 0, 0, 0),
+                CurrentDate = new DateTime(2020, 1, 22, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Monthly,
                 MonthlyConf = MonthlyConfType.The,
                 OrderDay = Occurrency.Third,
                 OccursDay = DayOccurrency.Monday,
-                EveryMonths = 3,
+                Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -2172,21 +2353,20 @@ namespace SchedulerTest
 
             var informations = scheduler.CalculateNextExecution(1);
 
-            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 10));
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 17, 4, 0, 0));
         }
         [Fact]
         public void Calculate_Recurring_Execution_One_Time_Monthly_The_Third_Tuesday_Other_Month()
         {
             SchedulerConfiguration scheduler = new()
             {
-                CurrentDate = new DateTime(2020, 1, 15, 0, 0, 0),
+                CurrentDate = new DateTime(2020, 1, 22, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Monthly,
                 MonthlyConf = MonthlyConfType.The,
                 OrderDay = Occurrency.Third,
                 OccursDay = DayOccurrency.Tuesday,
-                EveryMonths = 3,
+                Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -2195,7 +2375,7 @@ namespace SchedulerTest
 
             var informations = scheduler.CalculateNextExecution(1);
 
-            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 11));
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 18, 4, 0, 0));
         }
 
         [Fact]
@@ -2203,14 +2383,13 @@ namespace SchedulerTest
         {
             SchedulerConfiguration scheduler = new()
             {
-                CurrentDate = new DateTime(2020, 1, 15, 0, 0, 0),
+                CurrentDate = new DateTime(2020, 1, 22, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Monthly,
                 MonthlyConf = MonthlyConfType.The,
                 OrderDay = Occurrency.Third,
                 OccursDay = DayOccurrency.Wednesday,
-                EveryMonths = 3,
+                Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -2219,7 +2398,7 @@ namespace SchedulerTest
 
             var informations = scheduler.CalculateNextExecution(1);
 
-            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 12));
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 19, 4, 0, 0));
         }
 
         [Fact]
@@ -2227,14 +2406,13 @@ namespace SchedulerTest
         {
             SchedulerConfiguration scheduler = new()
             {
-                CurrentDate = new DateTime(2020, 1, 15, 0, 0, 0),
+                CurrentDate = new DateTime(2020, 1, 21, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Monthly,
                 MonthlyConf = MonthlyConfType.The,
                 OrderDay = Occurrency.Third,
                 OccursDay = DayOccurrency.Thursday,
-                EveryMonths = 3,
+                Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -2243,7 +2421,7 @@ namespace SchedulerTest
 
             var informations = scheduler.CalculateNextExecution(1);
 
-            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 13));
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 20, 4, 0, 0));
         }
 
         [Fact]
@@ -2253,12 +2431,11 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 22, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Monthly,
                 MonthlyConf = MonthlyConfType.The,
                 OrderDay = Occurrency.Third,
                 OccursDay = DayOccurrency.Friday,
-                EveryMonths = 3,
+                Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -2267,7 +2444,7 @@ namespace SchedulerTest
 
             var informations = scheduler.CalculateNextExecution(1);
 
-            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 21));
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 21, 4, 0, 0));
         }
 
         [Fact]
@@ -2275,14 +2452,13 @@ namespace SchedulerTest
         {
             SchedulerConfiguration scheduler = new()
             {
-                CurrentDate = new DateTime(2020, 1, 15, 0, 0, 0),
+                CurrentDate = new DateTime(2020, 1, 21, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Monthly,
                 MonthlyConf = MonthlyConfType.The,
                 OrderDay = Occurrency.Third,
                 OccursDay = DayOccurrency.Saturday,
-                EveryMonths = 3,
+                Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -2291,7 +2467,7 @@ namespace SchedulerTest
 
             var informations = scheduler.CalculateNextExecution(1);
 
-            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 8));
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 15, 4, 0, 0));
         }
 
         [Fact]
@@ -2299,14 +2475,13 @@ namespace SchedulerTest
         {
             SchedulerConfiguration scheduler = new()
             {
-                CurrentDate = new DateTime(2020, 1, 15, 0, 0, 0),
+                CurrentDate = new DateTime(2020, 1, 21, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Monthly,
                 MonthlyConf = MonthlyConfType.The,
                 OrderDay = Occurrency.Third,
                 OccursDay = DayOccurrency.Sunday,
-                EveryMonths = 3,
+                Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -2315,7 +2490,7 @@ namespace SchedulerTest
 
             var informations = scheduler.CalculateNextExecution(1);
 
-            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 9));
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 16, 4, 0, 0));
         }
 
         [Fact]
@@ -2323,14 +2498,13 @@ namespace SchedulerTest
         {
             SchedulerConfiguration scheduler = new()
             {
-                CurrentDate = new DateTime(2020, 1, 15, 0, 0, 0),
+                CurrentDate = new DateTime(2020, 1, 22, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Monthly,
                 MonthlyConf = MonthlyConfType.The,
                 OrderDay = Occurrency.Third,
                 OccursDay = DayOccurrency.weekday,
-                EveryMonths = 3,
+                Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -2339,7 +2513,7 @@ namespace SchedulerTest
 
             var informations = scheduler.CalculateNextExecution(1);
 
-            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 10));
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 17, 4, 0, 0));
         }
 
         [Fact]
@@ -2349,12 +2523,11 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 1, 4, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Monthly,
                 MonthlyConf = MonthlyConfType.The,
                 OrderDay = Occurrency.Third,
                 OccursDay = DayOccurrency.day,
-                EveryMonths = 3,
+                Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -2363,7 +2536,7 @@ namespace SchedulerTest
 
             var informations = scheduler.CalculateNextExecution(1);
 
-            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 3));
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 3, 4, 0, 0));
         }
 
         [Fact]
@@ -2371,14 +2544,13 @@ namespace SchedulerTest
         {
             SchedulerConfiguration scheduler = new()
             {
-                CurrentDate = new DateTime(2020, 1, 15, 0, 0, 0),
+                CurrentDate = new DateTime(2020, 1, 20, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Monthly,
                 MonthlyConf = MonthlyConfType.The,
                 OrderDay = Occurrency.Third,
                 OccursDay = DayOccurrency.weekend_day,
-                EveryMonths = 3,
+                Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -2387,7 +2559,7 @@ namespace SchedulerTest
 
             var informations = scheduler.CalculateNextExecution(1);
 
-            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 15));
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 15, 4, 0, 0));
         }
 
         [Fact]
@@ -2397,10 +2569,9 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(9999, 12, 31, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Weekly,
                 StartDate = new DateTime(2020, 1, 1),
-                EveryWeeks = 2,
+                Frequency = 2,
                 DayOfWeeks = new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Thursday, DayOfWeek.Friday },
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -2417,10 +2588,9 @@ namespace SchedulerTest
             {
                 CurrentDate = new DateTime(2020, 12, 31, 0, 0, 0),
                 Type = ExecutionType.Recurring,
-                Days = 1,
                 Occurs = OccursType.Weekly,
                 StartDate = new DateTime(2020, 1, 1),
-                EveryWeeks = 2,
+                Frequency = 2,
                 DayOfWeeks = new List<DayOfWeek> { },
                 OccursEvery = 2,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),

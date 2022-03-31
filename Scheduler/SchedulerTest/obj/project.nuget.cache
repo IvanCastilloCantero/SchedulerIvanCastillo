@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "0wKi+v/hasLyrWo2OTSqeRQ+DEGCL2ax/XqJgkGXt7wHejljfDccdUTGiF/tBYSg9pgpli5PjIZqKkZsTWFr9g==",
+  "dgSpecHash": "adNnasFPpIGvADWzHZI1HSJVCY5l3wA9uQbIPrPPwUX7TUbSqv2K6h3mN6wtJYG/eVi5uyrfapctuIbjzWH49w==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Ivancc\\Desktop\\Scheduler\\SchedulerTest\\SchedulerTest.csproj",
+  "projectFilePath": "C:\\Users\\Ivancc\\Desktop\\Scheduler-IvanCC\\SchedulerIvanCastillo\\Scheduler\\SchedulerTest\\SchedulerTest.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Ivancc\\.nuget\\packages\\coverlet.collector\\3.1.0\\coverlet.collector.3.1.0.nupkg.sha512",
     "C:\\Users\\Ivancc\\.nuget\\packages\\fluentassertions\\6.5.1\\fluentassertions.6.5.1.nupkg.sha512",

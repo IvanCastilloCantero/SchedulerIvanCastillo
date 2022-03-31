@@ -8,14 +8,14 @@ namespace Scheduler
     {
         public static SchedulerInfo[] CalculateNextExecution(this SchedulerConfiguration scheduler, int times)
         {
-            DateTime nextExecutionTime = new DateTime();
+            var nextExecutionTime = new DateTime();
             IEnumerable<SchedulerInfo> informations = new List<SchedulerInfo>();
             for (int i = 0; i < times; i++)
             {
                 nextExecutionTime = CalculateNextExecutionCheckType(scheduler, i, nextExecutionTime);
-                string description = DescriptionManager.CalculateDescription(scheduler, nextExecutionTime); 
+                string description = DescriptionManager.CalculateDescription(scheduler, nextExecutionTime);
                 SchedulerInfo information = new SchedulerInfo(nextExecutionTime, description);
-                
+
                 informations = informations.Concat(new[] { information });
             }
             return informations.ToArray();
@@ -81,8 +81,8 @@ namespace Scheduler
 
         private static DateTime CalculateRecurringFirstMonthlyDay(SchedulerConfiguration scheduler)
         {
-            DateTime nextExecutionTime = new DateTime(scheduler.CurrentDate.Year, scheduler.CurrentDate.Month, scheduler.Day, scheduler.StartingAt.Hour, scheduler.StartingAt.Minute, scheduler.StartingAt.Second);
-            if (scheduler.CurrentDate.Day > scheduler.Day)
+            var nextExecutionTime = new DateTime(scheduler.CurrentDate.Year, scheduler.CurrentDate.Month, scheduler.Day, scheduler.StartingAt.Hour, scheduler.StartingAt.Minute, scheduler.StartingAt.Second);
+            if (scheduler.CurrentDate.Day > (int)scheduler.OrderDay + 1)
             {
                 nextExecutionTime = nextExecutionTime.AddMonths(1);
             }
@@ -91,1268 +91,286 @@ namespace Scheduler
 
         private static DateTime CalculateRecurringFirstMonthlyThe(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
         {
-            switch (scheduler.OrderDay)
+            if (scheduler.CurrentDate.Day < (7 * ((int)scheduler.OrderDay + 1)))
             {
-                case Occurrency.First:
-                    nextExecutionTime = CalculateRecurringFirstMonthlyTheFirst(scheduler, nextExecutionTime);
-                    break;
-                case Occurrency.Second:
-                    nextExecutionTime = CalculateRecurringFirstMonthlyTheSecond(scheduler, nextExecutionTime);
-                    break;
-                case Occurrency.Third:
-                    nextExecutionTime = CalculateRecurringFirstMonthlyTheThird(scheduler, nextExecutionTime);
-                    break;
-                case Occurrency.Forth:
-                    nextExecutionTime = CalculateRecurringFirstMonthlyTheForth(scheduler, nextExecutionTime);
-                    break;
-                case Occurrency.Last:
-                    nextExecutionTime = CalculateRecurringFirstMonthlyTheLast(scheduler, nextExecutionTime);
-                    break;
-            }
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheFirst(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
-        {
-            switch (scheduler.OccursDay)
-            {
-                case DayOccurrency.Monday:
-                    nextExecutionTime = CalculateRecurringFirstMonthlyTheFirstMonday(scheduler);
-                    break;
-                case DayOccurrency.Tuesday:
-                    nextExecutionTime = CalculateRecurringFirstMonthlyTheFirstTuesday(scheduler);
-                    break;
-                case DayOccurrency.Wednesday:
-                    nextExecutionTime = CalculateRecurringFirstMonthlyTheFirstWednesday(scheduler);
-                    break;
-                case DayOccurrency.Thursday:
-                    nextExecutionTime = CalculateRecurringFirstMonthlyTheFirstThursday(scheduler);
-                    break;
-                case DayOccurrency.Friday:
-                    nextExecutionTime = CalculateRecurringFirstMonthlyTheFirstFriday(scheduler);
-                    break;
-                case DayOccurrency.Saturday:
-                    nextExecutionTime = CalculateRecurringFirstMonthlyTheFirstSaturday(scheduler);
-                    break;
-                case DayOccurrency.Sunday:
-                    nextExecutionTime = CalculateRecurringFirstMonthlyTheFirstSunday(scheduler);
-                    break;
-                case DayOccurrency.weekday:
-                    nextExecutionTime = CalculateRecurringFirstMonthlyTheFirstWeekDay(scheduler);
-                    break;
-                case DayOccurrency.day:
-                    nextExecutionTime = CalculateRecurringFirstMonthlyTheFirstDay(scheduler);
-                    break;
-                case DayOccurrency.weekend_day:
-                    nextExecutionTime = CalculateRecurringFirstMonthlyTheFirstWeekendDay(scheduler);
-                    break;
-            }
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheFirstMonday(SchedulerConfiguration scheduler)
-        {
-            DateTime nextExecutionTime = scheduler.CurrentDate;
-            if (scheduler.CurrentDate.Day < 7)
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheFirstMondaySameMonth(scheduler, nextExecutionTime);
-            } 
-            else
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheFirstMondayOtherMonth(scheduler);
-            }
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheFirstMondaySameMonth(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
-        {
-            while (nextExecutionTime.DayOfWeek != DayOfWeek.Monday)
-            {
-                nextExecutionTime = nextExecutionTime.AddDays(1);
-                if (nextExecutionTime.Day > 7)
-                {
-                    nextExecutionTime = CalculateRecurringFirstMonthlyTheFirstMondayOtherMonth(scheduler);
-                }
-            }
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheFirstMondayOtherMonth(SchedulerConfiguration scheduler)
-        {
-            DateTime nextExecutionTime = new DateTime(scheduler.CurrentDate.Year, scheduler.CurrentDate.Month, 1);
-            nextExecutionTime = nextExecutionTime.AddMonths(1);
-            while (nextExecutionTime.DayOfWeek != DayOfWeek.Monday)
-            {
-                nextExecutionTime = nextExecutionTime.AddDays(1);
-            }
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheFirstTuesday(SchedulerConfiguration scheduler)
-        {
-            DateTime nextExecutionTime = scheduler.CurrentDate;
-            if (scheduler.CurrentDate.Day <= 7)
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheFirstTuesdaySameMonth(scheduler, nextExecutionTime);
+                nextExecutionTime = CalculateRecurringFirstMonthlyTheSameMonth(scheduler);
             }
             else
             {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheFirstTuesdayOtherMonth(scheduler);
+                nextExecutionTime = CalculateRecurringFirstMonthlyTheOtherMonth(scheduler, nextExecutionTime);
             }
             return nextExecutionTime;
         }
 
-        private static DateTime CalculateRecurringFirstMonthlyTheFirstTuesdaySameMonth(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
-        {
-            while (nextExecutionTime.DayOfWeek != DayOfWeek.Tuesday)
-            {
-                nextExecutionTime = nextExecutionTime.AddDays(1);
-                if (nextExecutionTime.Day > 7)
-                {
-                    nextExecutionTime = CalculateRecurringFirstMonthlyTheFirstTuesdayOtherMonth(scheduler);
-                }
-            }
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheFirstTuesdayOtherMonth(SchedulerConfiguration scheduler)
-        {
-            DateTime nextExecutionTime = new DateTime(scheduler.CurrentDate.Year, scheduler.CurrentDate.Month, 1);
-            nextExecutionTime = nextExecutionTime.AddMonths(1);
-            while (nextExecutionTime.DayOfWeek != DayOfWeek.Tuesday)
-            {
-                nextExecutionTime = nextExecutionTime.AddDays(1);
-            }
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheFirstWednesday(SchedulerConfiguration scheduler)
-        {
-            DateTime nextExecutionTime = scheduler.CurrentDate;
-            if (scheduler.CurrentDate.Day < 7)
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheFirstWednesdaySameMonth(scheduler, nextExecutionTime);
-            }
-            else
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheFirstWednesdayOtherMonth(scheduler);
-            }
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheFirstWednesdaySameMonth(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
-        {
-            while (nextExecutionTime.DayOfWeek != DayOfWeek.Wednesday)
-            {
-                nextExecutionTime = nextExecutionTime.AddDays(1);
-                if (nextExecutionTime.Day > 7)
-                {
-                    nextExecutionTime = CalculateRecurringFirstMonthlyTheFirstWednesdayOtherMonth(scheduler);
-                }
-            }
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheFirstWednesdayOtherMonth(SchedulerConfiguration scheduler)
-        {
-            DateTime nextExecutionTime = new DateTime(scheduler.CurrentDate.Year, scheduler.CurrentDate.Month, 1);
-            nextExecutionTime = nextExecutionTime.AddMonths(1);
-            while (nextExecutionTime.DayOfWeek != DayOfWeek.Wednesday)
-            {
-                nextExecutionTime = nextExecutionTime.AddDays(1);
-            }
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheFirstThursday(SchedulerConfiguration scheduler)
-        {
-            DateTime nextExecutionTime = scheduler.CurrentDate;
-            if (scheduler.CurrentDate.Day < 7)
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheFirstThursdaySameMonth(scheduler, nextExecutionTime);
-            }
-            else
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheFirstThursdayOtherMonth(scheduler);
-            }
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheFirstThursdaySameMonth(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
-        {
-            while (nextExecutionTime.DayOfWeek != DayOfWeek.Thursday)
-            {
-                nextExecutionTime = nextExecutionTime.AddDays(1);
-                if (nextExecutionTime.Day > 7)
-                {
-                    nextExecutionTime = CalculateRecurringFirstMonthlyTheFirstThursdayOtherMonth(scheduler);
-                }
-            }
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheFirstThursdayOtherMonth(SchedulerConfiguration scheduler)
-        {
-            DateTime nextExecutionTime = new DateTime(scheduler.CurrentDate.Year, scheduler.CurrentDate.Month, 1);
-            nextExecutionTime = nextExecutionTime.AddMonths(1);
-            while (nextExecutionTime.DayOfWeek != DayOfWeek.Thursday)
-            {
-                nextExecutionTime = nextExecutionTime.AddDays(1);
-            }
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheFirstFriday(SchedulerConfiguration scheduler)
-        {
-            DateTime nextExecutionTime = scheduler.CurrentDate;
-            if (scheduler.CurrentDate.Day < 7)
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheFirstFridaySameMonth(scheduler, nextExecutionTime);
-            }
-            else
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheFirstFridayOtherMonth(scheduler);
-            }
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheFirstFridaySameMonth(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
-        {
-            while (nextExecutionTime.DayOfWeek != DayOfWeek.Friday)
-            {
-                nextExecutionTime = nextExecutionTime.AddDays(1);
-                if (nextExecutionTime.Day > 7)
-                {
-                    nextExecutionTime = CalculateRecurringFirstMonthlyTheFirstFridayOtherMonth(scheduler);
-                }
-            }
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheFirstFridayOtherMonth(SchedulerConfiguration scheduler)
-        {
-            DateTime nextExecutionTime = new DateTime(scheduler.CurrentDate.Year, scheduler.CurrentDate.Month, 1);
-            nextExecutionTime = nextExecutionTime.AddMonths(1);
-            while (nextExecutionTime.DayOfWeek != DayOfWeek.Friday)
-            {
-                nextExecutionTime = nextExecutionTime.AddDays(1);
-            }
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheFirstSaturday(SchedulerConfiguration scheduler)
-        {
-            DateTime nextExecutionTime = scheduler.CurrentDate;
-            if (scheduler.CurrentDate.Day < 7)
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheFirstSaturdaySameMonth(scheduler, nextExecutionTime);
-            }
-            else
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheFirstSaturdayOtherMonth(scheduler);
-            }
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheFirstSaturdaySameMonth(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
-        {
-            while (nextExecutionTime.DayOfWeek != DayOfWeek.Saturday)
-            {
-                nextExecutionTime = nextExecutionTime.AddDays(1);
-                if (nextExecutionTime.Day > 7)
-                {
-                    nextExecutionTime = CalculateRecurringFirstMonthlyTheFirstSaturdayOtherMonth(scheduler);
-                }
-            }
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheFirstSaturdayOtherMonth(SchedulerConfiguration scheduler)
-        {
-            DateTime nextExecutionTime = new DateTime(scheduler.CurrentDate.Year, scheduler.CurrentDate.Month, 1);
-            nextExecutionTime = nextExecutionTime.AddMonths(1);
-            while (nextExecutionTime.DayOfWeek != DayOfWeek.Saturday)
-            {
-                nextExecutionTime = nextExecutionTime.AddDays(1);
-            }
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheFirstSunday(SchedulerConfiguration scheduler)
-        {
-            DateTime nextExecutionTime = scheduler.CurrentDate;
-            if (scheduler.CurrentDate.Day < 7)
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheFirstSundaySameMonth(scheduler, nextExecutionTime);
-            }
-            else
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheFirstSundayOtherMonth(scheduler);
-            }
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheFirstSundaySameMonth(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
-        {
-            while (nextExecutionTime.DayOfWeek != DayOfWeek.Sunday)
-            {
-                nextExecutionTime = nextExecutionTime.AddDays(1);
-                if (nextExecutionTime.Day > 7)
-                {
-                    nextExecutionTime = CalculateRecurringFirstMonthlyTheFirstSundayOtherMonth(scheduler);
-                }
-            }
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheFirstSundayOtherMonth(SchedulerConfiguration scheduler)
-        {
-            DateTime nextExecutionTime = new DateTime(scheduler.CurrentDate.Year, scheduler.CurrentDate.Month, 1);
-            nextExecutionTime = nextExecutionTime.AddMonths(1);
-            while (nextExecutionTime.DayOfWeek != DayOfWeek.Sunday)
-            {
-                nextExecutionTime = nextExecutionTime.AddDays(1);
-            }
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheFirstWeekDay(SchedulerConfiguration scheduler)
-        {
-            DateTime nextExecutionTime = scheduler.CurrentDate;
-            if (scheduler.CurrentDate.Day < 7 && scheduler.CurrentDate.DayOfWeek != DayOfWeek.Saturday && scheduler.CurrentDate.DayOfWeek != DayOfWeek.Sunday)
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheFirstWeekDaySameMonth(nextExecutionTime);
-            }
-            else
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheFirstWeekDayOtherMonth(scheduler);
-            }
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheFirstWeekDaySameMonth(DateTime nextExecutionTime)
-        {
-            while (nextExecutionTime.DayOfWeek == DayOfWeek.Saturday | nextExecutionTime.DayOfWeek == DayOfWeek.Sunday)
-            {
-                nextExecutionTime = nextExecutionTime.AddDays(1);
-            }
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheFirstWeekDayOtherMonth(SchedulerConfiguration scheduler)
-        {
-            DateTime nextExecutionTime = new DateTime(scheduler.CurrentDate.Year, scheduler.CurrentDate.Month, 1);
-            nextExecutionTime = nextExecutionTime.AddMonths(1);
-            while (nextExecutionTime.DayOfWeek == DayOfWeek.Saturday | nextExecutionTime.DayOfWeek == DayOfWeek.Sunday)
-            {
-                nextExecutionTime = nextExecutionTime.AddDays(1);
-            }
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheFirstDay(SchedulerConfiguration scheduler)
+        private static DateTime CalculateRecurringFirstMonthlyTheSameMonth(SchedulerConfiguration scheduler)
         {
             DateTime nextExecutionTime;
-            if (scheduler.CurrentDate.Day == 1)
+            if ((int)scheduler.OccursDay < 7)
             {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheFirstDaySameMonth(scheduler);
+                nextExecutionTime = CalculateRecurringFirstMonthlyTheSameMonthEspecificDay(scheduler);
             }
             else
             {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheFirstDayOtherMonth(scheduler);
+                nextExecutionTime = CalculateRecurringFirstMonthlyTheSameMonthNotEspecificDay(scheduler);
             }
             return nextExecutionTime;
         }
 
-        private static DateTime CalculateRecurringFirstMonthlyTheFirstDaySameMonth(SchedulerConfiguration scheduler)
-        {
-            return scheduler.CurrentDate;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheFirstDayOtherMonth(SchedulerConfiguration scheduler)
-        {
-            DateTime nextExecutionTime = new DateTime(scheduler.CurrentDate.Year, scheduler.CurrentDate.Month, 1);
-            nextExecutionTime = nextExecutionTime.AddMonths(1);
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheFirstWeekendDay(SchedulerConfiguration scheduler)
-        {
-            DateTime nextExecutionTime = scheduler.CurrentDate;
-            if (scheduler.CurrentDate.Day < 7 && (scheduler.CurrentDate.DayOfWeek != DayOfWeek.Saturday | scheduler.CurrentDate.DayOfWeek != DayOfWeek.Sunday))
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheFirstWeekendDaySameMonth(nextExecutionTime);
-            }
-            else
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheFirstWeekendDayOtherMonth(scheduler);
-            }
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheFirstWeekendDaySameMonth(DateTime nextExecutionTime)
-        {
-            while (nextExecutionTime.DayOfWeek != DayOfWeek.Saturday && nextExecutionTime.DayOfWeek != DayOfWeek.Sunday)
-            {
-                nextExecutionTime = nextExecutionTime.AddDays(1);
-            }
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheFirstWeekendDayOtherMonth(SchedulerConfiguration scheduler)
-        {
-            DateTime nextExecutionTime = new DateTime(scheduler.CurrentDate.Year, scheduler.CurrentDate.Month, 1);
-            nextExecutionTime = nextExecutionTime.AddMonths(1);
-            while (nextExecutionTime.DayOfWeek != DayOfWeek.Saturday && nextExecutionTime.DayOfWeek != DayOfWeek.Sunday)
-            {
-                nextExecutionTime = nextExecutionTime.AddDays(1);
-            }
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheSecond(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
-        {
-            switch (scheduler.OccursDay)
-            {
-                case DayOccurrency.Monday:
-                    nextExecutionTime = CalculateRecurringFirstMonthlyTheSecondMonday(scheduler);
-                    break;
-                case DayOccurrency.Tuesday:
-                    nextExecutionTime = CalculateRecurringFirstMonthlyTheSecondTuesday(scheduler);
-                    break;
-                case DayOccurrency.Wednesday:
-                    nextExecutionTime = CalculateRecurringFirstMonthlyTheSecondWednesday(scheduler);
-                    break;
-                case DayOccurrency.Thursday:
-                    nextExecutionTime = CalculateRecurringFirstMonthlyTheSecondThursday(scheduler);
-                    break;
-                case DayOccurrency.Friday:
-                    nextExecutionTime = CalculateRecurringFirstMonthlyTheSecondFriday(scheduler);
-                    break;
-                case DayOccurrency.Saturday:
-                    nextExecutionTime = CalculateRecurringFirstMonthlyTheSecondSaturday(scheduler);
-                    break;
-                case DayOccurrency.Sunday:
-                    nextExecutionTime = CalculateRecurringFirstMonthlyTheSecondSunday(scheduler);
-                    break;
-                case DayOccurrency.weekday:
-                    nextExecutionTime = CalculateRecurringFirstMonthlyTheSecondWeekDay(scheduler);
-                    break;
-                case DayOccurrency.day:
-                    nextExecutionTime = CalculateRecurringFirstMonthlyTheSecondDay(scheduler);
-                    break;
-                case DayOccurrency.weekend_day:
-                    nextExecutionTime = CalculateRecurringFirstMonthlyTheSecondWeekendDay(scheduler);
-                    break;
-            }
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheSecondMonday(SchedulerConfiguration scheduler)
-        {
-            DateTime nextExecutionTime = scheduler.CurrentDate;
-            if (scheduler.CurrentDate.Day < 14)
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheSecondMondaySameMonth(scheduler, nextExecutionTime);
-            }
-            else
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheSecondMondayOtherMonth(scheduler);
-            }
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheSecondMondaySameMonth(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
-        {
-            while (nextExecutionTime.DayOfWeek != DayOfWeek.Monday | nextExecutionTime.Day <= 7)
-            {
-                nextExecutionTime = nextExecutionTime.AddDays(1);
-                if (nextExecutionTime.Day > 14)
-                {
-                    nextExecutionTime = CalculateRecurringFirstMonthlyTheSecondMondayOtherMonth(scheduler);
-                }
-            }
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheSecondMondayOtherMonth(SchedulerConfiguration scheduler)
-        {
-            DateTime nextExecutionTime = new DateTime(scheduler.CurrentDate.Year, scheduler.CurrentDate.Month, 1);
-            nextExecutionTime = nextExecutionTime.AddMonths(1);
-            while (nextExecutionTime.DayOfWeek != DayOfWeek.Monday | nextExecutionTime.Day <= 7)
-            {
-                nextExecutionTime = nextExecutionTime.AddDays(1);
-            }
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheSecondTuesday(SchedulerConfiguration scheduler)
-        {
-            DateTime nextExecutionTime = scheduler.CurrentDate;
-            if (scheduler.CurrentDate.Day <= 7)
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheSecondTuesdaySameMonth(scheduler, nextExecutionTime);
-            }
-            else
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheSecondTuesdayOtherMonth(scheduler);
-            }
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheSecondTuesdaySameMonth(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
-        {
-            while (nextExecutionTime.DayOfWeek != DayOfWeek.Tuesday | nextExecutionTime.Day <= 7)
-            {
-                nextExecutionTime = nextExecutionTime.AddDays(1);
-                if (nextExecutionTime.Day > 14)
-                {
-                    nextExecutionTime = CalculateRecurringFirstMonthlyTheSecondTuesdayOtherMonth(scheduler);
-                }
-            }
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheSecondTuesdayOtherMonth(SchedulerConfiguration scheduler)
-        {
-            DateTime nextExecutionTime = new DateTime(scheduler.CurrentDate.Year, scheduler.CurrentDate.Month, 1);
-            nextExecutionTime = nextExecutionTime.AddMonths(1);
-            while (nextExecutionTime.DayOfWeek != DayOfWeek.Tuesday | nextExecutionTime.Day <= 7)
-            {
-                nextExecutionTime = nextExecutionTime.AddDays(1);
-            }
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheSecondWednesday(SchedulerConfiguration scheduler)
-        {
-            DateTime nextExecutionTime = scheduler.CurrentDate;
-            if (scheduler.CurrentDate.Day < 7)
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheSecondWednesdaySameMonth(scheduler, nextExecutionTime);
-            }
-            else
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheSecondWednesdayOtherMonth(scheduler);
-            }
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheSecondWednesdaySameMonth(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
-        {
-            while (nextExecutionTime.DayOfWeek != DayOfWeek.Wednesday | nextExecutionTime.Day <= 7)
-            {
-                nextExecutionTime = nextExecutionTime.AddDays(1);
-                if (nextExecutionTime.Day > 14)
-                {
-                    nextExecutionTime = CalculateRecurringFirstMonthlyTheSecondWednesdayOtherMonth(scheduler);
-                }
-            }
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheSecondWednesdayOtherMonth(SchedulerConfiguration scheduler)
-        {
-            DateTime nextExecutionTime = new DateTime(scheduler.CurrentDate.Year, scheduler.CurrentDate.Month, 1);
-            nextExecutionTime = nextExecutionTime.AddMonths(1);
-            while (nextExecutionTime.DayOfWeek != DayOfWeek.Wednesday | nextExecutionTime.Day <= 7)
-            {
-                nextExecutionTime = nextExecutionTime.AddDays(1);
-            }
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheSecondThursday(SchedulerConfiguration scheduler)
-        {
-            DateTime nextExecutionTime = scheduler.CurrentDate;
-            if (scheduler.CurrentDate.Day < 7)
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheSecondThursdaySameMonth(scheduler, nextExecutionTime);
-            }
-            else
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheSecondThursdayOtherMonth(scheduler);
-            }
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheSecondThursdaySameMonth(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
-        {
-            while (nextExecutionTime.DayOfWeek != DayOfWeek.Thursday | nextExecutionTime.Day <= 7)
-            {
-                nextExecutionTime = nextExecutionTime.AddDays(1);
-                if (nextExecutionTime.Day > 14)
-                {
-                    nextExecutionTime = CalculateRecurringFirstMonthlyTheSecondThursdayOtherMonth(scheduler);
-                }
-            }
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheSecondThursdayOtherMonth(SchedulerConfiguration scheduler)
-        {
-            DateTime nextExecutionTime = new DateTime(scheduler.CurrentDate.Year, scheduler.CurrentDate.Month, 1);
-            nextExecutionTime = nextExecutionTime.AddMonths(1);
-            while (nextExecutionTime.DayOfWeek != DayOfWeek.Thursday | nextExecutionTime.Day <= 7)
-            {
-                nextExecutionTime = nextExecutionTime.AddDays(1);
-            }
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheSecondFriday(SchedulerConfiguration scheduler)
-        {
-            DateTime nextExecutionTime = scheduler.CurrentDate;
-            if (scheduler.CurrentDate.Day < 7)
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheSecondFridaySameMonth(scheduler, nextExecutionTime);
-            }
-            else
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheSecondFridayOtherMonth(scheduler);
-            }
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheSecondFridaySameMonth(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
-        {
-            while (nextExecutionTime.DayOfWeek != DayOfWeek.Friday | nextExecutionTime.Day <= 7)
-            {
-                nextExecutionTime = nextExecutionTime.AddDays(1);
-                if (nextExecutionTime.Day > 14)
-                {
-                    nextExecutionTime = CalculateRecurringFirstMonthlyTheSecondFridayOtherMonth(scheduler);
-                }
-            }
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheSecondFridayOtherMonth(SchedulerConfiguration scheduler)
-        {
-            DateTime nextExecutionTime = new DateTime(scheduler.CurrentDate.Year, scheduler.CurrentDate.Month, 1);
-            nextExecutionTime = nextExecutionTime.AddMonths(1);
-            while (nextExecutionTime.DayOfWeek != DayOfWeek.Friday | nextExecutionTime.Day <= 7)
-            {
-                nextExecutionTime = nextExecutionTime.AddDays(1);
-            }
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheSecondSaturday(SchedulerConfiguration scheduler)
-        {
-            DateTime nextExecutionTime = scheduler.CurrentDate;
-            if (scheduler.CurrentDate.Day < 7)
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheSecondSaturdaySameMonth(scheduler, nextExecutionTime);
-            }
-            else
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheSecondSaturdayOtherMonth(scheduler);
-            }
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheSecondSaturdaySameMonth(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
-        {
-            while (nextExecutionTime.DayOfWeek != DayOfWeek.Saturday | nextExecutionTime.Day <= 7)
-            {
-                nextExecutionTime = nextExecutionTime.AddDays(1);
-                if (nextExecutionTime.Day > 14)
-                {
-                    nextExecutionTime = CalculateRecurringFirstMonthlyTheSecondSaturdayOtherMonth(scheduler);
-                }
-            }
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheSecondSaturdayOtherMonth(SchedulerConfiguration scheduler)
-        {
-            DateTime nextExecutionTime = new DateTime(scheduler.CurrentDate.Year, scheduler.CurrentDate.Month, 1);
-            nextExecutionTime = nextExecutionTime.AddMonths(1);
-            while (nextExecutionTime.DayOfWeek != DayOfWeek.Saturday | nextExecutionTime.Day <= 7)
-            {
-                nextExecutionTime = nextExecutionTime.AddDays(1);
-            }
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheSecondSunday(SchedulerConfiguration scheduler)
-        {
-            DateTime nextExecutionTime = scheduler.CurrentDate;
-            if (scheduler.CurrentDate.Day < 7)
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheSecondSundaySameMonth(scheduler, nextExecutionTime);
-            }
-            else
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheSecondSundayOtherMonth(scheduler);
-            }
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheSecondSundaySameMonth(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
-        {
-            while (nextExecutionTime.DayOfWeek != DayOfWeek.Sunday | nextExecutionTime.Day <= 7)
-            {
-                nextExecutionTime = nextExecutionTime.AddDays(1);
-                if (nextExecutionTime.Day > 14)
-                {
-                    nextExecutionTime = CalculateRecurringFirstMonthlyTheSecondSundayOtherMonth(scheduler);
-                }
-            }
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheSecondSundayOtherMonth(SchedulerConfiguration scheduler)
-        {
-            DateTime nextExecutionTime = new DateTime(scheduler.CurrentDate.Year, scheduler.CurrentDate.Month, 1);
-            nextExecutionTime = nextExecutionTime.AddMonths(1);
-            while (nextExecutionTime.DayOfWeek != DayOfWeek.Sunday | nextExecutionTime.Day <= 7)
-            {
-                nextExecutionTime = nextExecutionTime.AddDays(1);
-            }
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheSecondWeekDay(SchedulerConfiguration scheduler)
-        {
-            DateTime nextExecutionTime = scheduler.CurrentDate;
-            if (scheduler.CurrentDate.Day < 7 && scheduler.CurrentDate.DayOfWeek != DayOfWeek.Saturday && scheduler.CurrentDate.DayOfWeek != DayOfWeek.Sunday)
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheSecondWeekDaySameMonth(scheduler, nextExecutionTime);
-            }
-            else
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheSecondWeekDayOtherMonth(scheduler);
-            }
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheSecondWeekDaySameMonth(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
-        {
-            while (nextExecutionTime.DayOfWeek == DayOfWeek.Saturday | nextExecutionTime.DayOfWeek == DayOfWeek.Sunday | nextExecutionTime.Day <= 7)
-            {
-                nextExecutionTime = nextExecutionTime.AddDays(1);
-                if (nextExecutionTime.Day > 14)
-                {
-                    nextExecutionTime = CalculateRecurringFirstMonthlyTheSecondWeekDayOtherMonth(scheduler);
-                }
-            }
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheSecondWeekDayOtherMonth(SchedulerConfiguration scheduler)
-        {
-            DateTime nextExecutionTime = new DateTime(scheduler.CurrentDate.Year, scheduler.CurrentDate.Month, 1);
-            nextExecutionTime = nextExecutionTime.AddMonths(1);
-            while (nextExecutionTime.DayOfWeek == DayOfWeek.Saturday | nextExecutionTime.DayOfWeek == DayOfWeek.Sunday | nextExecutionTime.Day <= 7)
-            {
-                nextExecutionTime = nextExecutionTime.AddDays(1);
-            }
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheSecondDay(SchedulerConfiguration scheduler)
+        private static DateTime CalculateRecurringFirstMonthlyTheSameMonthNotEspecificDay(SchedulerConfiguration scheduler)
         {
             DateTime nextExecutionTime;
-            if (scheduler.CurrentDate.Day <= 2)
+            if (scheduler.OccursDay == DayOccurrency.day)
             {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheSecondDaySameMonth(scheduler);
+                nextExecutionTime = CalculateRecurringFirstMonthlyTheSameMonthDay(scheduler);
+            }
+            else if (scheduler.OccursDay == DayOccurrency.weekday)
+            {
+                nextExecutionTime = CalculateRecurringFirstMonthlyTheSameMonthWeekDay(scheduler);
             }
             else
             {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheSecondDayOtherMonth(scheduler);
+                nextExecutionTime = CalculateRecurringFirstMonthlyTheSameMonthWeekendDay(scheduler);
             }
             return nextExecutionTime;
         }
 
-        private static DateTime CalculateRecurringFirstMonthlyTheSecondDaySameMonth(SchedulerConfiguration scheduler)
-        {
-            DateTime nextExecutionTime = new DateTime();
-            switch (scheduler.CurrentDate.Day)
-            {
-                case 1:
-                    nextExecutionTime = scheduler.CurrentDate.AddDays(1);
-                    break;
-                case 2:
-                    nextExecutionTime = scheduler.CurrentDate;
-                    break;
-            }
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheSecondDayOtherMonth(SchedulerConfiguration scheduler)
-        {
-            DateTime nextExecutionTime = new DateTime(scheduler.CurrentDate.Year, scheduler.CurrentDate.Month, 2);
-            nextExecutionTime = nextExecutionTime.AddMonths(1);
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheSecondWeekendDay(SchedulerConfiguration scheduler)
+        private static DateTime CalculateRecurringFirstMonthlyTheSameMonthDay(SchedulerConfiguration scheduler)
         {
             DateTime nextExecutionTime = scheduler.CurrentDate;
-            if (scheduler.CurrentDate.Day < 14 && (scheduler.CurrentDate.DayOfWeek != DayOfWeek.Saturday | scheduler.CurrentDate.DayOfWeek != DayOfWeek.Sunday))
+            if (nextExecutionTime.Day < (int)scheduler.OrderDay + 1)
             {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheSecondWeekendDaySameMonth(scheduler, nextExecutionTime);
+                var dayDifference = (int)scheduler.OrderDay + 1 - nextExecutionTime.Day;
+                nextExecutionTime = new DateTime(nextExecutionTime.Year, nextExecutionTime.Month, nextExecutionTime.AddDays(dayDifference).Day, scheduler.StartingAt.Hour, scheduler.StartingAt.Minute, scheduler.StartingAt.Second);
+            }
+            else if (nextExecutionTime.Day == (int)scheduler.OrderDay + 1)
+            {
+                nextExecutionTime = CalculateRecurringFirstMonthlyTheSameMonthDayCheckStart(scheduler, nextExecutionTime);
             }
             else
             {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheSecondWeekendDayOtherMonth(scheduler);
+                nextExecutionTime = CalculateRecurringFirstMonthlyTheOtherMonthDay(scheduler);
             }
             return nextExecutionTime;
         }
 
-        private static DateTime CalculateRecurringFirstMonthlyTheSecondWeekendDaySameMonth(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
+        private static DateTime CalculateRecurringFirstMonthlyTheSameMonthDayCheckStart(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
         {
-            while ((nextExecutionTime.DayOfWeek != DayOfWeek.Saturday && nextExecutionTime.DayOfWeek != DayOfWeek.Sunday) | nextExecutionTime.Day <= 7)
+            if (nextExecutionTime.Hour <= scheduler.StartingAt.Hour)
             {
-                nextExecutionTime = nextExecutionTime.AddDays(1);
-                if (nextExecutionTime.Day > 14)
-                {
-                    nextExecutionTime = CalculateRecurringFirstMonthlyTheSecondWeekendDayOtherMonth(scheduler);
-                }
+                nextExecutionTime = new DateTime(nextExecutionTime.Year, nextExecutionTime.Month, nextExecutionTime.Day, scheduler.StartingAt.Hour, scheduler.StartingAt.Minute, scheduler.StartingAt.Second);
+            }
+            else if (nextExecutionTime.Hour >= scheduler.EndingAt.Hour)
+            {
+                nextExecutionTime = CalculateRecurringFirstMonthlyTheOtherMonthDay(scheduler);
             }
             return nextExecutionTime;
         }
 
-        private static DateTime CalculateRecurringFirstMonthlyTheSecondWeekendDayOtherMonth(SchedulerConfiguration scheduler)
+        private static DateTime CalculateRecurringFirstMonthlyTheSameMonthWeekDay(SchedulerConfiguration scheduler)
+        {
+            DateTime weekDay = new DateTime(scheduler.CurrentDate.Year, scheduler.CurrentDate.Month, 1);
+            weekDay = weekDay.AddDays(7 * (int)scheduler.OrderDay);
+            while (weekDay.DayOfWeek == DayOfWeek.Saturday | weekDay.DayOfWeek == DayOfWeek.Sunday)
+            {
+                weekDay = weekDay.AddDays(1);
+            }
+            DateTime nextExecutionTime = CalculateRecurringFirstMonthlyTheSameMonthWeekDayCheck(scheduler, weekDay);
+            return nextExecutionTime;
+        }
+
+        private static DateTime CalculateRecurringFirstMonthlyTheSameMonthWeekDayCheck(SchedulerConfiguration scheduler, DateTime weekDay)
+        {
+            DateTime nextExecutionTime = scheduler.CurrentDate;
+            if (weekDay.Day > nextExecutionTime.Day)
+            {
+                nextExecutionTime = weekDay;
+                nextExecutionTime = CalculateRecurringFirstMonthlyTheSameMonthWeekDayCheckStart(scheduler, nextExecutionTime);
+            }
+            else if (weekDay.Day == nextExecutionTime.Day)
+            {
+                nextExecutionTime = CalculateRecurringFirstMonthlyTheSameMonthWeekDayCheckStart(scheduler, nextExecutionTime);
+            }
+            else
+            {
+                nextExecutionTime = CalculateRecurringFirstMonthlyTheOtherMonthWeekDay(scheduler);
+            }
+            return nextExecutionTime;
+        }
+
+        private static DateTime CalculateRecurringFirstMonthlyTheSameMonthWeekDayCheckStart(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
+        {
+            if (nextExecutionTime.Hour <= scheduler.StartingAt.Hour)
+            {
+                nextExecutionTime = new DateTime(nextExecutionTime.Year, nextExecutionTime.Month, nextExecutionTime.Day, scheduler.StartingAt.Hour, scheduler.StartingAt.Minute, scheduler.StartingAt.Second);
+            }
+            else if (nextExecutionTime.Hour >= scheduler.EndingAt.Hour)
+            {
+                nextExecutionTime = CalculateRecurringFirstMonthlyTheOtherMonthWeekDay(scheduler);
+            }
+            return nextExecutionTime;
+        }
+
+        private static DateTime CalculateRecurringFirstMonthlyTheOtherMonthWeekDay(SchedulerConfiguration scheduler)
         {
             DateTime nextExecutionTime = new DateTime(scheduler.CurrentDate.Year, scheduler.CurrentDate.Month, 1);
             nextExecutionTime = nextExecutionTime.AddMonths(1);
-            while ((nextExecutionTime.DayOfWeek != DayOfWeek.Saturday && nextExecutionTime.DayOfWeek != DayOfWeek.Sunday) | nextExecutionTime.Day <= 7)
+            nextExecutionTime = nextExecutionTime.AddDays(7 * ((int)scheduler.OrderDay));
+            while (nextExecutionTime.DayOfWeek == DayOfWeek.Saturday | nextExecutionTime.DayOfWeek == DayOfWeek.Sunday && nextExecutionTime.Day <= (7 * ((int)scheduler.OrderDay + 1)))
             {
                 nextExecutionTime = nextExecutionTime.AddDays(1);
             }
+            nextExecutionTime = new DateTime(nextExecutionTime.Year, nextExecutionTime.Month, nextExecutionTime.Day, scheduler.StartingAt.Hour, scheduler.StartingAt.Minute, scheduler.StartingAt.Second);
             return nextExecutionTime;
         }
 
-        private static DateTime CalculateRecurringFirstMonthlyTheThird(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
-        {
-            switch (scheduler.OccursDay)
-            {
-                case DayOccurrency.Monday:
-                    nextExecutionTime = CalculateRecurringFirstMonthlyTheThirdMonday(scheduler);
-                    break;
-                case DayOccurrency.Tuesday:
-                    nextExecutionTime = CalculateRecurringFirstMonthlyTheThirdTuesday(scheduler);
-                    break;
-                case DayOccurrency.Wednesday:
-                    nextExecutionTime = CalculateRecurringFirstMonthlyTheThirdWednesday(scheduler);
-                    break;
-                case DayOccurrency.Thursday:
-                    nextExecutionTime = CalculateRecurringFirstMonthlyTheThirdThursday(scheduler);
-                    break;
-                case DayOccurrency.Friday:
-                    nextExecutionTime = CalculateRecurringFirstMonthlyTheThirdFriday(scheduler);
-                    break;
-                case DayOccurrency.Saturday:
-                    nextExecutionTime = CalculateRecurringFirstMonthlyTheThirdSaturday(scheduler);
-                    break;
-                case DayOccurrency.Sunday:
-                    nextExecutionTime = CalculateRecurringFirstMonthlyTheThirdSunday(scheduler);
-                    break;
-                case DayOccurrency.weekday:
-                    nextExecutionTime = CalculateRecurringFirstMonthlyTheThirdWeekDay(scheduler);
-                    break;
-                case DayOccurrency.day:
-                    nextExecutionTime = CalculateRecurringFirstMonthlyTheThirdDay(scheduler);
-                    break;
-                case DayOccurrency.weekend_day:
-                    nextExecutionTime = CalculateRecurringFirstMonthlyTheThirdWeekendDay(scheduler);
-                    break;
-            }
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheThirdMonday(SchedulerConfiguration scheduler)
-        {
-            DateTime nextExecutionTime = scheduler.CurrentDate;
-            if (scheduler.CurrentDate.Day < 21)
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheThirdMondaySameMonth(scheduler, nextExecutionTime);
-            }
-            else
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheThirdMondayOtherMonth(scheduler);
-            }
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheThirdMondaySameMonth(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
-        {
-            while (nextExecutionTime.DayOfWeek != DayOfWeek.Monday | nextExecutionTime.Day <= 14)
-            {
-                nextExecutionTime = nextExecutionTime.AddDays(1);
-                if (nextExecutionTime.Day > 21)
-                {
-                    nextExecutionTime = CalculateRecurringFirstMonthlyTheThirdMondayOtherMonth(scheduler);
-                }
-            }
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheThirdMondayOtherMonth(SchedulerConfiguration scheduler)
-        {
-            DateTime nextExecutionTime = new DateTime(scheduler.CurrentDate.Year, scheduler.CurrentDate.Month, 1);
-            nextExecutionTime = nextExecutionTime.AddMonths(1);
-            while (nextExecutionTime.DayOfWeek != DayOfWeek.Monday | nextExecutionTime.Day <= 14)
-            {
-                nextExecutionTime = nextExecutionTime.AddDays(1);
-            }
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheThirdTuesday(SchedulerConfiguration scheduler)
-        {
-            DateTime nextExecutionTime = scheduler.CurrentDate;
-            if (scheduler.CurrentDate.Day <= 21)
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheThirdTuesdaySameMonth(scheduler, nextExecutionTime);
-            }
-            else
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheThirdTuesdayOtherMonth(scheduler);
-            }
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheThirdTuesdaySameMonth(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
-        {
-            while (nextExecutionTime.DayOfWeek != DayOfWeek.Tuesday | nextExecutionTime.Day <= 14)
-            {
-                nextExecutionTime = nextExecutionTime.AddDays(1);
-                if (nextExecutionTime.Day > 21)
-                {
-                    nextExecutionTime = CalculateRecurringFirstMonthlyTheThirdTuesdayOtherMonth(scheduler);
-                }
-            }
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheThirdTuesdayOtherMonth(SchedulerConfiguration scheduler)
-        {
-            DateTime nextExecutionTime = new DateTime(scheduler.CurrentDate.Year, scheduler.CurrentDate.Month, 1);
-            nextExecutionTime = nextExecutionTime.AddMonths(1);
-            while (nextExecutionTime.DayOfWeek != DayOfWeek.Tuesday | nextExecutionTime.Day <= 14)
-            {
-                nextExecutionTime = nextExecutionTime.AddDays(1);
-            }
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheThirdWednesday(SchedulerConfiguration scheduler)
-        {
-            DateTime nextExecutionTime = scheduler.CurrentDate;
-            if (scheduler.CurrentDate.Day < 21)
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheThirdWednesdaySameMonth(scheduler, nextExecutionTime);
-            }
-            else
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheThirdWednesdayOtherMonth(scheduler);
-            }
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheThirdWednesdaySameMonth(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
-        {
-            while (nextExecutionTime.DayOfWeek != DayOfWeek.Wednesday | nextExecutionTime.Day <= 14)
-            {
-                nextExecutionTime = nextExecutionTime.AddDays(1);
-                if (nextExecutionTime.Day > 21)
-                {
-                    nextExecutionTime = CalculateRecurringFirstMonthlyTheThirdWednesdayOtherMonth(scheduler);
-                }
-            }
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheThirdWednesdayOtherMonth(SchedulerConfiguration scheduler)
-        {
-            DateTime nextExecutionTime = new DateTime(scheduler.CurrentDate.Year, scheduler.CurrentDate.Month, 1);
-            nextExecutionTime = nextExecutionTime.AddMonths(1);
-            while (nextExecutionTime.DayOfWeek != DayOfWeek.Wednesday | nextExecutionTime.Day <= 14)
-            {
-                nextExecutionTime = nextExecutionTime.AddDays(1);
-            }
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheThirdThursday(SchedulerConfiguration scheduler)
-        {
-            DateTime nextExecutionTime = scheduler.CurrentDate;
-            if (scheduler.CurrentDate.Day < 21)
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheThirdThursdaySameMonth(scheduler, nextExecutionTime);
-            }
-            else
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheThirdThursdayOtherMonth(scheduler);
-            }
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheThirdThursdaySameMonth(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
-        {
-            while (nextExecutionTime.DayOfWeek != DayOfWeek.Thursday | nextExecutionTime.Day <= 14)
-            {
-                nextExecutionTime = nextExecutionTime.AddDays(1);
-                if (nextExecutionTime.Day > 21)
-                {
-                    nextExecutionTime = CalculateRecurringFirstMonthlyTheThirdThursdayOtherMonth(scheduler);
-                }
-            }
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheThirdThursdayOtherMonth(SchedulerConfiguration scheduler)
-        {
-            DateTime nextExecutionTime = new DateTime(scheduler.CurrentDate.Year, scheduler.CurrentDate.Month, 1);
-            nextExecutionTime = nextExecutionTime.AddMonths(1);
-            while (nextExecutionTime.DayOfWeek != DayOfWeek.Thursday | nextExecutionTime.Day <= 14)
-            {
-                nextExecutionTime = nextExecutionTime.AddDays(1);
-            }
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheThirdFriday(SchedulerConfiguration scheduler)
-        {
-            DateTime nextExecutionTime = scheduler.CurrentDate;
-            if (scheduler.CurrentDate.Day < 21)
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheThirdFridaySameMonth(scheduler, nextExecutionTime);
-            }
-            else
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheThirdFridayOtherMonth(scheduler);
-            }
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheThirdFridaySameMonth(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
-        {
-            while (nextExecutionTime.DayOfWeek != DayOfWeek.Friday | nextExecutionTime.Day <= 14)
-            {
-                nextExecutionTime = nextExecutionTime.AddDays(1);
-                if (nextExecutionTime.Day > 21)
-                {
-                    nextExecutionTime = CalculateRecurringFirstMonthlyTheThirdFridayOtherMonth(scheduler);
-                }
-            }
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheThirdFridayOtherMonth(SchedulerConfiguration scheduler)
-        {
-            DateTime nextExecutionTime = new DateTime(scheduler.CurrentDate.Year, scheduler.CurrentDate.Month, 1);
-            nextExecutionTime = nextExecutionTime.AddMonths(1);
-            while (nextExecutionTime.DayOfWeek != DayOfWeek.Friday | nextExecutionTime.Day <= 14)
-            {
-                nextExecutionTime = nextExecutionTime.AddDays(1);
-            }
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheThirdSaturday(SchedulerConfiguration scheduler)
-        {
-            DateTime nextExecutionTime = scheduler.CurrentDate;
-            if (scheduler.CurrentDate.Day < 21)
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheThirdSaturdaySameMonth(scheduler, nextExecutionTime);
-            }
-            else
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheThirdSaturdayOtherMonth(scheduler);
-            }
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheThirdSaturdaySameMonth(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
-        {
-            while (nextExecutionTime.DayOfWeek != DayOfWeek.Saturday | nextExecutionTime.Day <= 14)
-            {
-                nextExecutionTime = nextExecutionTime.AddDays(1);
-                if (nextExecutionTime.Day > 21)
-                {
-                    nextExecutionTime = CalculateRecurringFirstMonthlyTheThirdSaturdayOtherMonth(scheduler);
-                }
-            }
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheThirdSaturdayOtherMonth(SchedulerConfiguration scheduler)
-        {
-            DateTime nextExecutionTime = new DateTime(scheduler.CurrentDate.Year, scheduler.CurrentDate.Month, 1);
-            nextExecutionTime = nextExecutionTime.AddMonths(1);
-            while (nextExecutionTime.DayOfWeek != DayOfWeek.Saturday | nextExecutionTime.Day <= 14)
-            {
-                nextExecutionTime = nextExecutionTime.AddDays(1);
-            }
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheThirdSunday(SchedulerConfiguration scheduler)
-        {
-            DateTime nextExecutionTime = scheduler.CurrentDate;
-            if (scheduler.CurrentDate.Day < 21)
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheThirdSundaySameMonth(scheduler, nextExecutionTime);
-            }
-            else
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheThirdSundayOtherMonth(scheduler);
-            }
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheThirdSundaySameMonth(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
-        {
-            while (nextExecutionTime.DayOfWeek != DayOfWeek.Sunday | nextExecutionTime.Day <= 14)
-            {
-                nextExecutionTime = nextExecutionTime.AddDays(1);
-                if (nextExecutionTime.Day > 21)
-                {
-                    nextExecutionTime = CalculateRecurringFirstMonthlyTheThirdSundayOtherMonth(scheduler);
-                }
-            }
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheThirdSundayOtherMonth(SchedulerConfiguration scheduler)
-        {
-            DateTime nextExecutionTime = new DateTime(scheduler.CurrentDate.Year, scheduler.CurrentDate.Month, 1);
-            nextExecutionTime = nextExecutionTime.AddMonths(1);
-            while (nextExecutionTime.DayOfWeek != DayOfWeek.Sunday | nextExecutionTime.Day <= 14)
-            {
-                nextExecutionTime = nextExecutionTime.AddDays(1);
-            }
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheThirdWeekDay(SchedulerConfiguration scheduler)
-        {
-            DateTime nextExecutionTime = scheduler.CurrentDate;
-            if (scheduler.CurrentDate.Day < 21 && scheduler.CurrentDate.DayOfWeek != DayOfWeek.Saturday && scheduler.CurrentDate.DayOfWeek != DayOfWeek.Sunday)
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheThirdWeekDaySameMonth(scheduler, nextExecutionTime);
-            }
-            else
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheThirdWeekDayOtherMonth(scheduler);
-            }
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheThirdWeekDaySameMonth(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
-        {
-            while (nextExecutionTime.DayOfWeek == DayOfWeek.Saturday | nextExecutionTime.DayOfWeek == DayOfWeek.Sunday | nextExecutionTime.Day <= 14)
-            {
-                nextExecutionTime = nextExecutionTime.AddDays(1);
-                if (nextExecutionTime.Day > 21)
-                {
-                    nextExecutionTime = CalculateRecurringFirstMonthlyTheThirdWeekDayOtherMonth(scheduler);
-                }
-            }
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheThirdWeekDayOtherMonth(SchedulerConfiguration scheduler)
-        {
-            DateTime nextExecutionTime = new DateTime(scheduler.CurrentDate.Year, scheduler.CurrentDate.Month, 1);
-            nextExecutionTime = nextExecutionTime.AddMonths(1);
-            while (nextExecutionTime.DayOfWeek == DayOfWeek.Saturday | nextExecutionTime.DayOfWeek == DayOfWeek.Sunday | nextExecutionTime.Day <= 14)
-            {
-                nextExecutionTime = nextExecutionTime.AddDays(1);
-            }
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheThirdDay(SchedulerConfiguration scheduler)
+        private static DateTime CalculateRecurringFirstMonthlyTheSameMonthWeekendDay(SchedulerConfiguration scheduler)
         {
             DateTime nextExecutionTime;
-            if (scheduler.CurrentDate.Day <= 3)
+            DateTime weekendDay = new DateTime(scheduler.CurrentDate.Year, scheduler.CurrentDate.Month, 1);
+            weekendDay = weekendDay.AddDays(7 * (int)scheduler.OrderDay);
+            while (weekendDay.DayOfWeek != DayOfWeek.Saturday && weekendDay.DayOfWeek != DayOfWeek.Sunday)
             {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheThirdDaySameMonth(scheduler);
+                weekendDay = weekendDay.AddDays(1);
             }
-            else
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheThirdDayOtherMonth(scheduler);
-            }
+            nextExecutionTime = CalculateRecurringFirstMonthlyTheSameMonthWeekendDayCheck(scheduler, weekendDay);
             return nextExecutionTime;
         }
 
-        private static DateTime CalculateRecurringFirstMonthlyTheThirdDaySameMonth(SchedulerConfiguration scheduler)
-        {
-            DateTime nextExecutionTime = new DateTime();
-            switch (scheduler.CurrentDate.Day)
-            {
-                case 1:
-                    nextExecutionTime = scheduler.CurrentDate.AddDays(2);
-                    break;
-                case 2:
-                    nextExecutionTime = scheduler.CurrentDate.AddDays(1);
-                    break;
-                case 3:
-                    nextExecutionTime = scheduler.CurrentDate;
-                    break;
-            }
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheThirdDayOtherMonth(SchedulerConfiguration scheduler)
-        {
-            DateTime nextExecutionTime = new DateTime(scheduler.CurrentDate.Year, scheduler.CurrentDate.Month, 3);
-            nextExecutionTime = nextExecutionTime.AddMonths(1);
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheThirdWeekendDay(SchedulerConfiguration scheduler)
+        private static DateTime CalculateRecurringFirstMonthlyTheSameMonthWeekendDayCheck(SchedulerConfiguration scheduler, DateTime weekendDay)
         {
             DateTime nextExecutionTime = scheduler.CurrentDate;
-            if (scheduler.CurrentDate.Day < 14 && (scheduler.CurrentDate.DayOfWeek != DayOfWeek.Saturday | scheduler.CurrentDate.DayOfWeek != DayOfWeek.Sunday))
+            if (weekendDay.Day > nextExecutionTime.Day)
             {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheThirdWeekendDaySameMonth(scheduler, nextExecutionTime);
+                nextExecutionTime = weekendDay;
+                nextExecutionTime = CalculateRecurringFirstMonthlyTheSameMonthWeekendDayCheckStart(scheduler, nextExecutionTime);
+            }
+            else if (weekendDay.Day == nextExecutionTime.Day)
+            {
+                nextExecutionTime = CalculateRecurringFirstMonthlyTheSameMonthWeekendDayCheckStart(scheduler, nextExecutionTime);
+
             }
             else
             {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheThirdWeekendDayOtherMonth(scheduler);
+                nextExecutionTime = CalculateRecurringFirstMonthlyTheOtherMonthWeekendDay(scheduler);
             }
             return nextExecutionTime;
         }
 
-        private static DateTime CalculateRecurringFirstMonthlyTheThirdWeekendDaySameMonth(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
+        private static DateTime CalculateRecurringFirstMonthlyTheSameMonthWeekendDayCheckStart(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
         {
-            while ((nextExecutionTime.DayOfWeek != DayOfWeek.Saturday && nextExecutionTime.DayOfWeek != DayOfWeek.Sunday) | nextExecutionTime.Day <= 14)
+            if (nextExecutionTime.Hour <= scheduler.StartingAt.Hour)
             {
-                nextExecutionTime = nextExecutionTime.AddDays(1);
-                if (nextExecutionTime.Day > 21)
-                {
-                    nextExecutionTime = CalculateRecurringFirstMonthlyTheThirdWeekendDayOtherMonth(scheduler);
-                }
+                nextExecutionTime = new DateTime(nextExecutionTime.Year, nextExecutionTime.Month, nextExecutionTime.Day, scheduler.StartingAt.Hour, scheduler.StartingAt.Minute, scheduler.StartingAt.Second);
+            }
+            else if (nextExecutionTime.Hour >= scheduler.EndingAt.Hour)
+            {
+                nextExecutionTime = CalculateRecurringFirstMonthlyTheOtherMonthWeekendDay(scheduler);
             }
             return nextExecutionTime;
         }
 
-        private static DateTime CalculateRecurringFirstMonthlyTheThirdWeekendDayOtherMonth(SchedulerConfiguration scheduler)
+        private static DateTime CalculateRecurringFirstMonthlyTheOtherMonthWeekendDay(SchedulerConfiguration scheduler)
         {
             DateTime nextExecutionTime = new DateTime(scheduler.CurrentDate.Year, scheduler.CurrentDate.Month, 1);
             nextExecutionTime = nextExecutionTime.AddMonths(1);
-            while ((nextExecutionTime.DayOfWeek != DayOfWeek.Saturday && nextExecutionTime.DayOfWeek != DayOfWeek.Sunday) | nextExecutionTime.Day <= 14)
+            nextExecutionTime = nextExecutionTime.AddDays(7 * ((int)scheduler.OrderDay));
+            while (nextExecutionTime.DayOfWeek != DayOfWeek.Saturday && nextExecutionTime.DayOfWeek != DayOfWeek.Sunday && nextExecutionTime.Day <= (7 * ((int)scheduler.OrderDay + 1)))
             {
                 nextExecutionTime = nextExecutionTime.AddDays(1);
+            }
+            nextExecutionTime = new DateTime(nextExecutionTime.Year, nextExecutionTime.Month, nextExecutionTime.Day, scheduler.StartingAt.Hour, scheduler.StartingAt.Minute, scheduler.StartingAt.Second);
+            return nextExecutionTime;
+        }
+
+        private static DateTime CalculateRecurringFirstMonthlyTheSameMonthEspecificDay(SchedulerConfiguration scheduler)
+        {
+            DateTime nextExecutionTime = scheduler.CurrentDate;
+            nextExecutionTime = nextExecutionTime.AddDays(7 * ((int)scheduler.OrderDay));
+            if ((int)nextExecutionTime.DayOfWeek == (int)scheduler.OccursDay && nextExecutionTime.Day <= (7 * ((int)scheduler.OrderDay + 1)))
+            {
+                nextExecutionTime = CalculateRecurringFirstMonthlyTheSameMonthEspecificDaySameDay(scheduler, nextExecutionTime);
+            }
+            else
+            {
+                nextExecutionTime = CalculateRecurringFirstMonthlyTheSameMonthEspecificDayOtherDay(scheduler, nextExecutionTime);
             }
             return nextExecutionTime;
         }
 
-        private static DateTime CalculateRecurringFirstMonthlyTheForth(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
+        private static DateTime CalculateRecurringFirstMonthlyTheSameMonthEspecificDaySameDay(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
         {
-            throw new NotImplementedException();
+            if (nextExecutionTime.Hour < scheduler.StartingAt.Hour)
+            {
+                nextExecutionTime = new DateTime(nextExecutionTime.Year, nextExecutionTime.Month, nextExecutionTime.Day, scheduler.StartingAt.Hour, scheduler.StartingAt.Minute, scheduler.StartingAt.Second);
+            }
+            return nextExecutionTime;
         }
 
-        private static DateTime CalculateRecurringFirstMonthlyTheLast(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
+        private static DateTime CalculateRecurringFirstMonthlyTheSameMonthEspecificDayOtherDay(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
         {
-            throw new NotImplementedException();
+            while ((int)nextExecutionTime.DayOfWeek != (int)scheduler.OccursDay && nextExecutionTime.Day <= (7 * ((int)scheduler.OrderDay + 1)))
+            {
+                nextExecutionTime = nextExecutionTime.AddDays(1);
+                if (nextExecutionTime.Day > (((int)scheduler.OrderDay + 1) * 7))
+                {
+                    nextExecutionTime = CalculateRecurringFirstMonthlyTheOtherMonthEspecificDay(scheduler);
+                }
+            }
+            nextExecutionTime = new DateTime(nextExecutionTime.Year, nextExecutionTime.Month, nextExecutionTime.Day, scheduler.StartingAt.Hour, scheduler.StartingAt.Minute, scheduler.StartingAt.Second);
+            return nextExecutionTime;
+        }
+
+        private static DateTime CalculateRecurringFirstMonthlyTheOtherMonth(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
+        {
+            if ((int)scheduler.OccursDay < 7)
+            {
+                nextExecutionTime = CalculateRecurringFirstMonthlyTheOtherMonthEspecificDay(scheduler);
+            }
+            else
+            {
+                nextExecutionTime = CalculateRecurringFirstMonthlyTheOtherMonthNotEspecificDay(scheduler);
+            }
+            return nextExecutionTime;
+        }
+
+        private static DateTime CalculateRecurringFirstMonthlyTheOtherMonthNotEspecificDay(SchedulerConfiguration scheduler)
+        {
+            DateTime nextExecutionTime;
+            if (scheduler.OccursDay == DayOccurrency.day)
+            {
+                nextExecutionTime = CalculateRecurringFirstMonthlyTheOtherMonthDay(scheduler);
+            }
+            else if (scheduler.OccursDay == DayOccurrency.weekday)
+            {
+                nextExecutionTime = CalculateRecurringFirstMonthlyTheSameMonthWeekDay(scheduler);
+            }
+            else
+            {
+                nextExecutionTime = CalculateRecurringFirstMonthlyTheSameMonthWeekendDay(scheduler);
+            }
+            return nextExecutionTime;
+        }
+
+        private static DateTime CalculateRecurringFirstMonthlyTheOtherMonthDay(SchedulerConfiguration scheduler)
+        {
+            DateTime nextExecutionTime = new DateTime(scheduler.CurrentDate.Year, scheduler.CurrentDate.Month, 1);
+            nextExecutionTime = nextExecutionTime.AddMonths(1);
+            var dayDifference = (int)scheduler.OrderDay + 1 - nextExecutionTime.Day;
+            nextExecutionTime = new DateTime(nextExecutionTime.Year, nextExecutionTime.Month, nextExecutionTime.AddDays(dayDifference).Day, scheduler.StartingAt.Hour, scheduler.StartingAt.Minute, scheduler.StartingAt.Second);
+            return nextExecutionTime;
+        }
+
+        private static DateTime CalculateRecurringFirstMonthlyTheOtherMonthEspecificDay(SchedulerConfiguration scheduler)
+        {
+            DateTime nextExecutionTime = new DateTime(scheduler.CurrentDate.Year, scheduler.CurrentDate.Month, 1);
+            nextExecutionTime = nextExecutionTime.AddMonths(1);
+            nextExecutionTime = nextExecutionTime.AddDays(7 * ((int)scheduler.OrderDay));
+            while ((int)nextExecutionTime.DayOfWeek != (int)scheduler.OccursDay && nextExecutionTime.Day <= (7 * ((int)scheduler.OrderDay + 1)))
+            {
+                nextExecutionTime = nextExecutionTime.AddDays(1);
+            }
+            nextExecutionTime = new DateTime(nextExecutionTime.Year, nextExecutionTime.Month, nextExecutionTime.Day, scheduler.StartingAt.Hour, scheduler.StartingAt.Minute, scheduler.StartingAt.Second);
+            return nextExecutionTime;
         }
 
         private static DateTime CalculateRecurringMoreMonthly(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
@@ -1363,7 +381,7 @@ namespace Scheduler
             }
             else
             {
-                nextExecutionTime = CalculateRecurringMoreMonthlyThe(nextExecutionTime);
+                nextExecutionTime = CalculateRecurringMoreMonthlyThe(scheduler, nextExecutionTime);
             }
             return nextExecutionTime;
         }
@@ -1380,12 +398,121 @@ namespace Scheduler
 
         private static DateTime CalculateRecurringMoreNextDayMonthlyDay(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
         {
-            nextExecutionTime = new DateTime(nextExecutionTime.Year, nextExecutionTime.AddMonths(scheduler.EveryMonths).Month, nextExecutionTime.Day, scheduler.StartingAt.Hour, scheduler.StartingAt.Minute, scheduler.StartingAt.Minute);
+            nextExecutionTime = new DateTime(nextExecutionTime.Year, nextExecutionTime.AddMonths(scheduler.Frequency).Month, nextExecutionTime.Day, scheduler.StartingAt.Hour, scheduler.StartingAt.Minute, scheduler.StartingAt.Minute);
             return nextExecutionTime;
         }
 
-        private static DateTime CalculateRecurringMoreMonthlyThe(DateTime nextExecutionTime)
+        private static DateTime CalculateRecurringMoreMonthlyThe(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
         {
+            if ((int)scheduler.OccursDay < 7)
+            {
+                nextExecutionTime = CalculateRecurringMoreMonthlyEspecificDay(scheduler, nextExecutionTime);
+            }
+            else
+            {
+                nextExecutionTime = CalculateRecurringMoretMonthlyNotEspecificDay(scheduler, nextExecutionTime);
+            }
+            return nextExecutionTime;
+        }
+
+        private static DateTime CalculateRecurringMoreMonthlyEspecificDay(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
+        {
+            if (nextExecutionTime.Hour < scheduler.EndingAt.Hour)
+            {
+                nextExecutionTime = nextExecutionTime.AddHours(scheduler.OccursEvery);
+            } 
+            else
+            {
+                nextExecutionTime = CalculateRecurringMoreMonthlyEspecificDayNextDay(scheduler, nextExecutionTime);
+            }
+            return nextExecutionTime;
+        }
+
+        private static DateTime CalculateRecurringMoreMonthlyEspecificDayNextDay(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
+        {
+            nextExecutionTime = new DateTime(nextExecutionTime.Year, nextExecutionTime.AddMonths(scheduler.Frequency).Month, 1);
+            nextExecutionTime = nextExecutionTime.AddDays(7 * (int)scheduler.OrderDay);
+            while ((int)nextExecutionTime.DayOfWeek != (int)scheduler.OccursDay)
+            {
+                nextExecutionTime = nextExecutionTime.AddDays(1);
+            }
+            nextExecutionTime = new DateTime(nextExecutionTime.Year, nextExecutionTime.Month, nextExecutionTime.Day, scheduler.StartingAt.Hour, scheduler.StartingAt.Minute, scheduler.StartingAt.Second);
+            return nextExecutionTime;
+        }
+
+        private static DateTime CalculateRecurringMoretMonthlyNotEspecificDay(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
+        {
+            if (scheduler.OccursDay == DayOccurrency.day)
+            {
+                nextExecutionTime = CalculateRecurringMoreMonthlyTheDay(scheduler, nextExecutionTime);
+            }
+            else if (scheduler.OccursDay == DayOccurrency.weekday)
+            {
+                nextExecutionTime = CalculateRecurringMoreMonthlyWeekDay(scheduler, nextExecutionTime);
+            }
+            else
+            {
+                nextExecutionTime = CalculateRecurringMoreMonthlyWeekendDay(scheduler, nextExecutionTime);
+            }
+            return nextExecutionTime;
+        }
+
+        private static DateTime CalculateRecurringMoreMonthlyWeekendDay(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
+        {
+            nextExecutionTime = nextExecutionTime.AddHours(scheduler.OccursEvery);
+            if (nextExecutionTime.Hour > scheduler.EndingAt.Hour)
+            {
+                nextExecutionTime = CalculateRecurringMoreTheWeekendDayMonthlyNextDay(scheduler, nextExecutionTime);
+            }
+            return nextExecutionTime;
+        }
+
+        private static DateTime CalculateRecurringMoreTheWeekendDayMonthlyNextDay(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
+        {
+            nextExecutionTime = new DateTime(nextExecutionTime.Year, nextExecutionTime.AddMonths(1).Month, 1, scheduler.StartingAt.Hour, scheduler.StartingAt.Minute, scheduler.StartingAt.Second);
+            nextExecutionTime = nextExecutionTime.AddDays(7 * (int)scheduler.OrderDay);
+            while (nextExecutionTime.DayOfWeek != DayOfWeek.Saturday && nextExecutionTime.DayOfWeek != DayOfWeek.Sunday)
+            {
+                nextExecutionTime = nextExecutionTime.AddDays(1);
+            }
+            return nextExecutionTime;
+        }
+
+        private static DateTime CalculateRecurringMoreMonthlyWeekDay(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
+        {
+            nextExecutionTime = nextExecutionTime.AddHours(scheduler.OccursEvery);
+            if (nextExecutionTime.Hour > scheduler.EndingAt.Hour)
+            {
+                nextExecutionTime = CalculateRecurringMoreTheWeekDayMonthlyNextDay(scheduler, nextExecutionTime);
+            }
+            return nextExecutionTime;
+        }
+
+        private static DateTime CalculateRecurringMoreTheWeekDayMonthlyNextDay(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
+        {
+            nextExecutionTime = new DateTime(nextExecutionTime.Year, nextExecutionTime.AddMonths(1).Month, 1, scheduler.StartingAt.Hour, scheduler.StartingAt.Minute, scheduler.StartingAt.Second);
+            nextExecutionTime = nextExecutionTime.AddDays(7 * (int)scheduler.OrderDay);
+            while (nextExecutionTime.DayOfWeek == DayOfWeek.Saturday || nextExecutionTime.DayOfWeek == DayOfWeek.Sunday)
+            {
+                nextExecutionTime = nextExecutionTime.AddDays(1);
+            }
+            return nextExecutionTime;
+        }
+
+        private static DateTime CalculateRecurringMoreMonthlyTheDay(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
+        {
+            nextExecutionTime = nextExecutionTime.AddHours(scheduler.OccursEvery);
+            if (nextExecutionTime.Hour > scheduler.EndingAt.Hour)
+            {
+                nextExecutionTime = CalculateRecurringMoreTheDayMonthlyNextDay(scheduler, nextExecutionTime);
+            }
+            return nextExecutionTime;
+        }
+
+        private static DateTime CalculateRecurringMoreTheDayMonthlyNextDay(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
+        {
+            var dayDifference = (int)scheduler.OrderDay + 1 - nextExecutionTime.Day;
+            nextExecutionTime = new DateTime(nextExecutionTime.Year, nextExecutionTime.AddMonths(1).Month, nextExecutionTime.AddDays(dayDifference).Day, scheduler.StartingAt.Hour, scheduler.StartingAt.Minute, scheduler.StartingAt.Second);
             return nextExecutionTime;
         }
 
@@ -1466,7 +593,7 @@ namespace Scheduler
         {
             if (nextExecutionTime.DayOfWeek == scheduler.DayOfWeeks.First())
             {
-                nextExecutionTime = nextExecutionTime.AddDays((scheduler.EveryWeeks - 1) * 7);
+                nextExecutionTime = nextExecutionTime.AddDays((scheduler.Frequency - 1) * 7);
             }
             return nextExecutionTime;
         }
@@ -1492,7 +619,7 @@ namespace Scheduler
         {
             try
             {
-                scheduler.CurrentDate.AddDays(scheduler.Days);
+                scheduler.CurrentDate.AddDays(scheduler.Frequency);
             }
             catch (Exception)
             {
