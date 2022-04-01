@@ -27,7 +27,8 @@ namespace Scheduler
             if (scheduler.MonthlyConf == MonthlyConfType.Day)
             {
                 description = CalculateDescriptionRecurringMonthlyDay(scheduler);
-            } else
+            }
+            else
             {
                 description = CalculateDescriptionRecurringMonthlyThe(scheduler);
             }
@@ -36,17 +37,17 @@ namespace Scheduler
 
         private static string CalculateDescriptionRecurringMonthlyThe(SchedulerConfiguration scheduler)
         {
-            string description; 
+            string description;
             if (scheduler.OccursEvery > 1)
             {
-                 description = "Occurs the " + scheduler.OrderDay.ToString().ToLower()
-                    + " " + scheduler.OccursDay.ToString().ToLower()
-                    + " of every " + scheduler.Frequency
-                    + " months every " + scheduler.OccursEvery.ToString()
-                    + " hours between " + scheduler.StartingAt.ToShortTimeString()
-                    + " and " + scheduler.EndingAt.ToShortTimeString()
-                    + " starting on " + scheduler.StartDate.ToShortDateString();
-            } 
+                description = "Occurs the " + scheduler.OrderDay.ToString().ToLower()
+                   + " " + scheduler.OccursDay.ToString().ToLower()
+                   + " of every " + scheduler.Frequency
+                   + " months every " + scheduler.OccursEvery.ToString()
+                   + " hours between " + scheduler.StartingAt.ToShortTimeString()
+                   + " and " + scheduler.EndingAt.ToShortTimeString()
+                   + " starting on " + scheduler.StartDate.ToShortDateString();
+            }
             else
             {
                 description = "Occurs the " + scheduler.OrderDay.ToString().ToLower()
@@ -66,15 +67,18 @@ namespace Scheduler
                 + " every " + scheduler.Frequency
                 + " months every " + scheduler.OccursEvery.ToString()
                 + " " + scheduler.UnitTime.ToString().ToLower()
-                + " between " + scheduler.StartingAt.ToShortTimeString() 
-                + " and " + scheduler.EndingAt.ToShortTimeString() 
+                + " between " + scheduler.StartingAt.ToShortTimeString()
+                + " and " + scheduler.EndingAt.ToShortTimeString()
                 + " starting on " + scheduler.StartDate.ToShortDateString();
             return description;
         }
 
         public static string CalculateDescriptionOnce(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
         {
-            string description = "Occurs " + scheduler.Type + ". Schedule will be used on " + nextExecutionTime.ToShortDateString() + " at " + nextExecutionTime.ToShortTimeString() + " starting on " + scheduler.StartDate.ToShortDateString();
+            string description = "Occurs " + scheduler.Type 
+                + ". Schedule will be used on " + nextExecutionTime.ToShortDateString() 
+                + " at " + nextExecutionTime.ToShortTimeString() 
+                + " starting on " + scheduler.StartDate.ToShortDateString();
             return description;
         }
 
@@ -96,27 +100,11 @@ namespace Scheduler
             }
             else if (dayOfWeek == scheduler.DayOfWeeks.Last())
             {
-                days = CalculateDescriptionRecurringWeeklyLastDay(days, dayOfWeek);
-            }
-            else
-            {
-                days = days + ", " + dayOfWeek.ToString().ToLower();
-            }
-            return days;
-        }
-
-        public static string CalculateDescriptionRecurringWeeklyLastDay
-            
-            
-            (string days, DayOfWeek dayOfWeek)
-        {
-            if (!string.IsNullOrEmpty(days))
-            {
                 days = days + " and " + dayOfWeek.ToString().ToLower();
             }
             else
             {
-                days = "on " + dayOfWeek.ToString().ToLower();
+                days = days + ", " + dayOfWeek.ToString().ToLower();
             }
             return days;
         }

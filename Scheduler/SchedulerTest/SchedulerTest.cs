@@ -1012,6 +1012,172 @@ namespace SchedulerTest
         }
 
         [Fact]
+        public void Calculate_Recurring_Execution_One_Time_Monthly_The_Last_Saturday_Same_Month()
+        {
+            SchedulerConfiguration scheduler = new()
+            {
+                CurrentDate = new DateTime(2020, 1, 1, 0, 0, 0),
+                Type = ExecutionType.Recurring,
+                Occurs = OccursType.Monthly,
+                MonthlyConf = MonthlyConfType.The,
+                OrderDay = Occurrency.Last,
+                OccursDay = DayOccurrency.Saturday,
+                Frequency = 3,
+                StartDate = new DateTime(2020, 1, 1),
+                OccursEvery = 2,
+                StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
+                EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
+            };
+
+            var informations = scheduler.CalculateNextExecution(1);
+
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 25, 4, 0, 0));
+        }
+
+        [Fact]
+        public void Calculate_Recurring_Execution_One_Time_Monthly_The_Last_Saturday_Same_Month_Between_Starting_Ending()
+        {
+            SchedulerConfiguration scheduler = new()
+            {
+                CurrentDate = new DateTime(2020, 1, 25, 5, 0, 0),
+                Type = ExecutionType.Recurring,
+                Occurs = OccursType.Monthly,
+                MonthlyConf = MonthlyConfType.The,
+                OrderDay = Occurrency.Last,
+                OccursDay = DayOccurrency.Saturday,
+                Frequency = 3,
+                StartDate = new DateTime(2020, 1, 1),
+                OccursEvery = 2,
+                StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
+                EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
+            };
+
+            var informations = scheduler.CalculateNextExecution(1);
+
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 25, 5, 0, 0));
+        }
+
+        [Fact]
+        public void Calculate_Recurring_Execution_One_Time_Monthly_The_Last_Saturday_Same_Month_High_Hour()
+        {
+            SchedulerConfiguration scheduler = new()
+            {
+                CurrentDate = new DateTime(2020, 1, 25, 9, 0, 0),
+                Type = ExecutionType.Recurring,
+                Occurs = OccursType.Monthly,
+                MonthlyConf = MonthlyConfType.The,
+                OrderDay = Occurrency.Last,
+                OccursDay = DayOccurrency.Saturday,
+                Frequency = 3,
+                StartDate = new DateTime(2020, 1, 1),
+                OccursEvery = 2,
+                StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
+                EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
+            };
+
+            var informations = scheduler.CalculateNextExecution(1);
+
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 29, 4, 0, 0));
+        }
+
+        [Fact]
+        public void Calculate_Recurring_Execution_Three_Time_Monthly_The_Last_Saturday_Between_Starting_Ending()
+        {
+            SchedulerConfiguration scheduler = new()
+            {
+                CurrentDate = new DateTime(2020, 1, 25, 5, 0, 0),
+                Type = ExecutionType.Recurring,
+                Occurs = OccursType.Monthly,
+                MonthlyConf = MonthlyConfType.The,
+                OrderDay = Occurrency.Last,
+                OccursDay = DayOccurrency.Saturday,
+                Frequency = 3,
+                StartDate = new DateTime(2020, 1, 1),
+                OccursEvery = 2,
+                StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
+                EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
+            };
+
+            var informations = scheduler.CalculateNextExecution(3);
+
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 25, 5, 0, 0));
+            informations[1].NextExecutionTime.Should().Be(new DateTime(2020, 1, 25, 7, 0, 0));
+            informations[2].NextExecutionTime.Should().Be(new DateTime(2020, 4, 25, 4, 0, 0));
+        }
+
+        [Fact]
+        public void Calculate_Recurring_Execution_One_Time_Monthly_The_Last_Saturday_Same_Month_Other_Month()
+        {
+            SchedulerConfiguration scheduler = new()
+            {
+                CurrentDate = new DateTime(2020, 1, 26, 0, 0, 0),
+                Type = ExecutionType.Recurring,
+                Occurs = OccursType.Monthly,
+                MonthlyConf = MonthlyConfType.The,
+                OrderDay = Occurrency.Last,
+                OccursDay = DayOccurrency.Saturday,
+                Frequency = 3,
+                StartDate = new DateTime(2020, 1, 1),
+                OccursEvery = 2,
+                StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
+                EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
+            };
+
+            var informations = scheduler.CalculateNextExecution(1);
+
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 29, 4, 0, 0));
+        }
+
+        [Fact]
+        public void Calculate_Recurring_Execution_One_Time_Monthly_The_Last_Saturday_Same_Month_Same_Day()
+        {
+            SchedulerConfiguration scheduler = new()
+            {
+                CurrentDate = new DateTime(2020, 1, 25, 0, 0, 0),
+                Type = ExecutionType.Recurring,
+                Occurs = OccursType.Monthly,
+                MonthlyConf = MonthlyConfType.The,
+                OrderDay = Occurrency.Last,
+                OccursDay = DayOccurrency.Saturday,
+                Frequency = 3,
+                StartDate = new DateTime(2020, 1, 1),
+                OccursEvery = 2,
+                StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
+                EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
+            };
+
+            var informations = scheduler.CalculateNextExecution(1);
+
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 25, 4, 0, 0));
+        }
+
+        [Fact]
+        public void Calculate_Recurring_Execution_Four_Times_Monthly_The_Last_Saturday()
+        {
+            SchedulerConfiguration scheduler = new()
+            {
+                CurrentDate = new DateTime(2020, 1, 25, 0, 0, 0),
+                Type = ExecutionType.Recurring,
+                Occurs = OccursType.Monthly,
+                MonthlyConf = MonthlyConfType.The,
+                OrderDay = Occurrency.Last,
+                OccursDay = DayOccurrency.Saturday,
+                Frequency = 3,
+                StartDate = new DateTime(2020, 1, 1),
+                OccursEvery = 2,
+                StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
+                EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
+            };
+
+            var informations = scheduler.CalculateNextExecution(4);
+
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 25, 4, 0, 0));
+            informations[1].NextExecutionTime.Should().Be(new DateTime(2020, 1, 25, 6, 0, 0));
+            informations[2].NextExecutionTime.Should().Be(new DateTime(2020, 1, 25, 8, 0, 0));
+            informations[3].NextExecutionTime.Should().Be(new DateTime(2020, 4, 25, 4, 0, 0));
+        }
+
+        [Fact]
         public void Calculate_Recurring_Execution_One_Time_Monthly_The_First_Sunday_Same_Month()
         {
             SchedulerConfiguration scheduler = new()
@@ -1062,7 +1228,7 @@ namespace SchedulerTest
         {
             SchedulerConfiguration scheduler = new()
             {
-                CurrentDate = new DateTime(2020, 1, 1, 0, 0, 0),
+                CurrentDate = new DateTime(2020, 5, 1, 0, 0, 0),
                 Type = ExecutionType.Recurring,
                 Occurs = OccursType.Monthly,
                 MonthlyConf = MonthlyConfType.The,
@@ -1077,10 +1243,36 @@ namespace SchedulerTest
 
             var informations = scheduler.CalculateNextExecution(4);
 
-            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 1, 4, 0, 0));
-            informations[1].NextExecutionTime.Should().Be(new DateTime(2020, 1, 1, 6, 0, 0));
-            informations[2].NextExecutionTime.Should().Be(new DateTime(2020, 1, 1, 8, 0, 0));
-            informations[3].NextExecutionTime.Should().Be(new DateTime(2020, 2, 3, 4, 0, 0));
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 5, 1, 4, 0, 0));
+            informations[1].NextExecutionTime.Should().Be(new DateTime(2020, 5, 1, 6, 0, 0));
+            informations[2].NextExecutionTime.Should().Be(new DateTime(2020, 5, 1, 8, 0, 0));
+            informations[3].NextExecutionTime.Should().Be(new DateTime(2020, 8, 3, 4, 0, 0));
+        }
+
+        [Fact]
+        public void Calculate_Recurring_Execution_Four_Times_Monthly_The_Last_WeekDay()
+        {
+            SchedulerConfiguration scheduler = new()
+            {
+                CurrentDate = new DateTime(2020, 2, 1, 0, 0, 0),
+                Type = ExecutionType.Recurring,
+                Occurs = OccursType.Monthly,
+                MonthlyConf = MonthlyConfType.The,
+                OrderDay = Occurrency.Last,
+                OccursDay = DayOccurrency.weekday,
+                Frequency = 3,
+                StartDate = new DateTime(2020, 1, 1),
+                OccursEvery = 2,
+                StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
+                EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
+            };
+
+            var informations = scheduler.CalculateNextExecution(4);
+
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 28, 4, 0, 0));
+            informations[1].NextExecutionTime.Should().Be(new DateTime(2020, 2, 28, 6, 0, 0));
+            informations[2].NextExecutionTime.Should().Be(new DateTime(2020, 2, 28, 8, 0, 0));
+            informations[3].NextExecutionTime.Should().Be(new DateTime(2020, 5, 29, 4, 0, 0));
         }
 
         [Fact]
@@ -1180,7 +1372,7 @@ namespace SchedulerTest
         {
             SchedulerConfiguration scheduler = new()
             {
-                CurrentDate = new DateTime(2020, 1, 1, 9, 0, 0),
+                CurrentDate = new DateTime(2020, 1, 31, 9, 0, 0),
                 Type = ExecutionType.Recurring,
                 Occurs = OccursType.Monthly,
                 MonthlyConf = MonthlyConfType.The,
@@ -1198,7 +1390,57 @@ namespace SchedulerTest
             informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 1, 4, 0, 0));
             informations[1].NextExecutionTime.Should().Be(new DateTime(2020, 2, 1, 6, 0, 0));
             informations[2].NextExecutionTime.Should().Be(new DateTime(2020, 2, 1, 8, 0, 0));
-            informations[3].NextExecutionTime.Should().Be(new DateTime(2020, 3, 1, 4, 0, 0));
+            informations[3].NextExecutionTime.Should().Be(new DateTime(2020, 5, 1, 4, 0, 0));
+        }
+
+        [Fact]
+        public void Calculate_Recurring_Execution_Four_Times_Monthly_The_Last_Day()
+        {
+            SchedulerConfiguration scheduler = new()
+            {
+                CurrentDate = new DateTime(2020, 1, 31, 9, 0, 0),
+                Type = ExecutionType.Recurring,
+                Occurs = OccursType.Monthly,
+                MonthlyConf = MonthlyConfType.The,
+                OrderDay = Occurrency.Last,
+                OccursDay = DayOccurrency.day,
+                Frequency = 3,
+                StartDate = new DateTime(2020, 1, 1),
+                OccursEvery = 2,
+                StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
+                EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
+            };
+
+            var informations = scheduler.CalculateNextExecution(4);
+
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 29, 4, 0, 0));
+            informations[1].NextExecutionTime.Should().Be(new DateTime(2020, 2, 29, 6, 0, 0));
+            informations[2].NextExecutionTime.Should().Be(new DateTime(2020, 2, 29, 8, 0, 0));
+            informations[3].NextExecutionTime.Should().Be(new DateTime(2020, 5, 31, 4, 0, 0));
+        }
+
+        [Fact]
+        public void Calculate_Recurring_Execution_One_Times_Monthly_The_First_Day_One_Hour()
+        {
+            SchedulerConfiguration scheduler = new()
+            {
+                CurrentDate = new DateTime(2020, 1, 1, 9, 0, 0),
+                Type = ExecutionType.Recurring,
+                Occurs = OccursType.Monthly,
+                MonthlyConf = MonthlyConfType.The,
+                OrderDay = Occurrency.First,
+                OccursDay = DayOccurrency.day,
+                Frequency = 3,
+                StartDate = new DateTime(2020, 1, 1),
+                OccursEvery = 1,
+                StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
+                EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
+            };
+
+            var informations = scheduler.CalculateNextExecution(1);
+
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 1, 4, 0, 0));
+            informations[0].Description.Should().Be("Occurs the first day of every 3 months every 1 hour between 4:00 and 8:00 starting on 01/01/2020");
         }
 
         [Fact]
@@ -1225,6 +1467,55 @@ namespace SchedulerTest
         }
 
         [Fact]
+        public void Calculate_Recurring_Execution_One_Time_Monthly_The_Last_Weekend_Day_Same_Month_()
+        {
+            SchedulerConfiguration scheduler = new()
+            {
+                CurrentDate = new DateTime(2020, 2, 29, 9, 0, 0),
+                Type = ExecutionType.Recurring,
+                Occurs = OccursType.Monthly,
+                MonthlyConf = MonthlyConfType.The,
+                OrderDay = Occurrency.Last,
+                OccursDay = DayOccurrency.weekend_day,
+                Frequency = 3,
+                StartDate = new DateTime(2020, 1, 1),
+                OccursEvery = 2,
+                StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
+                EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
+            };
+
+            var informations = scheduler.CalculateNextExecution(1);
+
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 3, 29, 4, 0, 0));
+        }
+
+        [Fact]
+        public void Calculate_Recurring_Execution_Four_Times_Monthly_The_Last_Weekend_Day()
+        {
+            SchedulerConfiguration scheduler = new()
+            {
+                CurrentDate = new DateTime(2020, 2, 29, 9, 0, 0),
+                Type = ExecutionType.Recurring,
+                Occurs = OccursType.Monthly,
+                MonthlyConf = MonthlyConfType.The,
+                OrderDay = Occurrency.Last,
+                OccursDay = DayOccurrency.weekend_day,
+                Frequency = 3,
+                StartDate = new DateTime(2020, 1, 1),
+                OccursEvery = 2,
+                StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
+                EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
+            };
+
+            var informations = scheduler.CalculateNextExecution(4);
+
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 3, 29, 4, 0, 0));
+            informations[1].NextExecutionTime.Should().Be(new DateTime(2020, 3, 29, 6, 0, 0));
+            informations[2].NextExecutionTime.Should().Be(new DateTime(2020, 3, 29, 8, 0, 0));
+            informations[3].NextExecutionTime.Should().Be(new DateTime(2020, 6, 28, 4, 0, 0));
+        }
+
+        [Fact]
         public void Calculate_Recurring_Execution_Four_Times_Monthly_The_First_Weekend_Day()
         {
             SchedulerConfiguration scheduler = new()
@@ -1247,8 +1538,11 @@ namespace SchedulerTest
             informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 3, 1, 4, 0, 0));
             informations[0].Description.Should().Be("Occurs the first weekend_day of every 3 months every 2 hours between 4:00 and 8:00 starting on 01/01/2020");
             informations[1].NextExecutionTime.Should().Be(new DateTime(2020, 3, 1, 6, 0, 0));
+            informations[1].Description.Should().Be("Occurs the first weekend_day of every 3 months every 2 hours between 4:00 and 8:00 starting on 01/01/2020");
             informations[2].NextExecutionTime.Should().Be(new DateTime(2020, 3, 1, 8, 0, 0));
-            informations[3].NextExecutionTime.Should().Be(new DateTime(2020, 4, 4, 4, 0, 0));
+            informations[2].Description.Should().Be("Occurs the first weekend_day of every 3 months every 2 hours between 4:00 and 8:00 starting on 01/01/2020");
+            informations[3].NextExecutionTime.Should().Be(new DateTime(2020, 6, 6, 4, 0, 0));
+            informations[3].Description.Should().Be("Occurs the first weekend_day of every 3 months every 2 hours between 4:00 and 8:00 starting on 01/01/2020");
         }
 
         [Fact]
@@ -1295,6 +1589,29 @@ namespace SchedulerTest
             var informations = scheduler.CalculateNextExecution(1);
 
             informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 3, 4, 0, 0));
+        }
+
+        [Fact]
+        public void Calculate_Recurring_Execution_One_Time_Monthly_The_Last_Monday_Other_Month()
+        {
+            SchedulerConfiguration scheduler = new()
+            {
+                CurrentDate = new DateTime(2020, 1, 31, 0, 0, 0),
+                Type = ExecutionType.Recurring,
+                Occurs = OccursType.Monthly,
+                MonthlyConf = MonthlyConfType.The,
+                OrderDay = Occurrency.Last,
+                OccursDay = DayOccurrency.Monday,
+                Frequency = 3,
+                StartDate = new DateTime(2020, 1, 1),
+                OccursEvery = 2,
+                StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
+                EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
+            };
+
+            var informations = scheduler.CalculateNextExecution(1);
+
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 24, 4, 0, 0));
         }
 
         [Fact]
@@ -1711,6 +2028,29 @@ namespace SchedulerTest
         }
 
         [Fact]
+        public void Calculate_Recurring_Execution_One_Time_Monthly_The_Last_WeekDay_Same_Month()
+        {
+            SchedulerConfiguration scheduler = new()
+            {
+                CurrentDate = new DateTime(2020, 2, 1, 0, 0, 0),
+                Type = ExecutionType.Recurring,
+                Occurs = OccursType.Monthly,
+                MonthlyConf = MonthlyConfType.The,
+                OrderDay = Occurrency.Last,
+                OccursDay = DayOccurrency.weekday,
+                Frequency = 3,
+                StartDate = new DateTime(2020, 1, 1),
+                OccursEvery = 2,
+                StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
+                EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
+            };
+
+            var informations = scheduler.CalculateNextExecution(1);
+
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 28, 4, 0, 0));
+        }
+
+        [Fact]
         public void Calculate_Recurring_Execution_One_Time_Monthly_The_Second_Day_Same_Month_Day_One()
         {
             SchedulerConfiguration scheduler = new()
@@ -1731,6 +2071,52 @@ namespace SchedulerTest
             var informations = scheduler.CalculateNextExecution(1);
 
             informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 2, 4, 0, 0));
+        }
+
+        [Fact]
+        public void Calculate_Recurring_Execution_One_Time_Monthly_The_Last_Day_Same_Month()
+        {
+            SchedulerConfiguration scheduler = new()
+            {
+                CurrentDate = new DateTime(2020, 1, 1, 0, 0, 0),
+                Type = ExecutionType.Recurring,
+                Occurs = OccursType.Monthly,
+                MonthlyConf = MonthlyConfType.The,
+                OrderDay = Occurrency.Last,
+                OccursDay = DayOccurrency.day,
+                Frequency = 3,
+                StartDate = new DateTime(2020, 1, 1),
+                OccursEvery = 2,
+                StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
+                EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
+            };
+
+            var informations = scheduler.CalculateNextExecution(1);
+
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 31, 4, 0, 0));
+        }
+
+        [Fact]
+        public void Calculate_Recurring_Execution_One_Time_Monthly_The_Last_Day_Same_Month_Other_Month()
+        {
+            SchedulerConfiguration scheduler = new()
+            {
+                CurrentDate = new DateTime(2020, 1, 31, 8, 0, 0),
+                Type = ExecutionType.Recurring,
+                Occurs = OccursType.Monthly,
+                MonthlyConf = MonthlyConfType.The,
+                OrderDay = Occurrency.Last,
+                OccursDay = DayOccurrency.day,
+                Frequency = 3,
+                StartDate = new DateTime(2020, 1, 1),
+                OccursEvery = 2,
+                StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
+                EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
+            };
+
+            var informations = scheduler.CalculateNextExecution(1);
+
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 29, 4, 0, 0));
         }
 
         [Fact]
@@ -1963,6 +2349,29 @@ namespace SchedulerTest
         }
 
         [Fact]
+        public void Calculate_Recurring_Execution_One_Time_Monthly_The_Last_WeekDay_Other_Month()
+        {
+            SchedulerConfiguration scheduler = new()
+            {
+                CurrentDate = new DateTime(2020, 1, 31, 9, 0, 0),
+                Type = ExecutionType.Recurring,
+                Occurs = OccursType.Monthly,
+                MonthlyConf = MonthlyConfType.The,
+                OrderDay = Occurrency.Last,
+                OccursDay = DayOccurrency.weekday,
+                Frequency = 3,
+                StartDate = new DateTime(2020, 1, 1),
+                OccursEvery = 2,
+                StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
+                EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
+            };
+
+            var informations = scheduler.CalculateNextExecution(1);
+
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 28, 4, 0, 0));
+        }
+
+        [Fact]
         public void Calculate_Recurring_Execution_One_Time_Monthly_The_Second_Day_Other_Month()
         {
             SchedulerConfiguration scheduler = new()
@@ -2147,6 +2556,60 @@ namespace SchedulerTest
             informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 16, 4, 0, 0));
             informations[1].NextExecutionTime.Should().Be(new DateTime(2020, 1, 16, 6, 0, 0));
             informations[2].NextExecutionTime.Should().Be(new DateTime(2020, 1, 16, 8, 0, 0));
+            informations[3].NextExecutionTime.Should().Be(new DateTime(2020, 4, 16, 4, 0, 0));
+        }
+
+        [Fact]
+        public void Calculate_Recurring_Execution_Four_Times_Monthly_The_Third_Thursday_Every_30Min()
+        {
+            SchedulerConfiguration scheduler = new()
+            {
+                CurrentDate = new DateTime(2020, 1, 1, 0, 0, 0),
+                Type = ExecutionType.Recurring,
+                Occurs = OccursType.Monthly,
+                MonthlyConf = MonthlyConfType.The,
+                OrderDay = Occurrency.Third,
+                OccursDay = DayOccurrency.Thursday,
+                Frequency = 3,
+                StartDate = new DateTime(2020, 1, 1),
+                OccursEvery = 30,
+                UnitTime = UnitTime.Minutes,
+                StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
+                EndingAt = new DateTime(2020, 1, 1, 5, 0, 0)
+            };
+
+            var informations = scheduler.CalculateNextExecution(4);
+
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 16, 4, 0, 0));
+            informations[1].NextExecutionTime.Should().Be(new DateTime(2020, 1, 16, 4, 30, 0));
+            informations[2].NextExecutionTime.Should().Be(new DateTime(2020, 1, 16, 5, 0, 0));
+            informations[3].NextExecutionTime.Should().Be(new DateTime(2020, 4, 16, 4, 0, 0));
+        }
+
+        [Fact]
+        public void Calculate_Recurring_Execution_Four_Times_Monthly_The_Third_Thursday_Every_30Seg()
+        {
+            SchedulerConfiguration scheduler = new()
+            {
+                CurrentDate = new DateTime(2020, 1, 1, 0, 0, 0),
+                Type = ExecutionType.Recurring,
+                Occurs = OccursType.Monthly,
+                MonthlyConf = MonthlyConfType.The,
+                OrderDay = Occurrency.Third,
+                OccursDay = DayOccurrency.Thursday,
+                Frequency = 3,
+                StartDate = new DateTime(2020, 1, 1),
+                OccursEvery = 30,
+                UnitTime = UnitTime.Seconds,
+                StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
+                EndingAt = new DateTime(2020, 1, 1, 4, 1, 0)
+            };
+
+            var informations = scheduler.CalculateNextExecution(4);
+
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 16, 4, 0, 0));
+            informations[1].NextExecutionTime.Should().Be(new DateTime(2020, 1, 16, 4, 0, 30));
+            informations[2].NextExecutionTime.Should().Be(new DateTime(2020, 1, 16, 4, 1, 0));
             informations[3].NextExecutionTime.Should().Be(new DateTime(2020, 4, 16, 4, 0, 0));
         }
 
@@ -2600,5 +3063,30 @@ namespace SchedulerTest
 
             scheduler.Invoking(x => x.CalculateNextExecution(1)).Should().Throw<Exception>().WithMessage("Selecciona algun dia de la semana");
         }
+
+        [Fact]
+        public void Calculate_Recurring_Execution_Exception_888()
+        {
+            SchedulerConfiguration scheduler = new()
+            {
+                CurrentDate = new DateTime(2022, 4, 1, 9, 30, 0),
+                Type = ExecutionType.Recurring,
+                Occurs = OccursType.Monthly,
+                MonthlyConf = MonthlyConfType.The,
+                OrderDay = Occurrency.Forth,
+                OccursDay = DayOccurrency.Thursday,
+                StartDate = new DateTime(2022, 4, 1),
+                Frequency = 5,
+                UnitTime = UnitTime.Minutes,
+                OccursEvery = 10,
+                StartingAt = new DateTime(2020, 1, 1, 12, 0, 0),
+                EndingAt = new DateTime(2020, 1, 1, 12, 30, 0)
+            };
+
+            var a = scheduler.CalculateNextExecution(30);
+
+            
+        }
+
     }
 }

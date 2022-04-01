@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DateTimeExtensions.cs" />
     <Compile Include="SchedulerInfo.cs" />
     <Compile Include="DescriptionManager.cs" />
     <Compile Include="Program.cs" />
