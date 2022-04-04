@@ -3027,7 +3027,7 @@ namespace SchedulerTest
         }
 
         [Fact]
-        public void CalculateRecurringExecutionExceptionFecha()
+        public void CalculateRecurringExecutionExceptionDateTooHigh()
         {
             SchedulerConfiguration scheduler = new()
             {
@@ -3042,7 +3042,7 @@ namespace SchedulerTest
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
 
-            scheduler.Invoking(x => x.CalculateNextExecution(1)).Should().Throw<Exception>().WithMessage("La fecha introducida es demasiado grande");
+            scheduler.Invoking(x => x.CalculateNextExecution(1)).Should().Throw<SchedulerException>().WithMessage("Date introduced is too high");
         }
 
         [Fact]
@@ -3061,7 +3061,7 @@ namespace SchedulerTest
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
 
-            scheduler.Invoking(x => x.CalculateNextExecution(1)).Should().Throw<Exception>().WithMessage("Selecciona algun dia de la semana");
+            scheduler.Invoking(x => x.CalculateNextExecution(1)).Should().Throw<Exception>().WithMessage("Select at least one day of week");
         }
 
         [Fact]

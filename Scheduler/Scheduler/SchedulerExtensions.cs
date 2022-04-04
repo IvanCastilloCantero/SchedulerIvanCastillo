@@ -17,9 +17,9 @@ namespace Scheduler
         {
             DateTime nextExecutionTime = new DateTime();
             IEnumerable<SchedulerInfo> informations = new List<SchedulerInfo>();
-            for (int orden = 0; orden < times; orden++)
+            for (int order = 0; order < times; order++)
             {
-                nextExecutionTime = CalculateNextExecutionCheckType(scheduler, orden, nextExecutionTime);
+                nextExecutionTime = CalculateNextExecutionCheckType(scheduler, order, nextExecutionTime);
                 string description = DescriptionManager.CalculateDescription(scheduler, nextExecutionTime);
                 SchedulerInfo information = new SchedulerInfo(nextExecutionTime, description);
 
@@ -48,19 +48,19 @@ namespace Scheduler
             return scheduler.DateTime;
         }
 
-        private static DateTime CalculateRecurringExecution(SchedulerConfiguration scheduler, int ordna, DateTime nextExecutionTime)
+        private static DateTime CalculateRecurringExecution(SchedulerConfiguration scheduler, int ordna, DateTime previousExecutionTime)
         {
             ValidateFields(scheduler);
             return scheduler.Occurs == OccursType.Weekly
-                ? CalculateRecurringWeekly(scheduler, nextExecutionTime, ordna)
-                : CalculateRecurringMonthly(scheduler, nextExecutionTime, ordna);
+                ? CalculateRecurringWeekly(scheduler, previousExecutionTime, ordna)
+                : CalculateRecurringMonthly(scheduler, previousExecutionTime, ordna);
         }
 
-        private static DateTime CalculateRecurringMonthly(SchedulerConfiguration scheduler, DateTime nextExecutionTime, int orden)
+        private static DateTime CalculateRecurringMonthly(SchedulerConfiguration scheduler, DateTime previousExecutionTime, int orden)
         {
             return orden == 0 
                 ? CalculateRecurringFirstMonthly(scheduler) 
-                : CalculateRecurringMoreMonthly(scheduler, nextExecutionTime);
+                : CalculateRecurringMoreMonthly(scheduler, previousExecutionTime);
         }
 
         private static DateTime CalculateRecurringFirstMonthly(SchedulerConfiguration scheduler)
@@ -73,205 +73,154 @@ namespace Scheduler
         private static DateTime CalculateRecurringFirstMonthlyDay(SchedulerConfiguration scheduler)
         {
             var nextExecutionTime = new DateTime(scheduler.CurrentDate.Year, scheduler.CurrentDate.Month, scheduler.Day, scheduler.StartingAt.Hour, scheduler.StartingAt.Minute, scheduler.StartingAt.Second);
-            if (scheduler.CurrentDate.Day > (int)scheduler.OrderDay + 1)
-            {
-                nextExecutionTime = nextExecutionTime.AddMonths(1);
-            }
-            return nextExecutionTime;
+            return scheduler.CurrentDate.Day > ((int)scheduler.OrderDay + 1)
+                ? nextExecutionTime.AddMonths(1)
+                : nextExecutionTime;
         }
 
         private static DateTime CalculateRecurringFirstMonthlyThe(SchedulerConfiguration scheduler)
         {
-            DateTime nextExecutionTime;
-            if (scheduler.CurrentDate.Day < (7 * ((int)scheduler.OrderDay + 1)))
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheSameMonth(scheduler);
-            }
-            else
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheOtherMonth(scheduler);
-            }
-            return nextExecutionTime;
+            return scheduler.CurrentDate.Day < (7 * ((int)scheduler.OrderDay + 1))
+                ? CalculateRecurringFirstMonthlyTheSameMonth(scheduler)
+                : CalculateRecurringFirstMonthlyTheOtherMonth(scheduler);
         }
 
         private static DateTime CalculateRecurringFirstMonthlyTheSameMonth(SchedulerConfiguration scheduler)
         {
-            DateTime nextExecutionTime;
-            if ((int)scheduler.OccursDay < 7)
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheSameMonthEspecificDay(scheduler);
-            }
-            else
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheSameMonthNotEspecificDay(scheduler);
-            }
-            return nextExecutionTime;
+            return (int)scheduler.OccursDay < 7
+                ? CalculateRecurringFirstMonthlyTheSameMonthEspecificDay(scheduler)
+                : CalculateRecurringFirstMonthlyTheSameMonthNotEspecificDay(scheduler);
         }
 
         private static DateTime CalculateRecurringFirstMonthlyTheSameMonthNotEspecificDay(SchedulerConfiguration scheduler)
         {
             DateTime nextExecutionTime;
-            if (scheduler.OccursDay == DayOccurrency.day)
+            switch (scheduler.OccursDay)
             {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheSameMonthDay(scheduler);
-            }
-            else if (scheduler.OccursDay == DayOccurrency.weekday)
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheSameMonthWeekDay(scheduler);
-            }
-            else
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheSameMonthWeekendDay(scheduler);
+                case DayOccurrency.day:
+                    nextExecutionTime = CalculateRecurringFirstMonthlyTheSameMonthDay(scheduler);
+                    break;
+                case DayOccurrency.weekday:
+                    nextExecutionTime = CalculateRecurringFirstMonthlyTheSameMonthWeekDay(scheduler);
+                    break;
+                default:
+                    nextExecutionTime = CalculateRecurringFirstMonthlyTheSameMonthWeekendDay(scheduler);
+                    break;
             }
             return nextExecutionTime;
         }
 
         private static DateTime CalculateRecurringFirstMonthlyTheSameMonthDay(SchedulerConfiguration scheduler)
         {
-            DateTime nextExecutionTime;
-            if (scheduler.OrderDay != Occurrency.Last)
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheSameMonthDayNotLast(scheduler);
-            }
-            else
-            {
-                nextExecutionTime = CalculateRecurringFirstMontlhyTheSameMonthDayLast(scheduler);
-            }
-            return nextExecutionTime;
+            return scheduler.OrderDay != Occurrency.Last
+                ? CalculateRecurringFirstMonthlyTheSameMonthDayNotLast(scheduler)
+                : CalculateRecurringFirstMontlhyTheSameMonthDayLast(scheduler);
         }
 
         private static DateTime CalculateRecurringFirstMonthlyTheSameMonthDayNotLast(SchedulerConfiguration scheduler)
         {
-            DateTime nextExecutionTime = scheduler.CurrentDate;
-            if (nextExecutionTime.Day < (int)scheduler.OrderDay + 1)
-            {
-                var dayDifference = (int)scheduler.OrderDay + 1 - nextExecutionTime.Day;
-                nextExecutionTime = new DateTime(nextExecutionTime.Year, nextExecutionTime.Month, nextExecutionTime.AddDays(dayDifference).Day, scheduler.StartingAt.Hour, scheduler.StartingAt.Minute, scheduler.StartingAt.Second);
-            }
-            else if (nextExecutionTime.Day == (int)scheduler.OrderDay + 1)
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheSameMonthDayCheckStart(scheduler, nextExecutionTime);
-            }
-            else
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheOtherMonthDay(scheduler);
-            }
-            return nextExecutionTime;
+            var dayDifference = (int)scheduler.OrderDay + 1 - nextExecutionTime.Day;
+            return scheduler.CurrentDate.Day < ((int)scheduler.OrderDay + 1)
+                ? new DateTime(nextExecutionTime.Year, nextExecutionTime.Month, nextExecutionTime.AddDays(dayDifference).Day, scheduler.StartingAt.Hour, scheduler.StartingAt.Minute, scheduler.StartingAt.Second)
+                : CalculateRecurringFirstMonthlyTheSameMonthDayNotLastSameDay(scheduler);
+        }
+
+        private static DateTime CalculateRecurringFirstMonthlyTheSameMonthDayNotLastSameDay(SchedulerConfiguration scheduler)
+        {
+            return scheduler.CurrentDate.Day == ((int)scheduler.OrderDay + 1)
+                ? CalculateRecurringFirstMonthlyTheSameMonthDayCheckStart(scheduler)
+                : CalculateRecurringFirstMonthlyTheOtherMonthDay(scheduler);
         }
 
         private static DateTime CalculateRecurringFirstMontlhyTheSameMonthDayLast(SchedulerConfiguration scheduler)
         {
-            DateTime nextExecutionTime = scheduler.CurrentDate;
-            if (nextExecutionTime < nextExecutionTime.LastDayOfTheMonth())
-            {
-                nextExecutionTime = new DateTime(nextExecutionTime.LastDayOfTheMonth().Year, nextExecutionTime.LastDayOfTheMonth().Month, nextExecutionTime.LastDayOfTheMonth().Day, scheduler.StartingAt.Hour, scheduler.StartingAt.Minute, scheduler.StartingAt.Second);
-            }
-            else
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheSameMonthDayCheckStart(scheduler, nextExecutionTime);
-            }
-            return nextExecutionTime;
+            return scheduler.CurrentDate < scheduler.CurrentDate.LastDayOfTheMonth()
+                ? new DateTime(scheduler.CurrentDate.LastDayOfTheMonth().Year, scheduler.CurrentDate.LastDayOfTheMonth().Month, scheduler.CurrentDate.LastDayOfTheMonth().Day, scheduler.StartingAt.Hour, scheduler.StartingAt.Minute, scheduler.StartingAt.Second)
+                : CalculateRecurringFirstMonthlyTheSameMonthDayCheckStart(scheduler);
         }
 
-        private static DateTime CalculateRecurringFirstMonthlyTheSameMonthDayCheckStart(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
+        private static DateTime CalculateRecurringFirstMonthlyTheSameMonthDayCheckStart(SchedulerConfiguration scheduler)
         {
-            if (nextExecutionTime.Hour <= scheduler.StartingAt.Hour)
-            {
-                nextExecutionTime = new DateTime(nextExecutionTime.Year, nextExecutionTime.Month, nextExecutionTime.Day, scheduler.StartingAt.Hour, scheduler.StartingAt.Minute, scheduler.StartingAt.Second);
-            }
-            else if (nextExecutionTime.Hour >= scheduler.EndingAt.Hour)
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheOtherMonthDay(scheduler);
-            }
-            return nextExecutionTime;
+            return scheduler.CurrentDate.TimeOfDay <= scheduler.StartingAt.TimeOfDay
+                ? new DateTime(scheduler.CurrentDate.Year, scheduler.CurrentDate.Month, scheduler.CurrentDate.Day, scheduler.StartingAt.Hour, scheduler.StartingAt.Minute, scheduler.StartingAt.Second)
+                : CalculateRecurringFirstMonthlyTheSameMonthDayCheckStartHourHigherStartingDate(scheduler);
+        }
+
+        private static DateTime CalculateRecurringFirstMonthlyTheSameMonthDayCheckStartHourHigherStartingDate(SchedulerConfiguration scheduler)
+        {
+            return scheduler.CurrentDate.TimeOfDay >= scheduler.EndingAt.TimeOfDay
+                ? CalculateRecurringFirstMonthlyTheOtherMonthDay(scheduler)
+                : scheduler.CurrentDate;
         }
 
         private static DateTime CalculateRecurringFirstMonthlyTheSameMonthWeekDay(SchedulerConfiguration scheduler)
         {
-            DateTime weekDay = new DateTime(scheduler.CurrentDate.Year, scheduler.CurrentDate.Month, 1);
-            if (scheduler.OrderDay != Occurrency.Last)
-            {
-                weekDay = CalculateRecurringFirstMonthlyTheSameMonthWeekDayNotLast(scheduler, weekDay);
-            } 
-            else
-            {
-                weekDay = CalculateRecurringFirstMonthlyTheSameMonthWeekDayLast(weekDay);
-            }
-            DateTime nextExecutionTime = CalculateRecurringFirstMonthlyTheSameMonthWeekDayCheck(scheduler, weekDay);
-            return nextExecutionTime;
+            return scheduler.OrderDay != Occurrency.Last
+                ? CalculateRecurringFirstMonthlyTheSameMonthWeekDayNotLast(scheduler)
+                : CalculateRecurringFirstMonthlyTheSameMonthWeekDayLast(scheduler);
         }
 
-        private static DateTime CalculateRecurringFirstMonthlyTheSameMonthWeekDayLast(DateTime weekDay)
+        private static DateTime CalculateRecurringFirstMonthlyTheSameMonthWeekDayLast(SchedulerConfiguration scheduler)
         {
-            weekDay = weekDay.LastDayOfTheMonth();
+            var weekDay = new DateTime(scheduler.CurrentDate.Year, scheduler.CurrentDate.Month, 1).LastDayOfTheMonth();
             while (weekDay.DayOfWeek == DayOfWeek.Saturday | weekDay.DayOfWeek == DayOfWeek.Sunday)
             {
                 weekDay = weekDay.AddDays(-1);
             }
-            return weekDay;
+            return CalculateRecurringFirstMonthlyTheSameMonthWeekDayCheck(scheduler, weekDay);
         }
 
-        private static DateTime CalculateRecurringFirstMonthlyTheSameMonthWeekDayNotLast(SchedulerConfiguration scheduler, DateTime weekDay)
+        private static DateTime CalculateRecurringFirstMonthlyTheSameMonthWeekDayNotLast(SchedulerConfiguration scheduler)
         {
-            weekDay = weekDay.AddDays(7 * (int)scheduler.OrderDay);
+            var weekDay = new DateTime(scheduler.CurrentDate.Year, scheduler.CurrentDate.Month, 1).AddDays(7 * (int)scheduler.OrderDay);
             while (weekDay.DayOfWeek == DayOfWeek.Saturday | weekDay.DayOfWeek == DayOfWeek.Sunday)
             {
                 weekDay = weekDay.AddDays(1);
             }
-            return weekDay;
+            return CalculateRecurringFirstMonthlyTheSameMonthWeekDayCheck(scheduler, weekDay);
         }
 
         private static DateTime CalculateRecurringFirstMonthlyTheSameMonthWeekDayCheck(SchedulerConfiguration scheduler, DateTime weekDay)
         {
-            DateTime nextExecutionTime = scheduler.CurrentDate;
-            if (weekDay.Day > nextExecutionTime.Day)
-            {
-                nextExecutionTime = weekDay;
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheSameMonthWeekDayCheckStart(scheduler, nextExecutionTime);
-            }
-            else if (weekDay.Day == nextExecutionTime.Day)
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheSameMonthWeekDayCheckStart(scheduler, nextExecutionTime);
-            }
-            else
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheOtherMonthWeekDay(scheduler);
-            }
-            return nextExecutionTime;
+            return weekDay.Day > scheduler.CurrentDate.Day
+                ? CalculateRecurringFirstMonthlyTheSameMonthWeekDayCheckStart(scheduler, weekDay)
+                : CalculateRecurringFirstMonthlyTheSameMonthWeekDayCheckSameDay(scheduler, weekDay);
         }
 
-        private static DateTime CalculateRecurringFirstMonthlyTheSameMonthWeekDayCheckStart(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
+        private static DateTime CalculateRecurringFirstMonthlyTheSameMonthWeekDayCheckSameDay(SchedulerConfiguration scheduler, DateTime weekDay)
         {
-            if (nextExecutionTime.Hour <= scheduler.StartingAt.Hour)
-            {
-                nextExecutionTime = new DateTime(nextExecutionTime.Year, nextExecutionTime.Month, nextExecutionTime.Day, scheduler.StartingAt.Hour, scheduler.StartingAt.Minute, scheduler.StartingAt.Second);
-            }
-            else if (nextExecutionTime.Hour >= scheduler.EndingAt.Hour)
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheOtherMonthWeekDay(scheduler);
-            }
-            return nextExecutionTime;
+            return weekDay.Day == scheduler.CurrentDate.Day
+                ? CalculateRecurringFirstMonthlyTheSameMonthWeekDayCheckStart(scheduler, scheduler.CurrentDate)
+                : CalculateRecurringFirstMonthlyTheOtherMonthWeekDay(scheduler);
+        }
+
+        private static DateTime CalculateRecurringFirstMonthlyTheSameMonthWeekDayCheckStart(SchedulerConfiguration scheduler, DateTime previousExecutionTime)
+        {
+            return previousExecutionTime.TimeOfDay <= scheduler.StartingAt.TimeOfDay
+                ? new DateTime(previousExecutionTime.Year, previousExecutionTime.Month, previousExecutionTime.Day, scheduler.StartingAt.Hour, scheduler.StartingAt.Minute, scheduler.StartingAt.Second)
+                : CalculateRecurringFirstMonthlyTheSameMonthWeekDayCheckStartHourHigherStartingDate(scheduler, previousExecutionTime);
+        }
+
+        private static DateTime CalculateRecurringFirstMonthlyTheSameMonthWeekDayCheckStartHourHigherStartingDate(SchedulerConfiguration scheduler, DateTime previousExecutionTime)
+        {
+            return previousExecutionTime.TimeOfDay >= scheduler.EndingAt.TimeOfDay
+                ? CalculateRecurringFirstMonthlyTheOtherMonthWeekDay(scheduler)
+                : previousExecutionTime;
         }
 
         private static DateTime CalculateRecurringFirstMonthlyTheOtherMonthWeekDay(SchedulerConfiguration scheduler)
         {
             DateTime nextExecutionTime = new DateTime(scheduler.CurrentDate.Year, scheduler.CurrentDate.Month, 1);
             nextExecutionTime = nextExecutionTime.AddMonths(1);
-            if (scheduler.OrderDay != Occurrency.Last)
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheOtherMonthWeekDayNotLast(scheduler, nextExecutionTime);
-            } 
-            else
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheOtherMonthWeekDayLast(scheduler, nextExecutionTime);
-            }
-            nextExecutionTime = new DateTime(nextExecutionTime.Year, nextExecutionTime.Month, nextExecutionTime.Day, scheduler.StartingAt.Hour, scheduler.StartingAt.Minute, scheduler.StartingAt.Second);
-            return nextExecutionTime;
+            nextExecutionTime = scheduler.OrderDay != Occurrency.Last
+                ? CalculateRecurringFirstMonthlyTheOtherMonthWeekDayNotLast(scheduler, nextExecutionTime)
+                : CalculateRecurringFirstMonthlyTheOtherMonthWeekDayLast(scheduler, nextExecutionTime);
+            return new DateTime(nextExecutionTime.Year, nextExecutionTime.Month, nextExecutionTime.Day, scheduler.StartingAt.Hour, scheduler.StartingAt.Minute, scheduler.StartingAt.Second);
         }
 
-        private static DateTime CalculateRecurringFirstMonthlyTheOtherMonthWeekDayLast(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
+        private static DateTime CalculateRecurringFirstMonthlyTheOtherMonthWeekDayLast(SchedulerConfiguration scheduler, DateTime previousExecutionTime)
         {
-            nextExecutionTime = nextExecutionTime.LastDayOfTheMonth();
+            var nextExecutionTime = previousExecutionTime.LastDayOfTheMonth();
             while (nextExecutionTime.DayOfWeek == DayOfWeek.Saturday | nextExecutionTime.DayOfWeek == DayOfWeek.Sunday && nextExecutionTime.Day <= (7 * ((int)scheduler.OrderDay + 1)))
             {
                 nextExecutionTime = nextExecutionTime.AddDays(-1);
@@ -279,9 +228,9 @@ namespace Scheduler
             return nextExecutionTime;
         }
 
-        private static DateTime CalculateRecurringFirstMonthlyTheOtherMonthWeekDayNotLast(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
+        private static DateTime CalculateRecurringFirstMonthlyTheOtherMonthWeekDayNotLast(SchedulerConfiguration scheduler, DateTime previousExecutionTime)
         {
-            nextExecutionTime = nextExecutionTime.AddDays(7 * ((int)scheduler.OrderDay));
+            var nextExecutionTime = previousExecutionTime.AddDays(7 * ((int)scheduler.OrderDay));
             while (nextExecutionTime.DayOfWeek == DayOfWeek.Saturday | nextExecutionTime.DayOfWeek == DayOfWeek.Sunday && nextExecutionTime.Day <= (7 * ((int)scheduler.OrderDay + 1)))
             {
                 nextExecutionTime = nextExecutionTime.AddDays(1);
@@ -291,93 +240,72 @@ namespace Scheduler
 
         private static DateTime CalculateRecurringFirstMonthlyTheSameMonthWeekendDay(SchedulerConfiguration scheduler)
         {
-            DateTime nextExecutionTime;
-            DateTime weekendDay = new DateTime(scheduler.CurrentDate.Year, scheduler.CurrentDate.Month, 1);
-            if (scheduler.OrderDay != Occurrency.Last)
-            {
-                weekendDay = CalculateRecurringFirstMonthlyTheSameMonthWeekendDayNotLast(scheduler, weekendDay);
-                
-            }
-            else
-            {
-                weekendDay = CalculateRecurringFirstMonthlyTheSameMonthWeekendDayLast(weekendDay);
-            }
-            nextExecutionTime = CalculateRecurringFirstMonthlyTheSameMonthWeekendDayCheck(scheduler, weekendDay);
-            return nextExecutionTime;
+            return scheduler.OrderDay != Occurrency.Last
+                ? CalculateRecurringFirstMonthlyTheSameMonthWeekendDayNotLast(scheduler)
+                : CalculateRecurringFirstMonthlyTheSameMonthWeekendDayLast(scheduler);
         }
 
-        private static DateTime CalculateRecurringFirstMonthlyTheSameMonthWeekendDayLast(DateTime weekendDay)
+        private static DateTime CalculateRecurringFirstMonthlyTheSameMonthWeekendDayLast(SchedulerConfiguration scheduler)
         {
-            weekendDay = weekendDay.LastDayOfTheMonth();
+            var weekendDay = new DateTime(scheduler.CurrentDate.Year, scheduler.CurrentDate.Month, 1).LastDayOfTheMonth();
             while (weekendDay.DayOfWeek != DayOfWeek.Saturday && weekendDay.DayOfWeek != DayOfWeek.Sunday)
             {
                 weekendDay = weekendDay.AddDays(-1);
             }
-            return weekendDay;
+            return CalculateRecurringFirstMonthlyTheSameMonthWeekendDayCheck(scheduler, weekendDay);
         }
 
-        private static DateTime CalculateRecurringFirstMonthlyTheSameMonthWeekendDayNotLast(SchedulerConfiguration scheduler, DateTime weekendDay)
+        private static DateTime CalculateRecurringFirstMonthlyTheSameMonthWeekendDayNotLast(SchedulerConfiguration scheduler)
         {
-            weekendDay = weekendDay.AddDays(7 * (int)scheduler.OrderDay);
+            var weekendDay = new DateTime(scheduler.CurrentDate.Year, scheduler.CurrentDate.Month, 1).AddDays(7 * (int)scheduler.OrderDay);
             while (weekendDay.DayOfWeek != DayOfWeek.Saturday && weekendDay.DayOfWeek != DayOfWeek.Sunday)
             {
                 weekendDay = weekendDay.AddDays(1);
             }
-            return weekendDay;
+            return CalculateRecurringFirstMonthlyTheSameMonthWeekendDayCheck(scheduler, weekendDay);
         }
 
         private static DateTime CalculateRecurringFirstMonthlyTheSameMonthWeekendDayCheck(SchedulerConfiguration scheduler, DateTime weekendDay)
         {
-            DateTime nextExecutionTime = scheduler.CurrentDate;
-            if (weekendDay.Day > nextExecutionTime.Day)
-            {
-                nextExecutionTime = weekendDay;
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheSameMonthWeekendDayCheckStart(scheduler, nextExecutionTime);
-            }
-            else if (weekendDay.Day == nextExecutionTime.Day)
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheSameMonthWeekendDayCheckStart(scheduler, nextExecutionTime);
-
-            }
-            else
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheOtherMonthWeekendDay(scheduler);
-            }
-            return nextExecutionTime;
+            return weekendDay.Day > scheduler.CurrentDate.Day
+                ? CalculateRecurringFirstMonthlyTheSameMonthWeekendDayCheckStart(scheduler, weekendDay)
+                : CalculateRecurringFirstMonthlyTheSameMonthWeekendDayCheckSameDay(scheduler, weekendDay);
         }
 
-        private static DateTime CalculateRecurringFirstMonthlyTheSameMonthWeekendDayCheckStart(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
+        private static DateTime CalculateRecurringFirstMonthlyTheSameMonthWeekendDayCheckSameDay(SchedulerConfiguration scheduler, DateTime weekendDay)
         {
-            if (nextExecutionTime.Hour <= scheduler.StartingAt.Hour)
-            {
-                nextExecutionTime = new DateTime(nextExecutionTime.Year, nextExecutionTime.Month, nextExecutionTime.Day, scheduler.StartingAt.Hour, scheduler.StartingAt.Minute, scheduler.StartingAt.Second);
-            }
-            else if (nextExecutionTime.Hour >= scheduler.EndingAt.Hour)
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheOtherMonthWeekendDay(scheduler);
-            }
-            return nextExecutionTime;
+            return weekendDay.Day == scheduler.CurrentDate.Day
+                ? CalculateRecurringFirstMonthlyTheSameMonthWeekendDayCheckStart(scheduler, scheduler.CurrentDate)
+                : CalculateRecurringFirstMonthlyTheOtherMonthWeekendDay(scheduler);
+        }
+
+        private static DateTime CalculateRecurringFirstMonthlyTheSameMonthWeekendDayCheckStart(SchedulerConfiguration scheduler, DateTime previousExecutionTime)
+        {
+            return previousExecutionTime.TimeOfDay <= scheduler.StartingAt.TimeOfDay
+                ? new DateTime(previousExecutionTime.Year, previousExecutionTime.Month, previousExecutionTime.Day, scheduler.StartingAt.Hour, scheduler.StartingAt.Minute, scheduler.StartingAt.Second)
+                : CalculateRecurringFirstMonthlyTheSameMonthWeekendDayCheckStartHourHigherStartingDate(scheduler, previousExecutionTime);
+        }
+
+        private static DateTime CalculateRecurringFirstMonthlyTheSameMonthWeekendDayCheckStartHourHigherStartingDate(SchedulerConfiguration scheduler, DateTime previousExecutionTime)
+        {
+            return previousExecutionTime.TimeOfDay >= scheduler.EndingAt.TimeOfDay
+                ? CalculateRecurringFirstMonthlyTheOtherMonthWeekendDay(scheduler)
+                : previousExecutionTime;
         }
 
         private static DateTime CalculateRecurringFirstMonthlyTheOtherMonthWeekendDay(SchedulerConfiguration scheduler)
         {
-            DateTime nextExecutionTime = new DateTime(scheduler.CurrentDate.Year, scheduler.CurrentDate.Month, 1);
+            var nextExecutionTime = new DateTime(scheduler.CurrentDate.Year, scheduler.CurrentDate.Month, 1);
             nextExecutionTime = nextExecutionTime.AddMonths(1);
-            if (scheduler.OrderDay != Occurrency.Last)
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheOtherMonthWeekendDayNotLast(scheduler, nextExecutionTime);
-            }
-            else
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheOtherMonthWeekendDayLast(nextExecutionTime);
-            }
-            nextExecutionTime = new DateTime(nextExecutionTime.Year, nextExecutionTime.Month, nextExecutionTime.Day, scheduler.StartingAt.Hour, scheduler.StartingAt.Minute, scheduler.StartingAt.Second);
-            return nextExecutionTime;
+            nextExecutionTime = scheduler.OrderDay != Occurrency.Last
+                ? CalculateRecurringFirstMonthlyTheOtherMonthWeekendDayNotLast(scheduler, nextExecutionTime)
+                : CalculateRecurringFirstMonthlyTheOtherMonthWeekendDayLast(nextExecutionTime);
+            return new DateTime(nextExecutionTime.Year, nextExecutionTime.Month, nextExecutionTime.Day, scheduler.StartingAt.Hour, scheduler.StartingAt.Minute, scheduler.StartingAt.Second);
         }
 
-        private static DateTime CalculateRecurringFirstMonthlyTheOtherMonthWeekendDayLast(DateTime nextExecutionTime)
+        private static DateTime CalculateRecurringFirstMonthlyTheOtherMonthWeekendDayLast(DateTime previousExecutionTime)
         {
-            nextExecutionTime = nextExecutionTime.LastDayOfTheMonth();
+            var nextExecutionTime = previousExecutionTime.LastDayOfTheMonth();
             while (nextExecutionTime.DayOfWeek != DayOfWeek.Saturday && nextExecutionTime.DayOfWeek != DayOfWeek.Sunday)
             {
                 nextExecutionTime = nextExecutionTime.AddDays(-1);
@@ -385,9 +313,9 @@ namespace Scheduler
             return nextExecutionTime;
         }
 
-        private static DateTime CalculateRecurringFirstMonthlyTheOtherMonthWeekendDayNotLast(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
+        private static DateTime CalculateRecurringFirstMonthlyTheOtherMonthWeekendDayNotLast(SchedulerConfiguration scheduler, DateTime previousExecutionTime)
         {
-            nextExecutionTime = nextExecutionTime.AddDays(7 * ((int)scheduler.OrderDay));
+            var nextExecutionTime = previousExecutionTime.AddDays(7 * ((int)scheduler.OrderDay));
             while (nextExecutionTime.DayOfWeek != DayOfWeek.Saturday && nextExecutionTime.DayOfWeek != DayOfWeek.Sunday && nextExecutionTime.Day <= (7 * ((int)scheduler.OrderDay + 1)))
             {
                 nextExecutionTime = nextExecutionTime.AddDays(1);
@@ -397,88 +325,64 @@ namespace Scheduler
 
         private static DateTime CalculateRecurringFirstMonthlyTheSameMonthEspecificDay(SchedulerConfiguration scheduler)
         {
-            DateTime nextExecutionTime = scheduler.CurrentDate;
-            if (scheduler.OrderDay != Occurrency.Last)
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheSameMonthEspecificDayNotLast(scheduler, nextExecutionTime);
-            }
-            else
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheSameMonthEspecificDayLast(scheduler, nextExecutionTime);
-            }
-            return nextExecutionTime;
+            return scheduler.OrderDay != Occurrency.Last
+                ? CalculateRecurringFirstMonthlyTheSameMonthEspecificDayNotLast(scheduler, scheduler.CurrentDate)
+                : CalculateRecurringFirstMonthlyTheSameMonthEspecificDayLast(scheduler, scheduler.CurrentDate);
         }
 
-        private static DateTime CalculateRecurringFirstMonthlyTheSameMonthEspecificDayLast(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
+        private static DateTime CalculateRecurringFirstMonthlyTheSameMonthEspecificDayLast(SchedulerConfiguration scheduler, DateTime previousExecutionTime)
         {
-            if ((int)nextExecutionTime.DayOfWeek == (int)scheduler.OccursDay && nextExecutionTime.Day > (nextExecutionTime.LastDayOfTheMonth().Day - 7))
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheSameMonthEspecificDayLastSameDay(scheduler, nextExecutionTime);
-            } 
-            else
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheSameMonthEspecificDayLastOtherDay(scheduler, nextExecutionTime);
-            }
-            return nextExecutionTime;
+            return (int)previousExecutionTime.DayOfWeek == (int)scheduler.OccursDay && previousExecutionTime.Day > (previousExecutionTime.LastDayOfTheMonth().Day - 7)
+                ? CalculateRecurringFirstMonthlyTheSameMonthEspecificDayLastSameDay(scheduler, previousExecutionTime)
+                : CalculateRecurringFirstMonthlyTheSameMonthEspecificDayLastOtherDay(scheduler, previousExecutionTime);
         }
 
-        private static DateTime CalculateRecurringFirstMonthlyTheSameMonthEspecificDayLastOtherDay(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
+        private static DateTime CalculateRecurringFirstMonthlyTheSameMonthEspecificDayLastOtherDay(SchedulerConfiguration scheduler, DateTime previousExecutionTime)
         {
-            DateTime day = nextExecutionTime.LastDayOfTheMonth();
+            var day = previousExecutionTime.LastDayOfTheMonth();
             while ((int)day.DayOfWeek != (int)scheduler.OccursDay)
             {
                 day = day.AddDays(-1);
-                if (day.Day < nextExecutionTime.Day)
+                if (day.Day < previousExecutionTime.Day)
                 {
                     day = CalculateRecurringFirstMonthlyTheOtherMonthEspecificDay(scheduler);
                 }
             }
-            nextExecutionTime = new DateTime(day.Year, day.Month, day.Day, scheduler.StartingAt.Hour, scheduler.StartingAt.Minute, scheduler.StartingAt.Second);
-            return nextExecutionTime;
+            return new DateTime(day.Year, day.Month, day.Day, scheduler.StartingAt.Hour, scheduler.StartingAt.Minute, scheduler.StartingAt.Second);
         }
 
-        private static DateTime CalculateRecurringFirstMonthlyTheSameMonthEspecificDayLastSameDay(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
+        private static DateTime CalculateRecurringFirstMonthlyTheSameMonthEspecificDayLastSameDay(SchedulerConfiguration scheduler, DateTime previousExecutionTime)
         {
-            if (nextExecutionTime.Hour < scheduler.StartingAt.Hour)
-            {
-                nextExecutionTime = new DateTime(nextExecutionTime.Year, nextExecutionTime.Month, nextExecutionTime.Day, scheduler.StartingAt.Hour, scheduler.StartingAt.Minute, scheduler.StartingAt.Second);
-            } 
-            else if (nextExecutionTime.Hour > scheduler.StartingAt.Hour && nextExecutionTime.Hour < scheduler.EndingAt.Hour)
-            {
-                nextExecutionTime = new DateTime(nextExecutionTime.Year, nextExecutionTime.Month, nextExecutionTime.Day, nextExecutionTime.Hour, nextExecutionTime.Minute, nextExecutionTime.Second);
-            }
-            else
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheOtherMonthEspecificDay(scheduler);
-            }
-            return nextExecutionTime;
+            return previousExecutionTime.TimeOfDay < scheduler.StartingAt.TimeOfDay
+                ? new DateTime(previousExecutionTime.Year, previousExecutionTime.Month, previousExecutionTime.Day, scheduler.StartingAt.Hour, scheduler.StartingAt.Minute, scheduler.StartingAt.Second)
+                : CalculateRecurringFirstMonthlyTheSameMonthEspecificDayLastSameDayHourHigherStartingDate(scheduler, previousExecutionTime);
         }
 
-        private static DateTime CalculateRecurringFirstMonthlyTheSameMonthEspecificDayNotLast(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
+        private static DateTime CalculateRecurringFirstMonthlyTheSameMonthEspecificDayLastSameDayHourHigherStartingDate(SchedulerConfiguration scheduler, DateTime previousExecutionTime)
         {
-            nextExecutionTime = nextExecutionTime.AddDays(7 * ((int)scheduler.OrderDay));
-            if ((int)nextExecutionTime.DayOfWeek == (int)scheduler.OccursDay && nextExecutionTime.Day <= (7 * ((int)scheduler.OrderDay + 1)))
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheSameMonthEspecificDaySameDay(scheduler, nextExecutionTime);
-            }
-            else
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheSameMonthEspecificDayOtherDay(scheduler, nextExecutionTime);
-            }
-            return nextExecutionTime;
+            return previousExecutionTime.TimeOfDay >= scheduler.EndingAt.TimeOfDay
+                ? CalculateRecurringFirstMonthlyTheOtherMonthEspecificDay(scheduler)
+                : new DateTime(previousExecutionTime.Year, previousExecutionTime.Month, previousExecutionTime.Day, previousExecutionTime.Hour, previousExecutionTime.Minute, previousExecutionTime.Second);
+        }
+    
+        private static DateTime CalculateRecurringFirstMonthlyTheSameMonthEspecificDayNotLast(SchedulerConfiguration scheduler, DateTime previousExecutionTime)
+        {
+            var nextExecutionTime = previousExecutionTime.AddDays(7 * ((int)scheduler.OrderDay));
+            return (int)nextExecutionTime.DayOfWeek == (int)scheduler.OccursDay && nextExecutionTime.Day <= (7 * ((int)scheduler.OrderDay + 1))
+                ? CalculateRecurringFirstMonthlyTheSameMonthEspecificDaySameDay(scheduler, nextExecutionTime)
+                : CalculateRecurringFirstMonthlyTheSameMonthEspecificDayOtherDay(scheduler, nextExecutionTime);
         }
 
-        private static DateTime CalculateRecurringFirstMonthlyTheSameMonthEspecificDaySameDay(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
+        private static DateTime CalculateRecurringFirstMonthlyTheSameMonthEspecificDaySameDay(SchedulerConfiguration scheduler, DateTime previousExecutionTime)
         {
-            if (nextExecutionTime.Hour < scheduler.StartingAt.Hour)
-            {
-                nextExecutionTime = new DateTime(nextExecutionTime.Year, nextExecutionTime.Month, nextExecutionTime.Day, scheduler.StartingAt.Hour, scheduler.StartingAt.Minute, scheduler.StartingAt.Second);
-            }
-            return nextExecutionTime;
+            return previousExecutionTime.Hour < scheduler.StartingAt.Hour
+                ? new DateTime(previousExecutionTime.Year, previousExecutionTime.Month, previousExecutionTime.Day, scheduler.StartingAt.Hour, scheduler.StartingAt.Minute, scheduler.StartingAt.Second)
+                : previousExecutionTime;
         }
 
-        private static DateTime CalculateRecurringFirstMonthlyTheSameMonthEspecificDayOtherDay(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
+        private static DateTime CalculateRecurringFirstMonthlyTheSameMonthEspecificDayOtherDay(SchedulerConfiguration scheduler, DateTime previousExecutionTime)
         {
+            var nextExecutionTime = previousExecutionTime;
             while ((int)nextExecutionTime.DayOfWeek != (int)scheduler.OccursDay && nextExecutionTime.Day <= (7 * ((int)scheduler.OrderDay + 1)))
             {
                 nextExecutionTime = nextExecutionTime.AddDays(1);
@@ -493,83 +397,65 @@ namespace Scheduler
 
         private static DateTime CalculateRecurringFirstMonthlyTheOtherMonth(SchedulerConfiguration scheduler)
         {
-            DateTime nextExecutionTime;
-            if ((int)scheduler.OccursDay < 7)
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheOtherMonthEspecificDay(scheduler);
-            }
-            else
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheOtherMonthNotEspecificDay(scheduler);
-            }
-            return nextExecutionTime;
+            return (int)scheduler.OccursDay < 7
+                ? CalculateRecurringFirstMonthlyTheOtherMonthEspecificDay(scheduler)
+                : CalculateRecurringFirstMonthlyTheOtherMonthNotEspecificDay(scheduler);
         }
 
         private static DateTime CalculateRecurringFirstMonthlyTheOtherMonthNotEspecificDay(SchedulerConfiguration scheduler)
         {
             DateTime nextExecutionTime;
-            if (scheduler.OccursDay == DayOccurrency.day)
+            switch (scheduler.OccursDay)
             {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheOtherMonthDay(scheduler);
-            }
-            else if (scheduler.OccursDay == DayOccurrency.weekday)
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheSameMonthWeekDay(scheduler);
-            }
-            else
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheSameMonthWeekendDay(scheduler);
+                case DayOccurrency.day:
+                    nextExecutionTime = CalculateRecurringFirstMonthlyTheOtherMonthDay(scheduler);
+                    break;
+                case DayOccurrency.weekday:
+                    nextExecutionTime = CalculateRecurringFirstMonthlyTheSameMonthWeekDay(scheduler);
+                    break;
+                default:
+                    nextExecutionTime = CalculateRecurringFirstMonthlyTheSameMonthWeekendDay(scheduler);
+                    break;
             }
             return nextExecutionTime;
         }
 
         private static DateTime CalculateRecurringFirstMonthlyTheOtherMonthDay(SchedulerConfiguration scheduler)
         {
-            DateTime nextExecutionTime = new DateTime(scheduler.CurrentDate.Year, scheduler.CurrentDate.Month, 1);
+            var nextExecutionTime = new DateTime(scheduler.CurrentDate.Year, scheduler.CurrentDate.Month, 1);
             nextExecutionTime = nextExecutionTime.AddMonths(1);
-            if (scheduler.OrderDay != Occurrency.Last)
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheOtherMonthDayNotLast(scheduler, nextExecutionTime);
-            } 
-            else
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheOtherMonthDayLast(scheduler, nextExecutionTime);
-            }
+            return scheduler.OrderDay != Occurrency.Last
+                ? CalculateRecurringFirstMonthlyTheOtherMonthDayNotLast(scheduler, nextExecutionTime)
+                : CalculateRecurringFirstMonthlyTheOtherMonthDayLast(scheduler, nextExecutionTime);
+        }
+
+        private static DateTime CalculateRecurringFirstMonthlyTheOtherMonthDayNotLast(SchedulerConfiguration scheduler, DateTime previousExecutionTime)
+        {
+            var dayDifference = (int)scheduler.OrderDay + 1 - previousExecutionTime.Day;
+            var nextExecutionTime = new DateTime(previousExecutionTime.Year, previousExecutionTime.Month, previousExecutionTime.AddDays(dayDifference).Day, scheduler.StartingAt.Hour, scheduler.StartingAt.Minute, scheduler.StartingAt.Second);
             return nextExecutionTime;
         }
 
-        private static DateTime CalculateRecurringFirstMonthlyTheOtherMonthDayNotLast(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
+        private static DateTime CalculateRecurringFirstMonthlyTheOtherMonthDayLast(SchedulerConfiguration scheduler, DateTime previousExecutionTime)
         {
-            var dayDifference = (int)scheduler.OrderDay + 1 - nextExecutionTime.Day;
-            nextExecutionTime = new DateTime(nextExecutionTime.Year, nextExecutionTime.Month, nextExecutionTime.AddDays(dayDifference).Day, scheduler.StartingAt.Hour, scheduler.StartingAt.Minute, scheduler.StartingAt.Second);
-            return nextExecutionTime;
-        }
-
-        private static DateTime CalculateRecurringFirstMonthlyTheOtherMonthDayLast(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
-        {
-            nextExecutionTime = new DateTime(nextExecutionTime.LastDayOfTheMonth().Year, nextExecutionTime.LastDayOfTheMonth().Month, nextExecutionTime.LastDayOfTheMonth().Day, scheduler.StartingAt.Hour, scheduler.StartingAt.Minute, scheduler.StartingAt.Second);
+            var nextExecutionTime = new DateTime(previousExecutionTime.LastDayOfTheMonth().Year, previousExecutionTime.LastDayOfTheMonth().Month, previousExecutionTime.LastDayOfTheMonth().Day, scheduler.StartingAt.Hour, scheduler.StartingAt.Minute, scheduler.StartingAt.Second);
             return nextExecutionTime;
         }
 
         private static DateTime CalculateRecurringFirstMonthlyTheOtherMonthEspecificDay(SchedulerConfiguration scheduler)
         {
-            DateTime nextExecutionTime = new DateTime(scheduler.CurrentDate.Year, scheduler.CurrentDate.Month, 1);
+            var nextExecutionTime = new DateTime(scheduler.CurrentDate.Year, scheduler.CurrentDate.Month, 1);
             nextExecutionTime = nextExecutionTime.AddMonths(1);
-            if (scheduler.OrderDay != Occurrency.Last)
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheOtherMonthEspecificDayNotLast(scheduler, nextExecutionTime);  
-            }
-            else
-            {
-                nextExecutionTime = CalculateRecurringFirstMonthlyTheOtherMonthEspecificDayLast(scheduler, nextExecutionTime);
-            }
+            nextExecutionTime = scheduler.OrderDay != Occurrency.Last
+                ? CalculateRecurringFirstMonthlyTheOtherMonthEspecificDayNotLast(scheduler, nextExecutionTime)
+                : CalculateRecurringFirstMonthlyTheOtherMonthEspecificDayLast(scheduler, nextExecutionTime);
             nextExecutionTime = new DateTime(nextExecutionTime.Year, nextExecutionTime.Month, nextExecutionTime.Day, scheduler.StartingAt.Hour, scheduler.StartingAt.Minute, scheduler.StartingAt.Second);
             return nextExecutionTime;
         }
 
-        private static DateTime CalculateRecurringFirstMonthlyTheOtherMonthEspecificDayLast(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
+        private static DateTime CalculateRecurringFirstMonthlyTheOtherMonthEspecificDayLast(SchedulerConfiguration scheduler, DateTime previousExecutionTime)
         {
-            nextExecutionTime = nextExecutionTime.LastDayOfTheMonth();
+            var nextExecutionTime = previousExecutionTime.LastDayOfTheMonth();
             while ((int)nextExecutionTime.DayOfWeek != (int)scheduler.OccursDay)
             {
                 nextExecutionTime = nextExecutionTime.AddDays(-1);
@@ -577,9 +463,9 @@ namespace Scheduler
             return nextExecutionTime;
         }
 
-        private static DateTime CalculateRecurringFirstMonthlyTheOtherMonthEspecificDayNotLast(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
+        private static DateTime CalculateRecurringFirstMonthlyTheOtherMonthEspecificDayNotLast(SchedulerConfiguration scheduler, DateTime previousExecutionTime)
         {
-            nextExecutionTime = nextExecutionTime.AddDays(7 * ((int)scheduler.OrderDay));
+            var nextExecutionTime = previousExecutionTime.AddDays(7 * ((int)scheduler.OrderDay));
             while ((int)nextExecutionTime.DayOfWeek != (int)scheduler.OccursDay && nextExecutionTime.Day <= (7 * ((int)scheduler.OrderDay + 1)))
             {
                 nextExecutionTime = nextExecutionTime.AddDays(1);
@@ -587,78 +473,57 @@ namespace Scheduler
             return nextExecutionTime;
         }
 
-        private static DateTime CalculateRecurringMoreMonthly(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
+        private static DateTime CalculateRecurringMoreMonthly(SchedulerConfiguration scheduler, DateTime previousExecutionTime)
         {
-            if (scheduler.MonthlyConf == MonthlyConfType.Day)
-            {
-                nextExecutionTime = CalculateRecurringMoreMonthlyDay(scheduler, nextExecutionTime);
-            }
-            else
-            {
-                nextExecutionTime = CalculateRecurringMoreMonthlyThe(scheduler, nextExecutionTime);
-            }
-            return nextExecutionTime;
+            return scheduler.MonthlyConf == MonthlyConfType.Day
+                ? CalculateRecurringMoreMonthlyDay(scheduler, previousExecutionTime)
+                : CalculateRecurringMoreMonthlyThe(scheduler, previousExecutionTime);
         }
 
-        private static DateTime CalculateRecurringMoreMonthlyDay(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
+        private static DateTime CalculateRecurringMoreMonthlyDay(SchedulerConfiguration scheduler, DateTime previousExecutionTime)
         {
-            nextExecutionTime = CalculateNextUnitTime(scheduler, nextExecutionTime);
-            if (nextExecutionTime.TimeOfDay > scheduler.EndingAt.TimeOfDay)
-            {
-                nextExecutionTime = CalculateRecurringMoreNextDayMonthlyDay(scheduler, nextExecutionTime);
-            }
-            return nextExecutionTime;
+            var nextExecutionTime = CalculateNextUnitTime(scheduler, previousExecutionTime);
+            return nextExecutionTime.TimeOfDay > scheduler.EndingAt.TimeOfDay
+                ? nextExecutionTime = CalculateRecurringMoreNextDayMonthlyDay(scheduler, previousExecutionTime)
+                : nextExecutionTime;
         }
 
-        private static DateTime CalculateRecurringMoreNextDayMonthlyDay(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
+        private static DateTime CalculateRecurringMoreNextDayMonthlyDay(SchedulerConfiguration scheduler, DateTime previousExecutionTime)
         {
-            nextExecutionTime = nextExecutionTime.AddMonths(scheduler.Frequency);
+            var nextExecutionTime = previousExecutionTime.AddMonths(scheduler.Frequency);
             nextExecutionTime = new DateTime(nextExecutionTime.Year, nextExecutionTime.Month, nextExecutionTime.Day, scheduler.StartingAt.Hour, scheduler.StartingAt.Minute, scheduler.StartingAt.Minute); 
             return nextExecutionTime;
         }
 
         private static DateTime CalculateRecurringMoreMonthlyThe(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
         {
-            if ((int)scheduler.OccursDay < 7)
-            {
-                nextExecutionTime = CalculateRecurringMoreMonthlyEspecificDay(scheduler, nextExecutionTime);
-            }
-            else
-            {
-                nextExecutionTime = CalculateRecurringMoretMonthlyNotEspecificDay(scheduler, nextExecutionTime);
-            }
-            return nextExecutionTime;
+            return (int)scheduler.OccursDay < 7
+                ? CalculateRecurringMoreMonthlyEspecificDay(scheduler, nextExecutionTime)
+                : CalculateRecurringMoretMonthlyNotEspecificDay(scheduler, nextExecutionTime);
         }
 
-        private static DateTime CalculateRecurringMoreMonthlyEspecificDay(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
+        private static DateTime CalculateRecurringMoreMonthlyEspecificDay(SchedulerConfiguration scheduler, DateTime previousExecutionTime)
         {
-            nextExecutionTime = CalculateNextUnitTime(scheduler, nextExecutionTime);
-            if (nextExecutionTime.TimeOfDay > scheduler.EndingAt.TimeOfDay)
-            {
-                nextExecutionTime = CalculateRecurringMoreMonthlyEspecificDayNextDay(scheduler, nextExecutionTime);
-            }
-            return nextExecutionTime;
+            var nextExecutionTime = CalculateNextUnitTime(scheduler, previousExecutionTime);
+            return nextExecutionTime.TimeOfDay > scheduler.EndingAt.TimeOfDay
+                ? CalculateRecurringMoreMonthlyEspecificDayNextDay(scheduler, nextExecutionTime)
+                : nextExecutionTime;
         }
 
-        private static DateTime CalculateRecurringMoreMonthlyEspecificDayNextDay(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
+        private static DateTime CalculateRecurringMoreMonthlyEspecificDayNextDay(SchedulerConfiguration scheduler, DateTime previousExecutionTime)
         {
-            nextExecutionTime = new DateTime(nextExecutionTime.Year, nextExecutionTime.Month, 1);
+            var nextExecutionTime = new DateTime(previousExecutionTime.Year, previousExecutionTime.Month, 1);
             nextExecutionTime = nextExecutionTime.AddMonths(scheduler.Frequency);
-            if (scheduler.OrderDay != Occurrency.Last)
-            {
-                nextExecutionTime = CalculateRecurringMoreMonthlyEspecificDayNotLast(scheduler, nextExecutionTime);
-            }
-            else
-            {
-                nextExecutionTime = CalculateRecurringMoreMonthlyEspecificDayLast(scheduler, nextExecutionTime);
-            }
+            nextExecutionTime = scheduler.OrderDay != Occurrency.Last
+                ? CalculateRecurringMoreMonthlyEspecificDayNotLast(scheduler, nextExecutionTime)
+                : CalculateRecurringMoreMonthlyEspecificDayLast(scheduler, nextExecutionTime);
             nextExecutionTime = new DateTime(nextExecutionTime.Year, nextExecutionTime.Month, nextExecutionTime.Day, scheduler.StartingAt.Hour, scheduler.StartingAt.Minute, scheduler.StartingAt.Second);
             return nextExecutionTime;
         }
 
-        private static DateTime CalculateRecurringMoreMonthlyEspecificDayLast(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
+        private static DateTime CalculateRecurringMoreMonthlyEspecificDayLast(SchedulerConfiguration scheduler, DateTime previousExecutionTime)
         {
-            nextExecutionTime = nextExecutionTime.LastDayOfTheMonth();
+            var nextExecutionTime = previousExecutionTime.LastDayOfTheMonth();
             while ((int)nextExecutionTime.DayOfWeek != (int)scheduler.OccursDay)
             {
                 nextExecutionTime = nextExecutionTime.AddDays(-1);
@@ -666,9 +531,9 @@ namespace Scheduler
             return nextExecutionTime;
         }
 
-        private static DateTime CalculateRecurringMoreMonthlyEspecificDayNotLast(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
+        private static DateTime CalculateRecurringMoreMonthlyEspecificDayNotLast(SchedulerConfiguration scheduler, DateTime previousExecutionTime)
         {
-            nextExecutionTime = nextExecutionTime.AddDays(7 * (int)scheduler.OrderDay);
+            var nextExecutionTime = previousExecutionTime.AddDays(7 * (int)scheduler.OrderDay);
             while ((int)nextExecutionTime.DayOfWeek != (int)scheduler.OccursDay)
             {
                 nextExecutionTime = nextExecutionTime.AddDays(1);
@@ -676,51 +541,45 @@ namespace Scheduler
             return nextExecutionTime;
         }
 
-        private static DateTime CalculateRecurringMoretMonthlyNotEspecificDay(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
+        private static DateTime CalculateRecurringMoretMonthlyNotEspecificDay(SchedulerConfiguration scheduler, DateTime previousExecutionTime)
         {
-            if (scheduler.OccursDay == DayOccurrency.day)
+            DateTime nextExecutionTime;
+            switch (scheduler.OccursDay)
             {
-                nextExecutionTime = CalculateRecurringMoreMonthlyTheDay(scheduler, nextExecutionTime);
-            }
-            else if (scheduler.OccursDay == DayOccurrency.weekday)
-            {
-                nextExecutionTime = CalculateRecurringMoreMonthlyWeekDay(scheduler, nextExecutionTime);
-            }
-            else
-            {
-                nextExecutionTime = CalculateRecurringMoreMonthlyWeekendDay(scheduler, nextExecutionTime);
+                case DayOccurrency.day:
+                    nextExecutionTime = CalculateRecurringMoreMonthlyTheDay(scheduler, previousExecutionTime);
+                    break;
+                case DayOccurrency.weekday:
+                    nextExecutionTime = CalculateRecurringMoreMonthlyWeekDay(scheduler, previousExecutionTime);
+                    break;
+                default:
+                    nextExecutionTime = CalculateRecurringMoreMonthlyWeekendDay(scheduler, previousExecutionTime);
+                    break;
             }
             return nextExecutionTime;
         }
 
-        private static DateTime CalculateRecurringMoreMonthlyWeekendDay(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
+        private static DateTime CalculateRecurringMoreMonthlyWeekendDay(SchedulerConfiguration scheduler, DateTime previousExecutionTime)
         {
-            nextExecutionTime = CalculateNextUnitTime(scheduler, nextExecutionTime);
-            if (nextExecutionTime.TimeOfDay > scheduler.EndingAt.TimeOfDay)
-            {
-                nextExecutionTime = CalculateRecurringMoreTheWeekendDayMonthlyNextDay(scheduler, nextExecutionTime);
-            }
-            return nextExecutionTime;
+            var nextExecutionTime = CalculateNextUnitTime(scheduler, previousExecutionTime);
+            return nextExecutionTime.TimeOfDay > scheduler.EndingAt.TimeOfDay
+                ? CalculateRecurringMoreTheWeekendDayMonthlyNextDay(scheduler, nextExecutionTime)
+                : nextExecutionTime;
         }
 
-        private static DateTime CalculateRecurringMoreTheWeekendDayMonthlyNextDay(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
+        private static DateTime CalculateRecurringMoreTheWeekendDayMonthlyNextDay(SchedulerConfiguration scheduler, DateTime previousExecutionTime)
         {
-            nextExecutionTime = new DateTime(nextExecutionTime.Year, nextExecutionTime.Month, 1, scheduler.StartingAt.Hour, scheduler.StartingAt.Minute, scheduler.StartingAt.Second);
+            var nextExecutionTime = new DateTime(previousExecutionTime.Year, previousExecutionTime.Month, 1, scheduler.StartingAt.Hour, scheduler.StartingAt.Minute, scheduler.StartingAt.Second);
             nextExecutionTime = nextExecutionTime.AddMonths(scheduler.Frequency);
-            if (scheduler.OrderDay != Occurrency.Last)
-            {
-                nextExecutionTime = CalculateRecurringMoreTheWeekendDayMonthlyNextDayNotLast(scheduler, nextExecutionTime);
-            }
-            else
-            {
-                nextExecutionTime = CalculateRecurringMoreTheWeekendDayMonthlyNextDayLast(nextExecutionTime);
-            }
+            nextExecutionTime = scheduler.OrderDay != Occurrency.Last
+                ? CalculateRecurringMoreTheWeekendDayMonthlyNextDayNotLast(scheduler, nextExecutionTime)
+                : CalculateRecurringMoreTheWeekendDayMonthlyNextDayLast(nextExecutionTime);
             return nextExecutionTime;
         }
 
-        private static DateTime CalculateRecurringMoreTheWeekendDayMonthlyNextDayLast(DateTime nextExecutionTime)
+        private static DateTime CalculateRecurringMoreTheWeekendDayMonthlyNextDayLast(DateTime previousExecutionTime)
         {
-            nextExecutionTime = nextExecutionTime.LastDayOfTheMonth();
+            var nextExecutionTime = previousExecutionTime.LastDayOfTheMonth();
             while (nextExecutionTime.DayOfWeek != DayOfWeek.Saturday && nextExecutionTime.DayOfWeek != DayOfWeek.Sunday)
             {
                 nextExecutionTime = nextExecutionTime.AddDays(-1);
@@ -728,9 +587,9 @@ namespace Scheduler
             return nextExecutionTime;
         }
 
-        private static DateTime CalculateRecurringMoreTheWeekendDayMonthlyNextDayNotLast(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
+        private static DateTime CalculateRecurringMoreTheWeekendDayMonthlyNextDayNotLast(SchedulerConfiguration scheduler, DateTime previousExecutionTime)
         {
-            nextExecutionTime = nextExecutionTime.AddDays(7 * (int)scheduler.OrderDay);
+            var nextExecutionTime = previousExecutionTime.AddDays(7 * (int)scheduler.OrderDay);
             while (nextExecutionTime.DayOfWeek != DayOfWeek.Saturday && nextExecutionTime.DayOfWeek != DayOfWeek.Sunday)
             {
                 nextExecutionTime = nextExecutionTime.AddDays(1);
@@ -738,44 +597,37 @@ namespace Scheduler
             return nextExecutionTime;
         }
 
-        private static DateTime CalculateRecurringMoreMonthlyWeekDay(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
+        private static DateTime CalculateRecurringMoreMonthlyWeekDay(SchedulerConfiguration scheduler, DateTime previousExecutionTime)
         {
-            nextExecutionTime = CalculateNextUnitTime(scheduler, nextExecutionTime);
-            if (nextExecutionTime.TimeOfDay > scheduler.EndingAt.TimeOfDay)
-            {
-                nextExecutionTime = CalculateRecurringMoreTheWeekDayMonthlyNextDay(scheduler, nextExecutionTime);
-            }
-            return nextExecutionTime;
+            var nextExecutionTime = CalculateNextUnitTime(scheduler, previousExecutionTime);
+            return nextExecutionTime.TimeOfDay > scheduler.EndingAt.TimeOfDay
+                ? CalculateRecurringMoreTheWeekDayMonthlyNextDay(scheduler, nextExecutionTime)
+                : nextExecutionTime;
         }
 
-        private static DateTime CalculateRecurringMoreTheWeekDayMonthlyNextDay(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
+        private static DateTime CalculateRecurringMoreTheWeekDayMonthlyNextDay(SchedulerConfiguration scheduler, DateTime previousExecutionTime)
         {
-            nextExecutionTime = new DateTime(nextExecutionTime.Year, nextExecutionTime.Month, 1, scheduler.StartingAt.Hour, scheduler.StartingAt.Minute, scheduler.StartingAt.Second);
+            var nextExecutionTime = new DateTime(previousExecutionTime.Year, previousExecutionTime.Month, 1, scheduler.StartingAt.Hour, scheduler.StartingAt.Minute, scheduler.StartingAt.Second);
             nextExecutionTime = nextExecutionTime.AddMonths(scheduler.Frequency);
-            if (scheduler.OrderDay != Occurrency.Last)
-            {
-                nextExecutionTime = CalculateRecurringMoreTheWeekDayMonthlyNextDayNotLast(scheduler, nextExecutionTime);
-            }
-            else
-            {
-                nextExecutionTime = CalculateRecurringMoreTheWeekDayMonthlyNextDayLast(nextExecutionTime);
-            }
-            return nextExecutionTime;
+            return scheduler.OrderDay != Occurrency.Last
+                ? CalculateRecurringMoreTheWeekDayMonthlyNextDayNotLast(scheduler, nextExecutionTime)
+                : CalculateRecurringMoreTheWeekDayMonthlyNextDayLast(nextExecutionTime);
         }
 
-        private static DateTime CalculateRecurringMoreTheWeekDayMonthlyNextDayLast(DateTime nextExecutionTime)
+        private static DateTime CalculateRecurringMoreTheWeekDayMonthlyNextDayLast(DateTime previousExecutionTime)
         {
-            nextExecutionTime = nextExecutionTime.LastDayOfTheMonth();
-            while (nextExecutionTime.DayOfWeek == DayOfWeek.Saturday || nextExecutionTime.DayOfWeek == DayOfWeek.Sunday)
+            var nextExecutionTime = previousExecutionTime.LastDayOfTheMonth();
+            while (nextExecutionTime.DayOfWeek == DayOfWeek.Saturday ||
+                nextExecutionTime.DayOfWeek == DayOfWeek.Sunday)
             {
                 nextExecutionTime = nextExecutionTime.AddDays(-1);
             }
             return nextExecutionTime;
         }
 
-        private static DateTime CalculateRecurringMoreTheWeekDayMonthlyNextDayNotLast(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
+        private static DateTime CalculateRecurringMoreTheWeekDayMonthlyNextDayNotLast(SchedulerConfiguration scheduler, DateTime previousExecutionTime)
         {
-            nextExecutionTime = nextExecutionTime.AddDays(7 * (int)scheduler.OrderDay);
+            var nextExecutionTime = previousExecutionTime.AddDays(7 * (int)scheduler.OrderDay);
             while (nextExecutionTime.DayOfWeek == DayOfWeek.Saturday || nextExecutionTime.DayOfWeek == DayOfWeek.Sunday)
             {
                 nextExecutionTime = nextExecutionTime.AddDays(1);
@@ -783,60 +635,43 @@ namespace Scheduler
             return nextExecutionTime;
         }
 
-        private static DateTime CalculateRecurringMoreMonthlyTheDay(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
+        private static DateTime CalculateRecurringMoreMonthlyTheDay(SchedulerConfiguration scheduler, DateTime previousExecutionTime)
         {
-            nextExecutionTime = CalculateNextUnitTime(scheduler, nextExecutionTime);
-            if (nextExecutionTime.TimeOfDay > scheduler.EndingAt.TimeOfDay)
-            {
-                nextExecutionTime = CalculateRecurringMoreTheDayMonthlyNextDay(scheduler, nextExecutionTime);
-            }
-            return nextExecutionTime;
+            var nextExecutionTime = CalculateNextUnitTime(scheduler, previousExecutionTime);
+            return nextExecutionTime.TimeOfDay > scheduler.EndingAt.TimeOfDay
+                ? CalculateRecurringMoreTheDayMonthlyNextDay(scheduler, nextExecutionTime)
+                : nextExecutionTime;
         }
 
-        private static DateTime CalculateRecurringMoreTheDayMonthlyNextDay(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
+        private static DateTime CalculateRecurringMoreTheDayMonthlyNextDay(SchedulerConfiguration scheduler, DateTime previousExecutionTime)
         {
-            nextExecutionTime = nextExecutionTime.AddMonths(scheduler.Frequency);
-            if (scheduler.OrderDay != Occurrency.Last)
-            {
-                nextExecutionTime = CalculateRecurringMoreTheDayMonthlyNextDayNotLast(scheduler, nextExecutionTime);
-            } 
-            else
-            {
-                nextExecutionTime = CalculateRecurringMoreTheDayMonthlyNextDayLast(scheduler, nextExecutionTime);
-            }
-            return nextExecutionTime;
+            var nextExecutionTime = previousExecutionTime.AddMonths(scheduler.Frequency);
+            return scheduler.OrderDay != Occurrency.Last
+                ? CalculateRecurringMoreTheDayMonthlyNextDayNotLast(scheduler, nextExecutionTime)
+                : CalculateRecurringMoreTheDayMonthlyNextDayLast(scheduler, nextExecutionTime);
         }
 
-        private static DateTime CalculateRecurringMoreTheDayMonthlyNextDayLast(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
+        private static DateTime CalculateRecurringMoreTheDayMonthlyNextDayLast(SchedulerConfiguration scheduler, DateTime previousExecutionTime)
         {
-            nextExecutionTime = new DateTime(nextExecutionTime.LastDayOfTheMonth().Year, nextExecutionTime.LastDayOfTheMonth().Month, nextExecutionTime.LastDayOfTheMonth().Day, scheduler.StartingAt.Hour, scheduler.StartingAt.Minute, scheduler.StartingAt.Second);
-            return nextExecutionTime;
+            return new DateTime(previousExecutionTime.LastDayOfTheMonth().Year, previousExecutionTime.LastDayOfTheMonth().Month, previousExecutionTime.LastDayOfTheMonth().Day, scheduler.StartingAt.Hour, scheduler.StartingAt.Minute, scheduler.StartingAt.Second);
         }
 
-        private static DateTime CalculateRecurringMoreTheDayMonthlyNextDayNotLast(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
+        private static DateTime CalculateRecurringMoreTheDayMonthlyNextDayNotLast(SchedulerConfiguration scheduler, DateTime previousExecutionTime)
         {
-            var dayDifference = (int)scheduler.OrderDay + 1 - nextExecutionTime.Day;
-            nextExecutionTime = new DateTime(nextExecutionTime.Year, nextExecutionTime.Month, nextExecutionTime.AddDays(dayDifference).Day, scheduler.StartingAt.Hour, scheduler.StartingAt.Minute, scheduler.StartingAt.Second);
-            return nextExecutionTime;
+            var dayDifference = (int)scheduler.OrderDay + 1 - previousExecutionTime.Day;
+            return new DateTime(previousExecutionTime.Year, previousExecutionTime.Month, previousExecutionTime.AddDays(dayDifference).Day, scheduler.StartingAt.Hour, scheduler.StartingAt.Minute, scheduler.StartingAt.Second);
         }
 
         private static DateTime CalculateRecurringWeekly(SchedulerConfiguration scheduler, DateTime nextExecutionTime, int orden)
         {
-            if (orden == 0)
-            {
-                nextExecutionTime = CalculateRecurringFirstWeekly(scheduler);
-            }
-            else
-            {
-                nextExecutionTime = CalculateRecurringMoreWeekly(scheduler, nextExecutionTime);
-            }
-            return nextExecutionTime;
+            return orden == 0 
+                ? CalculateRecurringFirstWeekly(scheduler) 
+                : CalculateRecurringMoreWeekly(scheduler, nextExecutionTime);
         }
 
         private static DateTime CalculateRecurringFirstWeekly(SchedulerConfiguration scheduler)
         {
-            DateTime nextExecutionTime;
-            nextExecutionTime = CalculateRecurringFirstCheckHourWeekly(scheduler);
+            var nextExecutionTime = CalculateRecurringFirstCheckHourWeekly(scheduler);
             for (int i = 0; i < 6; i++)
             {
                 var nextDay = nextExecutionTime.AddDays(i);
@@ -851,16 +686,9 @@ namespace Scheduler
 
         private static DateTime CalculateRecurringFirstCheckHourWeekly(SchedulerConfiguration scheduler)
         {
-            DateTime nextExecutionTime;
-            if (scheduler.CurrentDate.TimeOfDay < scheduler.StartingAt.TimeOfDay)
-            {
-                nextExecutionTime = new DateTime(scheduler.CurrentDate.Year, scheduler.CurrentDate.Month, scheduler.CurrentDate.Day, scheduler.StartingAt.Hour, scheduler.StartingAt.Minute, scheduler.StartingAt.Second);
-            }
-            else
-            {
-                nextExecutionTime = scheduler.CurrentDate;
-            }
-            return nextExecutionTime;
+            return scheduler.CurrentDate.TimeOfDay < scheduler.StartingAt.TimeOfDay
+                ? new DateTime(scheduler.CurrentDate.Year, scheduler.CurrentDate.Month, scheduler.CurrentDate.Day, scheduler.StartingAt.Hour, scheduler.StartingAt.Minute, scheduler.StartingAt.Second)
+                : scheduler.CurrentDate;
         }
 
         private static bool ContainsDayOfWeek(List<DayOfWeek> daysSelected, DayOfWeek nextDay)
@@ -868,38 +696,38 @@ namespace Scheduler
             return daysSelected.Where(d => d == nextDay).Count() > 0;
         }
 
-        private static DateTime CalculateRecurringMoreWeekly(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
+        private static DateTime CalculateRecurringMoreWeekly(SchedulerConfiguration scheduler, DateTime previousExecutionTime)
         {
-            nextExecutionTime = CalculateNextUnitTime(scheduler, nextExecutionTime);
-            if (nextExecutionTime.TimeOfDay > scheduler.EndingAt.TimeOfDay)
-            {
-                nextExecutionTime = CalculateRecurringMoreNextDayWeekly(scheduler, nextExecutionTime);
-            }
-            return nextExecutionTime;
+            var nextExecutionTime = CalculateNextUnitTime(scheduler, previousExecutionTime);
+            return nextExecutionTime.TimeOfDay > scheduler.EndingAt.TimeOfDay
+                ? CalculateRecurringMoreNextDayWeekly(scheduler, nextExecutionTime)
+                : nextExecutionTime;
         }
 
-        private static DateTime CalculateNextUnitTime(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
+        private static DateTime CalculateNextUnitTime(SchedulerConfiguration scheduler, DateTime previousExecutionTime)
         {
+            DateTime nextExecutionTime = new DateTime();
             switch (scheduler.UnitTime)
             {
                 case UnitTime.Hours:
-                    nextExecutionTime = nextExecutionTime.AddHours(scheduler.OccursEvery);
+                    nextExecutionTime = previousExecutionTime.AddHours(scheduler.OccursEvery);
                     break;
                 case UnitTime.Minutes:
-                    nextExecutionTime = nextExecutionTime.AddMinutes(scheduler.OccursEvery);
+                    nextExecutionTime = previousExecutionTime.AddMinutes(scheduler.OccursEvery);
                     break;
                 case UnitTime.Seconds:
-                    nextExecutionTime = nextExecutionTime.AddSeconds(scheduler.OccursEvery);
+                    nextExecutionTime = previousExecutionTime.AddSeconds(scheduler.OccursEvery);
                     break;
             }
             return nextExecutionTime;
         }
 
-        private static DateTime CalculateRecurringMoreNextDayWeekly(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
+        private static DateTime CalculateRecurringMoreNextDayWeekly(SchedulerConfiguration scheduler, DateTime previousExecutionTime)
         {
+            DateTime nextExecutionTime = new DateTime();
             for (int i = 1; i < 7; i++)
             {
-                var nextDay = nextExecutionTime.AddDays(i);
+                var nextDay = previousExecutionTime.AddDays(i);
                 if (ContainsDayOfWeek(scheduler.DayOfWeeks, nextDay.DayOfWeek))
                 {
                     nextExecutionTime = new DateTime(nextDay.Year, nextDay.Month, nextDay.Day, scheduler.StartingAt.Hour, scheduler.StartingAt.Minute, scheduler.StartingAt.Second);
@@ -910,13 +738,11 @@ namespace Scheduler
             return nextExecutionTime;
         }
 
-        private static DateTime CalculateRecurringMoreNextDayCheckWeek(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
+        private static DateTime CalculateRecurringMoreNextDayCheckWeek(SchedulerConfiguration scheduler, DateTime previousExecutionTime)
         {
-            if (nextExecutionTime.DayOfWeek == scheduler.DayOfWeeks.First())
-            {
-                nextExecutionTime = nextExecutionTime.AddDays((scheduler.Frequency - 1) * 7);
-            }
-            return nextExecutionTime;
+            return previousExecutionTime.DayOfWeek == scheduler.DayOfWeeks.First()
+                ? previousExecutionTime.AddDays((scheduler.Frequency - 1) * 7)
+                : previousExecutionTime;
         }
 
         private static void ValidateFields(SchedulerConfiguration scheduler)
@@ -933,7 +759,7 @@ namespace Scheduler
         {
             if (scheduler.StartingAt.TimeOfDay > scheduler.EndingAt.TimeOfDay)
             {
-                throw new Exception("La fecha de inicio no puede ser mayor que la fecha de fin");
+                throw new SchedulerException("Starting date can't be higher than ending date");
             }
         }
 
@@ -941,7 +767,7 @@ namespace Scheduler
         {
             if (scheduler.DayOfWeeks.Count() == 0)
             {
-                throw new Exception("Selecciona algun dia de la semana");
+                throw new SchedulerException("Select at least one day of week");
             }
         }
 
@@ -953,7 +779,7 @@ namespace Scheduler
             }
             catch (Exception)
             {
-                throw new Exception("La Fecha introducida es demasiado grande");
+                throw new SchedulerException("Date introduced is too high");
             }
         }
     }
