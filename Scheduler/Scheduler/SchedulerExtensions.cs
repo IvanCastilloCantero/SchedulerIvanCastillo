@@ -119,9 +119,9 @@ namespace Scheduler
 
         private static DateTime CalculateRecurringFirstMonthlyTheSameMonthDayNotLast(SchedulerConfiguration scheduler)
         {
-            var dayDifference = (int)scheduler.OrderDay + 1 - nextExecutionTime.Day;
+            var dayDifference = (int)scheduler.OrderDay + 1 - scheduler.CurrentDate.Day;
             return scheduler.CurrentDate.Day < ((int)scheduler.OrderDay + 1)
-                ? new DateTime(nextExecutionTime.Year, nextExecutionTime.Month, nextExecutionTime.AddDays(dayDifference).Day, scheduler.StartingAt.Hour, scheduler.StartingAt.Minute, scheduler.StartingAt.Second)
+                ? new DateTime(scheduler.CurrentDate.Year, scheduler.CurrentDate.Month, scheduler.CurrentDate.AddDays(dayDifference).Day, scheduler.StartingAt.Hour, scheduler.StartingAt.Minute, scheduler.StartingAt.Second)
                 : CalculateRecurringFirstMonthlyTheSameMonthDayNotLastSameDay(scheduler);
         }
 
@@ -484,7 +484,7 @@ namespace Scheduler
         {
             var nextExecutionTime = CalculateNextUnitTime(scheduler, previousExecutionTime);
             return nextExecutionTime.TimeOfDay > scheduler.EndingAt.TimeOfDay
-                ? nextExecutionTime = CalculateRecurringMoreNextDayMonthlyDay(scheduler, previousExecutionTime)
+                ? CalculateRecurringMoreNextDayMonthlyDay(scheduler, previousExecutionTime)
                 : nextExecutionTime;
         }
 

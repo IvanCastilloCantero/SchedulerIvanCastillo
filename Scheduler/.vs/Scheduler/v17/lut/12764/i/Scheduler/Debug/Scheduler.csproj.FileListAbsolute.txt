@@ -1,3 +1,7 @@
+C:\Users\Ivancc\Desktop\Scheduler-IvanCC\SchedulerIvanCastillo\Scheduler\.vs\Scheduler\v17\lut\0\b\Scheduler\bin\Debug\Scheduler.exe.config
+C:\Users\Ivancc\Desktop\Scheduler-IvanCC\SchedulerIvanCastillo\Scheduler\.vs\Scheduler\v17\lut\0\b\Scheduler\bin\Debug\Scheduler.exe
 C:\Users\Ivancc\Desktop\Scheduler-IvanCC\SchedulerIvanCastillo\Scheduler\.vs\Scheduler\v17\lut\0\i\Scheduler\Debug\Scheduler.csproj.AssemblyReference.cache
 C:\Users\Ivancc\Desktop\Scheduler-IvanCC\SchedulerIvanCastillo\Scheduler\.vs\Scheduler\v17\lut\0\i\Scheduler\Debug\Scheduler.csproj.SuggestedBindingRedirects.cache
 C:\Users\Ivancc\Desktop\Scheduler-IvanCC\SchedulerIvanCastillo\Scheduler\.vs\Scheduler\v17\lut\0\i\Scheduler\Debug\Scheduler.csproj.CoreCompileInputs.cache
+C:\Users\Ivancc\Desktop\Scheduler-IvanCC\SchedulerIvanCastillo\Scheduler\.vs\Scheduler\v17\lut\0\i\Scheduler\Debug\Scheduler.csproj.CopyComplete
+C:\Users\Ivancc\Desktop\Scheduler-IvanCC\SchedulerIvanCastillo\Scheduler\.vs\Scheduler\v17\lut\0\i\Scheduler\Debug\Scheduler.exe
