@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 
 namespace Scheduler
 {
@@ -21,7 +22,7 @@ namespace Scheduler
         public Occurrency OrderDay { get; set; }
         public DayOccurrency OccursDay { get; set; }
         public MonthlyConfType MonthlyConf { get; set; }
-        
+        public CultureInfo CultureInfo { get; set; }
     }
 
     public enum ExecutionType { Once, Recurring }
@@ -35,4 +36,5 @@ namespace Scheduler
     public enum DayOccurrency { Monday = 1, Tuesday = 2, Wednesday = 3, Thursday = 4, Friday = 5, Saturday = 6, Sunday = 0, day = 7, weekday = 8, weekend_day = 9}
 
     public enum MonthlyConfType { Day, The}
+
 }

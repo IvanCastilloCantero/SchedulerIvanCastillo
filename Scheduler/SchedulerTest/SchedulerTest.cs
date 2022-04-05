@@ -1440,7 +1440,7 @@ namespace SchedulerTest
             var informations = scheduler.CalculateNextExecution(1);
 
             informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 1, 4, 0, 0));
-            informations[0].Description.Should().Be("Occurs the first day of every 3 months every 1 hour between 4:00 and 8:00 starting on 01/01/2020");
+            informations[0].Description.Should().Be("Occurs the first day of every 3 months every 1 hours between 4:00 and 8:00 starting on 01/01/2020");
         }
 
         [Fact]

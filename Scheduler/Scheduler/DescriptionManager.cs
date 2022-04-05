@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 
 namespace Scheduler
@@ -7,10 +8,19 @@ namespace Scheduler
     {
         public static string CalculateDescription(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
         {
+            StringsResources stringsResources = new StringsResources(scheduler.CultureInfo);
             return scheduler.Type == ExecutionType.Once
                 ? CalculateDescriptionOnce(scheduler, nextExecutionTime)
                 : CalculateDescriptionRecurring(scheduler);
 
+        }
+
+        public static void CheckDateFormat(SchedulerConfiguration scheduler)
+        {
+            if (scheduler.CultureInfo == new CultureInfo("en-US"))
+            {
+                
+            }
         }
 
         private static string CalculateDescriptionRecurring(SchedulerConfiguration scheduler)
@@ -29,40 +39,42 @@ namespace Scheduler
 
         private static string CalculateDescriptionRecurringMonthlyThe(SchedulerConfiguration scheduler)
         {
-            return scheduler.OccursEvery > 1
-                ? "Occurs the " + scheduler.OrderDay.ToString().ToLower()
-                   + " " + scheduler.OccursDay.ToString().ToLower()
-                   + " of every " + scheduler.Frequency
-                   + " months every " + scheduler.OccursEvery.ToString()
-                   + " hours between " + scheduler.StartingAt.ToShortTimeString()
-                   + " and " + scheduler.EndingAt.ToShortTimeString()
-                   + " starting on " + scheduler.StartDate.ToShortDateString()
-                : "Occurs the " + scheduler.OrderDay.ToString().ToLower()
-                    + " " + scheduler.OccursDay.ToString().ToLower()
-                    + " of every " + scheduler.Frequency
-                    + " months every " + scheduler.OccursEvery.ToString()
-                    + " hour between " + scheduler.StartingAt.ToShortTimeString()
-                    + " and " + scheduler.EndingAt.ToShortTimeString()
-                    + " starting on " + scheduler.StartDate.ToShortDateString();
+            return string.Format(
+                StringsResources.GetResource("RecurringMonthlyThe"),
+                scheduler.OrderDay.ToString().ToLower(),
+                scheduler.OccursDay.ToString().ToLower(),
+                scheduler.Frequency,
+                scheduler.OccursEvery.ToString(),
+                scheduler.UnitTime.ToString().ToLower(),
+                scheduler.StartingAt.ToShortTimeString(),
+                scheduler.EndingAt.ToShortTimeString(),
+                scheduler.StartDate.ToShortDateString()
+                );
         }
 
         private static string CalculateDescriptionRecurringMonthlyDay(SchedulerConfiguration scheduler)
         {
-            return "Occurs day " + scheduler.Day.ToString()
-                + " every " + scheduler.Frequency
-                + " months every " + scheduler.OccursEvery.ToString()
-                + " " + scheduler.UnitTime.ToString().ToLower()
-                + " between " + scheduler.StartingAt.ToShortTimeString()
-                + " and " + scheduler.EndingAt.ToShortTimeString()
-                + " starting on " + scheduler.StartDate.ToShortDateString();
+            return String.Format(
+                StringsResources.GetResource("RecurringMonthlyDay"),
+                scheduler.Day.ToString(),
+                scheduler.Frequency,
+                scheduler.OccursEvery.ToString(),
+                scheduler.UnitTime.ToString().ToLower(),
+                scheduler.StartingAt.ToShortTimeString(),
+                scheduler.EndingAt.ToShortTimeString(),
+                scheduler.StartDate.ToShortDateString()
+                );
         }
 
         private static string CalculateDescriptionOnce(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
         {
-            return "Occurs " + scheduler.Type 
-                + ". Schedule will be used on " + nextExecutionTime.ToShortDateString() 
-                + " at " + nextExecutionTime.ToShortTimeString() 
-                + " starting on " + scheduler.StartDate.ToShortDateString();
+            return String.Format(
+                StringsResources.GetResource("Once"),
+                scheduler.Type,
+                nextExecutionTime.ToShortDateString(),
+                nextExecutionTime.ToShortTimeString(),
+                scheduler.StartDate.ToShortDateString()
+                );
         }
 
         private static string CalculateDescriptionRecurringWeekly(SchedulerConfiguration scheduler)
@@ -77,31 +89,30 @@ namespace Scheduler
 
         private static string CalculateDescripcionRecurringWeeklyCheck(SchedulerConfiguration scheduler, string days, DayOfWeek dayOfWeek)
         {
-            if (dayOfWeek == scheduler.DayOfWeeks.First())
-            {
-                days = "on " + dayOfWeek.ToString().ToLower();
-            }
-            else if (dayOfWeek == scheduler.DayOfWeeks.Last())
-            {
-                days = days + " and " + dayOfWeek.ToString().ToLower();
-            }
-            else
-            {
-                days = days + ", " + dayOfWeek.ToString().ToLower();
-            }
-            return days;
+            return dayOfWeek == scheduler.DayOfWeeks.First()
+                ? String.Format("on {0}", dayOfWeek.ToString().ToLower())
+                : CalculateDescripcionRecurringWeeklyCheckLast(scheduler, days, dayOfWeek);
+        }
+
+        private static string CalculateDescripcionRecurringWeeklyCheckLast(SchedulerConfiguration scheduler, string days, DayOfWeek dayOfWeek)
+        {
+            return dayOfWeek == scheduler.DayOfWeeks.Last()
+                ? String.Format("{0} and {1}", days, dayOfWeek.ToString().ToLower())
+                : String.Format("{0}, {1}", days, dayOfWeek.ToString().ToLower());
         }
 
         private static string CalculateDescriptionRecurringWeeklyMessage(SchedulerConfiguration scheduler, string days)
         {
-            string description = "Occurs every " + scheduler.Frequency.ToString()
-                + " weeks " + days + " every "
-                + scheduler.OccursEvery + " "
-                + scheduler.UnitTime.ToString().ToLower() + " between "
-                + scheduler.StartingAt.ToShortTimeString()
-                + " and " + scheduler.EndingAt.ToShortTimeString()
-                + " starting on " + scheduler.CurrentDate.ToShortDateString();
-            return description;
+            return String.Format(
+                StringsResources.GetResource("RecurringWeekly"),
+                scheduler.Frequency,
+                days,
+                scheduler.OccursEvery,
+                scheduler.UnitTime.ToString().ToLower(),
+                scheduler.StartingAt.ToShortTimeString(),
+                scheduler.EndingAt.ToShortTimeString(),
+                scheduler.CurrentDate.ToShortDateString()
+                );
         }
     }
 }
