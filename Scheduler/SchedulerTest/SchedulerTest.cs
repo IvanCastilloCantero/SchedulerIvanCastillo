@@ -3,6 +3,7 @@ using Scheduler;
 using FluentAssertions;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace SchedulerTest
 {
@@ -16,13 +17,32 @@ namespace SchedulerTest
                 CurrentDate = new DateTime(2020, 1, 4),
                 Type = ExecutionType.Once,
                 DateTime = new DateTime(2020, 1, 8, 14, 0, 0),
-                StartDate = new DateTime(2020, 1, 1)
+                CultureInfo = new CultureInfo("en-US"),
+                StartDate = new DateTime(2020, 1, 5)
             };
 
             var informations = scheduler.CalculateNextExecution(1);
 
             informations[0].NextExecutionTime.Should().Be(scheduler.DateTime);
-            informations[0].Description.Should().Be("Occurs Once. Schedule will be used on 08/01/2020 at 14:00 starting on 01/01/2020");
+            informations[0].Description.Should().Be("Occurs once. Schedule will be used on 1/8/2020 at 2:00 PM starting on 1/5/2020");
+        }
+
+        [Fact]
+        public void Calculate_Once_Execution_Spanish()
+        {
+            SchedulerConfiguration scheduler = new()
+            {
+                CurrentDate = new DateTime(2020, 1, 4),
+                Type = ExecutionType.Once,
+                DateTime = new DateTime(2020, 1, 8, 14, 0, 0),
+                CultureInfo = new CultureInfo("es-ES"),
+                StartDate = new DateTime(2020, 1, 5)
+            };
+
+            var informations = scheduler.CalculateNextExecution(1);
+
+            informations[0].NextExecutionTime.Should().Be(scheduler.DateTime);
+            informations[0].Description.Should().Be("Ocurre una vez. El calendario sera usado el 08/01/2020 a las 14:00 PM empezando el 05/01/2020");
         }
 
         [Fact]
@@ -37,6 +57,7 @@ namespace SchedulerTest
                 Frequency = 2,
                 DayOfWeeks = new List<DayOfWeek> { DayOfWeek.Monday },
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
 
@@ -45,7 +66,31 @@ namespace SchedulerTest
             var informations = scheduler.CalculateNextExecution(1);
 
             informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 6, 4, 0, 0));
-            informations[0].Description.Should().Be("Occurs every 2 weeks on monday every 2 hours between 4:00 and 8:00 starting on 01/01/2020");
+            informations[0].Description.Should().Be("Occurs every 2 weeks on monday every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
+        }
+
+        [Fact]
+        public void Calculate_Recurring_Execution_Monday_Spanish()
+        {
+            SchedulerConfiguration scheduler = new()
+            {
+                CurrentDate = new DateTime(2020, 1, 1, 0, 0, 0),
+                Type = ExecutionType.Recurring,
+                Occurs = OccursType.Weekly,
+                StartDate = new DateTime(2020, 1, 1),
+                Frequency = 2,
+                DayOfWeeks = new List<DayOfWeek> { DayOfWeek.Monday },
+                OccursEvery = 2,
+                CultureInfo = new CultureInfo("es-ES"),
+                StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
+                EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
+
+            };
+
+            var informations = scheduler.CalculateNextExecution(1);
+
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 6, 4, 0, 0));
+            informations[0].Description.Should().Be("Ocurre cada 2 semanas en lunes cada 2 horas entre las 4:00 AM y las 8:00 AM empezando el 01/01/2020");
         }
 
         [Fact]
@@ -60,6 +105,7 @@ namespace SchedulerTest
                 Frequency = 2,
                 DayOfWeeks = new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Tuesday },
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
 
@@ -68,7 +114,7 @@ namespace SchedulerTest
             var informations = scheduler.CalculateNextExecution(1);
 
             informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 6, 4, 0, 0));
-            informations[0].Description.Should().Be("Occurs every 2 weeks on monday and tuesday every 2 hours between 4:00 and 8:00 starting on 01/01/2020");
+            informations[0].Description.Should().Be("Occurs every 2 weeks on monday and tuesday every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
         }
 
         [Fact]
@@ -83,6 +129,7 @@ namespace SchedulerTest
                 Frequency = 2,
                 DayOfWeeks = new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Wednesday },
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
 
@@ -91,7 +138,7 @@ namespace SchedulerTest
             var informations = scheduler.CalculateNextExecution(1);
 
             informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 1, 4, 0, 0));
-            informations[0].Description.Should().Be("Occurs every 2 weeks on monday and wednesday every 2 hours between 4:00 and 8:00 starting on 01/01/2020");
+            informations[0].Description.Should().Be("Occurs every 2 weeks on monday and wednesday every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
         }
 
         [Fact]
@@ -106,6 +153,7 @@ namespace SchedulerTest
                 Frequency = 2,
                 DayOfWeeks = new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Thursday },
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
 
@@ -114,7 +162,7 @@ namespace SchedulerTest
             var informations = scheduler.CalculateNextExecution(1);
 
             informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 2, 4, 0, 0));
-            informations[0].Description.Should().Be("Occurs every 2 weeks on monday and thursday every 2 hours between 4:00 and 8:00 starting on 01/01/2020");
+            informations[0].Description.Should().Be("Occurs every 2 weeks on monday and thursday every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
         }
 
         [Fact]
@@ -129,6 +177,7 @@ namespace SchedulerTest
                 Frequency = 2,
                 DayOfWeeks = new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Friday },
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
 
@@ -137,7 +186,7 @@ namespace SchedulerTest
             var informations = scheduler.CalculateNextExecution(1);
 
             informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 3, 4, 0, 0));
-            informations[0].Description.Should().Be("Occurs every 2 weeks on monday and friday every 2 hours between 4:00 and 8:00 starting on 01/01/2020");
+            informations[0].Description.Should().Be("Occurs every 2 weeks on monday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
         }
 
         [Fact]
@@ -152,6 +201,7 @@ namespace SchedulerTest
                 Frequency = 2,
                 DayOfWeeks = new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Friday },
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
 
@@ -160,7 +210,7 @@ namespace SchedulerTest
             var informations = scheduler.CalculateNextExecution(1);
 
             informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 3, 4, 0, 0));
-            informations[0].Description.Should().Be("Occurs every 2 weeks on monday, tuesday and friday every 2 hours between 4:00 and 8:00 starting on 01/01/2020");
+            informations[0].Description.Should().Be("Occurs every 2 weeks on monday, tuesday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
         }
 
         [Fact]
@@ -175,6 +225,7 @@ namespace SchedulerTest
                 Frequency = 2,
                 DayOfWeeks = new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Friday },
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
 
@@ -183,7 +234,7 @@ namespace SchedulerTest
             var informations = scheduler.CalculateNextExecution(1);
 
             informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 1, 4, 0, 0));
-            informations[0].Description.Should().Be("Occurs every 2 weeks on monday, wednesday and friday every 2 hours between 4:00 and 8:00 starting on 01/01/2020");
+            informations[0].Description.Should().Be("Occurs every 2 weeks on monday, wednesday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
         }
 
         [Fact]
@@ -198,6 +249,7 @@ namespace SchedulerTest
                 Frequency = 2,
                 DayOfWeeks = new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Thursday, DayOfWeek.Friday },
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
 
@@ -206,7 +258,7 @@ namespace SchedulerTest
             var informations = scheduler.CalculateNextExecution(1);
 
             informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 2, 4, 0, 0));
-            informations[0].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 and 8:00 starting on 01/01/2020");
+            informations[0].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
         }
 
         [Fact]
@@ -221,6 +273,7 @@ namespace SchedulerTest
                 Frequency = 2,
                 DayOfWeeks = new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Thursday, DayOfWeek.Friday },
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
 
@@ -229,7 +282,7 @@ namespace SchedulerTest
             var informations = scheduler.CalculateNextExecution(1);
 
             informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 2, 4, 0, 0));
-            informations[0].Description.Should().Be("Occurs every 2 weeks on monday, tuesday, thursday and friday every 2 hours between 4:00 and 8:00 starting on 01/01/2020");
+            informations[0].Description.Should().Be("Occurs every 2 weeks on monday, tuesday, thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
         }
 
         [Fact]
@@ -244,6 +297,7 @@ namespace SchedulerTest
                 Frequency = 2,
                 DayOfWeeks = new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Thursday },
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
 
@@ -252,7 +306,7 @@ namespace SchedulerTest
             var informations = scheduler.CalculateNextExecution(1);
 
             informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 1, 4, 0, 0));
-            informations[0].Description.Should().Be("Occurs every 2 weeks on monday, tuesday, wednesday and thursday every 2 hours between 4:00 and 8:00 starting on 01/01/2020");
+            informations[0].Description.Should().Be("Occurs every 2 weeks on monday, tuesday, wednesday and thursday every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
         }
 
         [Fact]
@@ -267,6 +321,7 @@ namespace SchedulerTest
                 Frequency = 2,
                 DayOfWeeks = new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Friday },
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
 
@@ -275,7 +330,7 @@ namespace SchedulerTest
             var informations = scheduler.CalculateNextExecution(1);
 
             informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 1, 4, 0, 0));
-            informations[0].Description.Should().Be("Occurs every 2 weeks on monday, wednesday, thursday and friday every 2 hours between 4:00 and 8:00 starting on 01/01/2020");
+            informations[0].Description.Should().Be("Occurs every 2 weeks on monday, wednesday, thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
         }
 
         [Fact]
@@ -290,6 +345,7 @@ namespace SchedulerTest
                 Frequency = 2,
                 DayOfWeeks = new List<DayOfWeek> { DayOfWeek.Tuesday, DayOfWeek.Wednesday },
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
 
@@ -298,7 +354,31 @@ namespace SchedulerTest
             var informations = scheduler.CalculateNextExecution(1);
 
             informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 1, 4, 0, 0));
-            informations[0].Description.Should().Be("Occurs every 2 weeks on tuesday and wednesday every 2 hours between 4:00 and 8:00 starting on 01/01/2020");
+            informations[0].Description.Should().Be("Occurs every 2 weeks on tuesday and wednesday every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
+        }
+
+        [Fact]
+        public void Calculate_Recurring_Execution_Tuesday_Wednesday_Spanish()
+        {
+            SchedulerConfiguration scheduler = new()
+            {
+                CurrentDate = new DateTime(2020, 1, 1, 0, 0, 0),
+                Type = ExecutionType.Recurring,
+                Occurs = OccursType.Weekly,
+                StartDate = new DateTime(2020, 1, 1),
+                Frequency = 2,
+                DayOfWeeks = new List<DayOfWeek> { DayOfWeek.Tuesday, DayOfWeek.Wednesday },
+                OccursEvery = 2,
+                CultureInfo = new CultureInfo("es-ES"),
+                StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
+                EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
+
+            };
+
+            var informations = scheduler.CalculateNextExecution(1);
+
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 1, 4, 0, 0));
+            informations[0].Description.Should().Be("Ocurre cada 2 semanas en martes y miercoles cada 2 horas entre las 4:00 AM y las 8:00 AM empezando el 01/01/2020");
         }
 
         [Fact]
@@ -313,6 +393,7 @@ namespace SchedulerTest
                 Frequency = 2,
                 DayOfWeeks = new List<DayOfWeek> { DayOfWeek.Tuesday, DayOfWeek.Thursday },
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
 
@@ -321,7 +402,7 @@ namespace SchedulerTest
             var informations = scheduler.CalculateNextExecution(1);
 
             informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 2, 4, 0, 0));
-            informations[0].Description.Should().Be("Occurs every 2 weeks on tuesday and thursday every 2 hours between 4:00 and 8:00 starting on 01/01/2020");
+            informations[0].Description.Should().Be("Occurs every 2 weeks on tuesday and thursday every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
         }
 
         [Fact]
@@ -336,6 +417,7 @@ namespace SchedulerTest
                 Frequency = 2,
                 DayOfWeeks = new List<DayOfWeek> { DayOfWeek.Tuesday, DayOfWeek.Friday },
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
 
@@ -344,7 +426,7 @@ namespace SchedulerTest
             var informations = scheduler.CalculateNextExecution(1);
 
             informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 3, 4, 0, 0));
-            informations[0].Description.Should().Be("Occurs every 2 weeks on tuesday and friday every 2 hours between 4:00 and 8:00 starting on 01/01/2020");
+            informations[0].Description.Should().Be("Occurs every 2 weeks on tuesday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
         }
 
         [Fact]
@@ -359,6 +441,7 @@ namespace SchedulerTest
                 Frequency = 2,
                 DayOfWeeks = new List<DayOfWeek> { DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Thursday },
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
 
@@ -367,7 +450,7 @@ namespace SchedulerTest
             var informations = scheduler.CalculateNextExecution(1);
 
             informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 1, 4, 0, 0));
-            informations[0].Description.Should().Be("Occurs every 2 weeks on tuesday, wednesday and thursday every 2 hours between 4:00 and 8:00 starting on 01/01/2020");
+            informations[0].Description.Should().Be("Occurs every 2 weeks on tuesday, wednesday and thursday every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
         }
 
         [Fact]
@@ -382,6 +465,7 @@ namespace SchedulerTest
                 Frequency = 2,
                 DayOfWeeks = new List<DayOfWeek> { DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Friday },
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
 
@@ -390,7 +474,7 @@ namespace SchedulerTest
             var informations = scheduler.CalculateNextExecution(1);
 
             informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 1, 4, 0, 0));
-            informations[0].Description.Should().Be("Occurs every 2 weeks on tuesday, wednesday and friday every 2 hours between 4:00 and 8:00 starting on 01/01/2020");
+            informations[0].Description.Should().Be("Occurs every 2 weeks on tuesday, wednesday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
         }
 
         [Fact]
@@ -405,6 +489,7 @@ namespace SchedulerTest
                 Frequency = 2,
                 DayOfWeeks = new List<DayOfWeek> { DayOfWeek.Wednesday, DayOfWeek.Friday },
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
 
@@ -413,7 +498,7 @@ namespace SchedulerTest
             var informations = scheduler.CalculateNextExecution(1);
 
             informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 1, 4, 0, 0));
-            informations[0].Description.Should().Be("Occurs every 2 weeks on wednesday and friday every 2 hours between 4:00 and 8:00 starting on 01/01/2020");
+            informations[0].Description.Should().Be("Occurs every 2 weeks on wednesday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
         }
 
         [Fact]
@@ -428,6 +513,7 @@ namespace SchedulerTest
                 Frequency = 2,
                 DayOfWeeks = new List<DayOfWeek> { DayOfWeek.Wednesday, DayOfWeek.Thursday },
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
 
@@ -436,7 +522,7 @@ namespace SchedulerTest
             var informations = scheduler.CalculateNextExecution(1);
 
             informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 1, 4, 0, 0));
-            informations[0].Description.Should().Be("Occurs every 2 weeks on wednesday and thursday every 2 hours between 4:00 and 8:00 starting on 01/01/2020");
+            informations[0].Description.Should().Be("Occurs every 2 weeks on wednesday and thursday every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
         }
 
         [Fact]
@@ -451,6 +537,7 @@ namespace SchedulerTest
                 Frequency = 2,
                 DayOfWeeks = new List<DayOfWeek> { DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Friday },
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
 
@@ -459,7 +546,7 @@ namespace SchedulerTest
             var informations = scheduler.CalculateNextExecution(1);
 
             informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 1, 4, 0, 0));
-            informations[0].Description.Should().Be("Occurs every 2 weeks on wednesday, thursday and friday every 2 hours between 4:00 and 8:00 starting on 01/01/2020");
+            informations[0].Description.Should().Be("Occurs every 2 weeks on wednesday, thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
         }
 
         [Fact]
@@ -474,6 +561,7 @@ namespace SchedulerTest
                 Frequency = 2,
                 DayOfWeeks = new List<DayOfWeek> { DayOfWeek.Thursday, DayOfWeek.Friday },
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -481,7 +569,7 @@ namespace SchedulerTest
             var informations = scheduler.CalculateNextExecution(1);
 
             informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 2, 4, 0, 0));
-            informations[0].Description.Should().Be("Occurs every 2 weeks on thursday and friday every 2 hours between 4:00 and 8:00 starting on 01/01/2020");
+            informations[0].Description.Should().Be("Occurs every 2 weeks on thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
         }
 
         [Fact]
@@ -496,6 +584,7 @@ namespace SchedulerTest
                 Frequency = 2,
                 DayOfWeeks = new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Friday },
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
 
@@ -504,7 +593,31 @@ namespace SchedulerTest
             var informations = scheduler.CalculateNextExecution(1);
 
             informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 15, 4, 0, 0));
-            informations[0].Description.Should().Be("Occurs every 2 weeks on monday, tuesday, wednesday, thursday and friday every 2 hours between 4:00 and 8:00 starting on 15/01/2020");
+            informations[0].Description.Should().Be("Occurs every 2 weeks on monday, tuesday, wednesday, thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/15/2020");
+        }
+
+        [Fact]
+        public void Calculate_Recurring_Execution_AllWeek_Spanish()
+        {
+            SchedulerConfiguration scheduler = new()
+            {
+                CurrentDate = new DateTime(2020, 1, 15, 0, 0, 0),
+                Type = ExecutionType.Recurring,
+                Occurs = OccursType.Weekly,
+                StartDate = new DateTime(2020, 1, 1),
+                Frequency = 2,
+                DayOfWeeks = new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Friday },
+                OccursEvery = 2,
+                CultureInfo = new CultureInfo("es-ES"),
+                StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
+                EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
+
+            };
+
+            var informations = scheduler.CalculateNextExecution(1);
+
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 15, 4, 0, 0));
+            informations[0].Description.Should().Be("Ocurre cada 2 semanas en lunes, martes, miercoles, jueves y viernes cada 2 horas entre las 4:00 AM y las 8:00 AM empezando el 15/01/2020");
         }
 
         [Fact]
@@ -519,6 +632,7 @@ namespace SchedulerTest
                 Frequency = 2,
                 DayOfWeeks = new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Friday },
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
 
@@ -527,22 +641,22 @@ namespace SchedulerTest
             var informations = scheduler.CalculateNextExecution(6);
 
             informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 15, 4, 0, 0));
-            informations[0].Description.Should().Be("Occurs every 2 weeks on monday, tuesday, wednesday, thursday and friday every 2 hours between 4:00 and 8:00 starting on 15/01/2020");
+            informations[0].Description.Should().Be("Occurs every 2 weeks on monday, tuesday, wednesday, thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/15/2020");
 
             informations[1].NextExecutionTime.Should().Be(new DateTime(2020, 1, 15, 6, 0, 0));
-            informations[1].Description.Should().Be("Occurs every 2 weeks on monday, tuesday, wednesday, thursday and friday every 2 hours between 4:00 and 8:00 starting on 15/01/2020");
+            informations[1].Description.Should().Be("Occurs every 2 weeks on monday, tuesday, wednesday, thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/15/2020");
 
             informations[2].NextExecutionTime.Should().Be(new DateTime(2020, 1, 15, 8, 0, 0));
-            informations[2].Description.Should().Be("Occurs every 2 weeks on monday, tuesday, wednesday, thursday and friday every 2 hours between 4:00 and 8:00 starting on 15/01/2020");
+            informations[2].Description.Should().Be("Occurs every 2 weeks on monday, tuesday, wednesday, thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/15/2020");
 
             informations[3].NextExecutionTime.Should().Be(new DateTime(2020, 1, 16, 4, 0, 0));
-            informations[3].Description.Should().Be("Occurs every 2 weeks on monday, tuesday, wednesday, thursday and friday every 2 hours between 4:00 and 8:00 starting on 15/01/2020");
+            informations[3].Description.Should().Be("Occurs every 2 weeks on monday, tuesday, wednesday, thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/15/2020");
 
             informations[4].NextExecutionTime.Should().Be(new DateTime(2020, 1, 16, 6, 0, 0));
-            informations[4].Description.Should().Be("Occurs every 2 weeks on monday, tuesday, wednesday, thursday and friday every 2 hours between 4:00 and 8:00 starting on 15/01/2020");
+            informations[4].Description.Should().Be("Occurs every 2 weeks on monday, tuesday, wednesday, thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/15/2020");
 
             informations[5].NextExecutionTime.Should().Be(new DateTime(2020, 1, 16, 8, 0, 0));
-            informations[5].Description.Should().Be("Occurs every 2 weeks on monday, tuesday, wednesday, thursday and friday every 2 hours between 4:00 and 8:00 starting on 15/01/2020");
+            informations[5].Description.Should().Be("Occurs every 2 weeks on monday, tuesday, wednesday, thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/15/2020");
         }
 
         [Fact]
@@ -557,6 +671,7 @@ namespace SchedulerTest
                 Frequency = 2,
                 DayOfWeeks = new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Thursday, DayOfWeek.Friday },
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
 
@@ -565,10 +680,10 @@ namespace SchedulerTest
             var informations = scheduler.CalculateNextExecution(2);
 
             informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 2, 5, 0, 0));
-            informations[0].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 and 8:00 starting on 01/01/2020");
+            informations[0].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
 
             informations[1].NextExecutionTime.Should().Be(new DateTime(2020, 1, 2, 7, 0, 0));
-            informations[1].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 and 8:00 starting on 01/01/2020");
+            informations[1].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
         }
 
         [Fact]
@@ -583,6 +698,7 @@ namespace SchedulerTest
                 Frequency = 2,
                 DayOfWeeks = new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Thursday, DayOfWeek.Friday },
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
 
@@ -591,13 +707,13 @@ namespace SchedulerTest
             var informations = scheduler.CalculateNextExecution(3);
 
             informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 3, 6, 0, 0));
-            informations[0].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 and 8:00 starting on 03/01/2020");
+            informations[0].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/3/2020");
 
             informations[1].NextExecutionTime.Should().Be(new DateTime(2020, 1, 3, 8, 0, 0));
-            informations[1].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 and 8:00 starting on 03/01/2020");
+            informations[1].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/3/2020");
 
             informations[2].NextExecutionTime.Should().Be(new DateTime(2020, 1, 13, 4, 0, 0));
-            informations[2].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 and 8:00 starting on 03/01/2020");
+            informations[2].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/3/2020");
         }
 
         [Fact]
@@ -612,6 +728,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 DayOfWeeks = new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Thursday, DayOfWeek.Friday },
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
 
@@ -620,13 +737,13 @@ namespace SchedulerTest
             var informations = scheduler.CalculateNextExecution(3);
 
             informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 3, 6, 0, 0));
-            informations[0].Description.Should().Be("Occurs every 3 weeks on monday, thursday and friday every 2 hours between 4:00 and 8:00 starting on 03/01/2020");
+            informations[0].Description.Should().Be("Occurs every 3 weeks on monday, thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/3/2020");
 
             informations[1].NextExecutionTime.Should().Be(new DateTime(2020, 1, 3, 8, 0, 0));
-            informations[1].Description.Should().Be("Occurs every 3 weeks on monday, thursday and friday every 2 hours between 4:00 and 8:00 starting on 03/01/2020");
+            informations[1].Description.Should().Be("Occurs every 3 weeks on monday, thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/3/2020");
 
             informations[2].NextExecutionTime.Should().Be(new DateTime(2020, 1, 20, 4, 0, 0));
-            informations[2].Description.Should().Be("Occurs every 3 weeks on monday, thursday and friday every 2 hours between 4:00 and 8:00 starting on 03/01/2020");
+            informations[2].Description.Should().Be("Occurs every 3 weeks on monday, thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/3/2020");
         }
 
         [Fact]
@@ -641,6 +758,7 @@ namespace SchedulerTest
                 Frequency = 4,
                 DayOfWeeks = new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Thursday, DayOfWeek.Friday },
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
 
@@ -649,13 +767,13 @@ namespace SchedulerTest
             var informations = scheduler.CalculateNextExecution(3);
 
             informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 3, 6, 0, 0));
-            informations[0].Description.Should().Be("Occurs every 4 weeks on monday, thursday and friday every 2 hours between 4:00 and 8:00 starting on 03/01/2020");
+            informations[0].Description.Should().Be("Occurs every 4 weeks on monday, thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/3/2020");
 
             informations[1].NextExecutionTime.Should().Be(new DateTime(2020, 1, 3, 8, 0, 0));
-            informations[1].Description.Should().Be("Occurs every 4 weeks on monday, thursday and friday every 2 hours between 4:00 and 8:00 starting on 03/01/2020");
+            informations[1].Description.Should().Be("Occurs every 4 weeks on monday, thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/3/2020");
 
             informations[2].NextExecutionTime.Should().Be(new DateTime(2020, 1, 27, 4, 0, 0));
-            informations[2].Description.Should().Be("Occurs every 4 weeks on monday, thursday and friday every 2 hours between 4:00 and 8:00 starting on 03/01/2020");
+            informations[2].Description.Should().Be("Occurs every 4 weeks on monday, thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/3/2020");
         }
 
         [Fact]
@@ -670,6 +788,7 @@ namespace SchedulerTest
                 Frequency = 2,
                 DayOfWeeks = new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Thursday, DayOfWeek.Friday },
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
 
@@ -678,16 +797,16 @@ namespace SchedulerTest
             var informations = scheduler.CalculateNextExecution(4);
 
             informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 2, 4, 0, 0));
-            informations[0].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 and 8:00 starting on 01/01/2020");
+            informations[0].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
 
             informations[1].NextExecutionTime.Should().Be(new DateTime(2020, 1, 2, 6, 0, 0));
-            informations[1].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 and 8:00 starting on 01/01/2020");
+            informations[1].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
 
             informations[2].NextExecutionTime.Should().Be(new DateTime(2020, 1, 2, 8, 0, 0));
-            informations[2].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 and 8:00 starting on 01/01/2020");
+            informations[2].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
 
             informations[3].NextExecutionTime.Should().Be(new DateTime(2020, 1, 3, 4, 0, 0));
-            informations[3].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 and 8:00 starting on 01/01/2020");
+            informations[3].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
         }
 
         [Fact]
@@ -702,6 +821,7 @@ namespace SchedulerTest
                 Frequency = 2,
                 DayOfWeeks = new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Thursday, DayOfWeek.Friday },
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
 
@@ -710,7 +830,7 @@ namespace SchedulerTest
             var informations = scheduler.CalculateNextExecution(5);
 
             informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 2, 4, 0, 0));
-            informations[0].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 and 8:00 starting on 01/01/2020");
+            informations[0].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
         }
 
         [Fact]
@@ -725,6 +845,7 @@ namespace SchedulerTest
                 Frequency = 2,
                 DayOfWeeks = new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Thursday, DayOfWeek.Friday },
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
 
@@ -733,22 +854,22 @@ namespace SchedulerTest
             var informations = scheduler.CalculateNextExecution(6);
 
             informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 2, 4, 0, 0));
-            informations[0].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 and 8:00 starting on 01/01/2020");
+            informations[0].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
 
             informations[1].NextExecutionTime.Should().Be(new DateTime(2020, 1, 2, 6, 0, 0));
-            informations[1].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 and 8:00 starting on 01/01/2020");
+            informations[1].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
 
             informations[2].NextExecutionTime.Should().Be(new DateTime(2020, 1, 2, 8, 0, 0));
-            informations[2].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 and 8:00 starting on 01/01/2020");
+            informations[2].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
 
             informations[3].NextExecutionTime.Should().Be(new DateTime(2020, 1, 3, 4, 0, 0));
-            informations[3].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 and 8:00 starting on 01/01/2020");
+            informations[3].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
 
             informations[4].NextExecutionTime.Should().Be(new DateTime(2020, 1, 3, 6, 0, 0));
-            informations[4].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 and 8:00 starting on 01/01/2020");
+            informations[4].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
 
             informations[5].NextExecutionTime.Should().Be(new DateTime(2020, 1, 3, 8, 0, 0));
-            informations[5].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 and 8:00 starting on 01/01/2020");
+            informations[5].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
         }
 
         [Fact]
@@ -763,6 +884,7 @@ namespace SchedulerTest
                 Frequency = 2,
                 DayOfWeeks = new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Thursday, DayOfWeek.Friday },
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
 
@@ -771,25 +893,25 @@ namespace SchedulerTest
             var informations = scheduler.CalculateNextExecution(7);
 
             informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 6, 4, 0, 0));
-            informations[0].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 and 8:00 starting on 05/01/2020");
+            informations[0].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/5/2020");
 
             informations[1].NextExecutionTime.Should().Be(new DateTime(2020, 1, 6, 6, 0, 0));
-            informations[1].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 and 8:00 starting on 05/01/2020");
+            informations[1].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/5/2020");
 
             informations[2].NextExecutionTime.Should().Be(new DateTime(2020, 1, 6, 8, 0, 0));
-            informations[2].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 and 8:00 starting on 05/01/2020");
+            informations[2].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/5/2020");
 
             informations[3].NextExecutionTime.Should().Be(new DateTime(2020, 1, 9, 4, 0, 0));
-            informations[3].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 and 8:00 starting on 05/01/2020");
+            informations[3].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/5/2020");
 
             informations[4].NextExecutionTime.Should().Be(new DateTime(2020, 1, 9, 6, 0, 0));
-            informations[4].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 and 8:00 starting on 05/01/2020");
+            informations[4].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/5/2020");
 
             informations[5].NextExecutionTime.Should().Be(new DateTime(2020, 1, 9, 8, 0, 0));
-            informations[5].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 and 8:00 starting on 05/01/2020");
+            informations[5].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/5/2020");
 
             informations[6].NextExecutionTime.Should().Be(new DateTime(2020, 1, 10, 4, 0, 0));
-            informations[6].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 and 8:00 starting on 05/01/2020");
+            informations[6].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/5/2020");
 
         }
 
@@ -806,6 +928,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
 
@@ -814,7 +937,32 @@ namespace SchedulerTest
             var informations = scheduler.CalculateNextExecution(1);
 
             informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2 ,8, 4, 0, 0));
-            informations[0].Description.Should().Be("Occurs day 8 every 3 months every 2 hours between 4:00 and 8:00 starting on 01/01/2020");
+            informations[0].Description.Should().Be("Occurs day 8 every 3 months every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
+        }
+
+        [Fact]
+        public void Calculate_Recurring_Execution_One_Time_Monthly_Day_Spanish()
+        {
+            SchedulerConfiguration scheduler = new()
+            {
+                CurrentDate = new DateTime(2020, 1, 9, 0, 0, 0),
+                Type = ExecutionType.Recurring,
+                Occurs = OccursType.Monthly,
+                MonthlyConf = MonthlyConfType.Day,
+                Day = 8,
+                Frequency = 3,
+                StartDate = new DateTime(2020, 1, 1),
+                OccursEvery = 2,
+                CultureInfo = new CultureInfo("es-ES"),
+                StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
+                EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
+
+            };
+
+            var informations = scheduler.CalculateNextExecution(1);
+
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 8, 4, 0, 0));
+            informations[0].Description.Should().Be("Ocurre el dia 8 cada 3 meses cada 2 horas entre las 4:00 AM y las 8:00 AM empezando el 01/01/2020");
         }
 
         [Fact]
@@ -830,6 +978,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
 
@@ -838,16 +987,16 @@ namespace SchedulerTest
             var informations = scheduler.CalculateNextExecution(4);
 
             informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 8, 4, 0, 0));
-            informations[0].Description.Should().Be("Occurs day 8 every 3 months every 2 hours between 4:00 and 8:00 starting on 01/01/2020");
+            informations[0].Description.Should().Be("Occurs day 8 every 3 months every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
 
             informations[1].NextExecutionTime.Should().Be(new DateTime(2020, 2, 8, 6, 0, 0));
-            informations[1].Description.Should().Be("Occurs day 8 every 3 months every 2 hours between 4:00 and 8:00 starting on 01/01/2020");
+            informations[1].Description.Should().Be("Occurs day 8 every 3 months every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
 
             informations[2].NextExecutionTime.Should().Be(new DateTime(2020, 2, 8, 8, 0, 0));
-            informations[2].Description.Should().Be("Occurs day 8 every 3 months every 2 hours between 4:00 and 8:00 starting on 01/01/2020");
+            informations[2].Description.Should().Be("Occurs day 8 every 3 months every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
 
             informations[3].NextExecutionTime.Should().Be(new DateTime(2020, 5, 8, 4, 0, 0));
-            informations[3].Description.Should().Be("Occurs day 8 every 3 months every 2 hours between 4:00 and 8:00 starting on 01/01/2020");
+            informations[3].Description.Should().Be("Occurs day 8 every 3 months every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
         }
 
         [Fact]
@@ -864,6 +1013,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -887,6 +1037,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -910,6 +1061,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -933,6 +1085,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -956,6 +1109,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -979,6 +1133,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -1002,6 +1157,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -1025,6 +1181,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -1048,6 +1205,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -1071,6 +1229,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -1094,6 +1253,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -1119,6 +1279,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -1142,6 +1303,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -1165,6 +1327,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -1191,6 +1354,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -1214,6 +1378,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -1237,6 +1402,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -1263,6 +1429,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -1289,6 +1456,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -1312,6 +1480,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -1335,6 +1504,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -1358,6 +1528,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -1381,6 +1552,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -1407,6 +1579,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -1431,6 +1604,7 @@ namespace SchedulerTest
                 OrderDay = Occurrency.First,
                 OccursDay = DayOccurrency.day,
                 Frequency = 3,
+                CultureInfo = new CultureInfo("en-US"),
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 1,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
@@ -1440,7 +1614,32 @@ namespace SchedulerTest
             var informations = scheduler.CalculateNextExecution(1);
 
             informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 1, 4, 0, 0));
-            informations[0].Description.Should().Be("Occurs the first day of every 3 months every 1 hours between 4:00 and 8:00 starting on 01/01/2020");
+            informations[0].Description.Should().Be("Occurs the first day of every 3 months every 1 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
+        }
+
+        [Fact]
+        public void Calculate_Recurring_Execution_One_Times_Monthly_The_First_Day_One_Hour_Spanish()
+        {
+            SchedulerConfiguration scheduler = new()
+            {
+                CurrentDate = new DateTime(2020, 1, 1, 9, 0, 0),
+                Type = ExecutionType.Recurring,
+                Occurs = OccursType.Monthly,
+                MonthlyConf = MonthlyConfType.The,
+                OrderDay = Occurrency.First,
+                OccursDay = DayOccurrency.day,
+                Frequency = 3,
+                CultureInfo = new CultureInfo("es-ES"),
+                StartDate = new DateTime(2020, 1, 1),
+                OccursEvery = 1,
+                StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
+                EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
+            };
+
+            var informations = scheduler.CalculateNextExecution(1);
+
+            informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 1, 4, 0, 0));
+            informations[0].Description.Should().Be("Ocurre el primer dia cada 3 meses cada 1 horas entre las 4:00 AM y las 8:00 AM empezando el 01/01/2020");
         }
 
         [Fact]
@@ -1457,6 +1656,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -1480,6 +1680,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -1503,6 +1704,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -1529,6 +1731,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -1536,13 +1739,13 @@ namespace SchedulerTest
             var informations = scheduler.CalculateNextExecution(4);
 
             informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 3, 1, 4, 0, 0));
-            informations[0].Description.Should().Be("Occurs the first weekend_day of every 3 months every 2 hours between 4:00 and 8:00 starting on 01/01/2020");
+            informations[0].Description.Should().Be("Occurs the first weekend day of every 3 months every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
             informations[1].NextExecutionTime.Should().Be(new DateTime(2020, 3, 1, 6, 0, 0));
-            informations[1].Description.Should().Be("Occurs the first weekend_day of every 3 months every 2 hours between 4:00 and 8:00 starting on 01/01/2020");
+            informations[1].Description.Should().Be("Occurs the first weekend day of every 3 months every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
             informations[2].NextExecutionTime.Should().Be(new DateTime(2020, 3, 1, 8, 0, 0));
-            informations[2].Description.Should().Be("Occurs the first weekend_day of every 3 months every 2 hours between 4:00 and 8:00 starting on 01/01/2020");
+            informations[2].Description.Should().Be("Occurs the first weekend day of every 3 months every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
             informations[3].NextExecutionTime.Should().Be(new DateTime(2020, 6, 6, 4, 0, 0));
-            informations[3].Description.Should().Be("Occurs the first weekend_day of every 3 months every 2 hours between 4:00 and 8:00 starting on 01/01/2020");
+            informations[3].Description.Should().Be("Occurs the first weekend day of every 3 months every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
         }
 
         [Fact]
@@ -1559,6 +1762,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -1582,6 +1786,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -1605,6 +1810,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -1628,6 +1834,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -1651,6 +1858,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -1674,6 +1882,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -1697,6 +1906,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -1720,6 +1930,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -1743,6 +1954,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -1766,6 +1978,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -1789,6 +2002,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -1812,6 +2026,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -1835,6 +2050,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -1858,6 +2074,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -1880,6 +2097,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -1903,6 +2121,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -1926,6 +2145,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -1949,6 +2169,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -1972,6 +2193,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -1995,6 +2217,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -2018,6 +2241,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -2041,6 +2265,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -2064,6 +2289,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -2087,6 +2313,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -2110,6 +2337,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -2133,6 +2361,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -2156,6 +2385,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -2179,6 +2409,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -2201,6 +2432,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -2224,6 +2456,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -2247,6 +2480,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -2270,6 +2504,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -2293,6 +2528,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -2316,6 +2552,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -2339,6 +2576,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -2362,6 +2600,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -2385,6 +2624,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -2408,6 +2648,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -2430,6 +2671,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -2452,6 +2694,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -2475,6 +2718,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -2498,6 +2742,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -2524,6 +2769,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -2547,6 +2793,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -2573,6 +2820,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 30,
+                CultureInfo = new CultureInfo("en-US"),
                 UnitTime = UnitTime.Minutes,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 5, 0, 0)
@@ -2600,6 +2848,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 30,
+                CultureInfo = new CultureInfo("en-US"),
                 UnitTime = UnitTime.Seconds,
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 4, 1, 0)
@@ -2627,6 +2876,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -2650,6 +2900,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -2673,6 +2924,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -2696,6 +2948,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -2719,6 +2972,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -2742,6 +2996,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -2765,6 +3020,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -2788,6 +3044,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -2811,6 +3068,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -2833,6 +3091,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -2856,6 +3115,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -2879,6 +3139,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -2902,6 +3163,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -2925,6 +3187,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -2948,6 +3211,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -2971,6 +3235,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -2994,6 +3259,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -3017,6 +3283,7 @@ namespace SchedulerTest
                 Frequency = 3,
                 StartDate = new DateTime(2020, 1, 1),
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -3038,6 +3305,7 @@ namespace SchedulerTest
                 Frequency = 2,
                 DayOfWeeks = new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Thursday, DayOfWeek.Friday },
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -3057,6 +3325,7 @@ namespace SchedulerTest
                 Frequency = 2,
                 DayOfWeeks = new List<DayOfWeek> { },
                 OccursEvery = 2,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 4, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 8, 0, 0)
             };
@@ -3079,6 +3348,7 @@ namespace SchedulerTest
                 Frequency = 5,
                 UnitTime = UnitTime.Minutes,
                 OccursEvery = 10,
+                CultureInfo = new CultureInfo("en-US"),
                 StartingAt = new DateTime(2020, 1, 1, 12, 0, 0),
                 EndingAt = new DateTime(2020, 1, 1, 12, 30, 0)
             };

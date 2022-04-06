@@ -8,19 +8,11 @@ namespace Scheduler
     {
         public static string CalculateDescription(SchedulerConfiguration scheduler, DateTime nextExecutionTime)
         {
-            StringsResources stringsResources = new StringsResources(scheduler.CultureInfo);
+            StringsResources.InicializateResouces(scheduler.CultureInfo);
             return scheduler.Type == ExecutionType.Once
                 ? CalculateDescriptionOnce(scheduler, nextExecutionTime)
                 : CalculateDescriptionRecurring(scheduler);
 
-        }
-
-        public static void CheckDateFormat(SchedulerConfiguration scheduler)
-        {
-            if (scheduler.CultureInfo == new CultureInfo("en-US"))
-            {
-                
-            }
         }
 
         private static string CalculateDescriptionRecurring(SchedulerConfiguration scheduler)
@@ -41,14 +33,16 @@ namespace Scheduler
         {
             return string.Format(
                 StringsResources.GetResource("RecurringMonthlyThe"),
-                scheduler.OrderDay.ToString().ToLower(),
-                scheduler.OccursDay.ToString().ToLower(),
+                StringsResources.OccurrencyResources[scheduler.OrderDay],
+                StringsResources.DayOccurrencyResources[scheduler.OccursDay],
                 scheduler.Frequency,
                 scheduler.OccursEvery.ToString(),
-                scheduler.UnitTime.ToString().ToLower(),
-                scheduler.StartingAt.ToShortTimeString(),
-                scheduler.EndingAt.ToShortTimeString(),
-                scheduler.StartDate.ToShortDateString()
+                StringsResources.UnitTimeResources[scheduler.UnitTime],
+                scheduler.StartingAt.ToString(scheduler.CultureInfo.DateTimeFormat.ShortTimePattern),
+                scheduler.StartingAt.ToString("tt", CultureInfo.InvariantCulture),
+                scheduler.EndingAt.ToString(scheduler.CultureInfo.DateTimeFormat.ShortTimePattern),
+                scheduler.EndingAt.ToString("tt", CultureInfo.InvariantCulture),
+                scheduler.StartDate.ToString(scheduler.CultureInfo.DateTimeFormat.ShortDatePattern)
                 );
         }
 
@@ -59,10 +53,12 @@ namespace Scheduler
                 scheduler.Day.ToString(),
                 scheduler.Frequency,
                 scheduler.OccursEvery.ToString(),
-                scheduler.UnitTime.ToString().ToLower(),
-                scheduler.StartingAt.ToShortTimeString(),
-                scheduler.EndingAt.ToShortTimeString(),
-                scheduler.StartDate.ToShortDateString()
+                StringsResources.UnitTimeResources[scheduler.UnitTime],
+                scheduler.StartingAt.ToString(scheduler.CultureInfo.DateTimeFormat.ShortTimePattern),
+                scheduler.StartingAt.ToString("tt", CultureInfo.InvariantCulture),
+                scheduler.EndingAt.ToString(scheduler.CultureInfo.DateTimeFormat.ShortTimePattern),
+                scheduler.EndingAt.ToString("tt", CultureInfo.InvariantCulture),
+                scheduler.StartDate.ToString(scheduler.CultureInfo.DateTimeFormat.ShortDatePattern)
                 );
         }
 
@@ -70,10 +66,11 @@ namespace Scheduler
         {
             return String.Format(
                 StringsResources.GetResource("Once"),
-                scheduler.Type,
-                nextExecutionTime.ToShortDateString(),
-                nextExecutionTime.ToShortTimeString(),
-                scheduler.StartDate.ToShortDateString()
+                StringsResources.ExecutionTypeResources[scheduler.Type],
+                nextExecutionTime.ToString(scheduler.CultureInfo.DateTimeFormat.ShortDatePattern),
+                nextExecutionTime.ToString(scheduler.CultureInfo.DateTimeFormat.ShortTimePattern),
+                nextExecutionTime.ToString("tt", CultureInfo.InvariantCulture),
+                scheduler.StartDate.ToString(scheduler.CultureInfo.DateTimeFormat.ShortDatePattern)
                 );
         }
 
@@ -90,15 +87,15 @@ namespace Scheduler
         private static string CalculateDescripcionRecurringWeeklyCheck(SchedulerConfiguration scheduler, string days, DayOfWeek dayOfWeek)
         {
             return dayOfWeek == scheduler.DayOfWeeks.First()
-                ? String.Format("on {0}", dayOfWeek.ToString().ToLower())
+                ? String.Format("{0} {1}",StringsResources.GetResource("on") ,StringsResources.DayofWeekResources[dayOfWeek])
                 : CalculateDescripcionRecurringWeeklyCheckLast(scheduler, days, dayOfWeek);
         }
 
         private static string CalculateDescripcionRecurringWeeklyCheckLast(SchedulerConfiguration scheduler, string days, DayOfWeek dayOfWeek)
         {
             return dayOfWeek == scheduler.DayOfWeeks.Last()
-                ? String.Format("{0} and {1}", days, dayOfWeek.ToString().ToLower())
-                : String.Format("{0}, {1}", days, dayOfWeek.ToString().ToLower());
+                ? String.Format("{0} {1} {2}", days, StringsResources.GetResource("and"), StringsResources.DayofWeekResources[dayOfWeek])
+                : String.Format("{0}, {1}", days, StringsResources.DayofWeekResources[dayOfWeek]);
         }
 
         private static string CalculateDescriptionRecurringWeeklyMessage(SchedulerConfiguration scheduler, string days)
@@ -108,10 +105,12 @@ namespace Scheduler
                 scheduler.Frequency,
                 days,
                 scheduler.OccursEvery,
-                scheduler.UnitTime.ToString().ToLower(),
-                scheduler.StartingAt.ToShortTimeString(),
-                scheduler.EndingAt.ToShortTimeString(),
-                scheduler.CurrentDate.ToShortDateString()
+                StringsResources.UnitTimeResources[scheduler.UnitTime],
+                scheduler.StartingAt.ToString(scheduler.CultureInfo.DateTimeFormat.ShortTimePattern),
+                scheduler.StartingAt.ToString("tt", CultureInfo.InvariantCulture),
+                scheduler.EndingAt.ToString(scheduler.CultureInfo.DateTimeFormat.ShortTimePattern),
+                scheduler.EndingAt.ToString("tt", CultureInfo.InvariantCulture),
+                scheduler.CurrentDate.ToString(scheduler.CultureInfo.DateTimeFormat.ShortDatePattern)
                 );
         }
     }
