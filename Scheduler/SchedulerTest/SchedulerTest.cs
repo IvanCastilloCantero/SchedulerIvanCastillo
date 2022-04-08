@@ -24,7 +24,7 @@ namespace SchedulerTest
             var informations = scheduler.CalculateNextExecution(1);
 
             informations[0].NextExecutionTime.Should().Be(scheduler.DateTime);
-            informations[0].Description.Should().Be("Occurs once. Schedule will be used on 1/8/2020 at 2:00 PM starting on 1/5/2020");
+            informations[0].Description.Should().Be("Occurs once. Schedule will be used on 1/8/2020 at 14:00 starting on 1/5/2020");
         }
 
         [Fact]
@@ -42,7 +42,7 @@ namespace SchedulerTest
             var informations = scheduler.CalculateNextExecution(1);
 
             informations[0].NextExecutionTime.Should().Be(scheduler.DateTime);
-            informations[0].Description.Should().Be("Ocurre una vez. El calendario sera usado el 08/01/2020 a las 14:00 PM empezando el 05/01/2020");
+            informations[0].Description.Should().Be("Ocurre una vez. El calendario sera usado el 08/01/2020 a las 14:00 empezando el 05/01/2020");
         }
 
         [Fact]
@@ -66,7 +66,7 @@ namespace SchedulerTest
             var informations = scheduler.CalculateNextExecution(1);
 
             informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 6, 4, 0, 0));
-            informations[0].Description.Should().Be("Occurs every 2 weeks on monday every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
+            informations[0].Description.Should().Be("Occurs every 2 weeks on monday every 2 hours between 4:00 and 8:00 starting on 1/1/2020");
         }
 
         [Fact]
@@ -90,7 +90,7 @@ namespace SchedulerTest
             var informations = scheduler.CalculateNextExecution(1);
 
             informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 6, 4, 0, 0));
-            informations[0].Description.Should().Be("Ocurre cada 2 semanas en lunes cada 2 horas entre las 4:00 AM y las 8:00 AM empezando el 01/01/2020");
+            informations[0].Description.Should().Be("Ocurre cada 2 semanas en lunes cada 2 horas entre las 4:00 y las 8:00 empezando el 01/01/2020");
         }
 
         [Fact]
@@ -114,7 +114,7 @@ namespace SchedulerTest
             var informations = scheduler.CalculateNextExecution(1);
 
             informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 6, 4, 0, 0));
-            informations[0].Description.Should().Be("Occurs every 2 weeks on monday and tuesday every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
+            informations[0].Description.Should().Be("Occurs every 2 weeks on monday and tuesday every 2 hours between 4:00 and 8:00 starting on 1/1/2020");
         }
 
         [Fact]
@@ -138,7 +138,7 @@ namespace SchedulerTest
             var informations = scheduler.CalculateNextExecution(1);
 
             informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 1, 4, 0, 0));
-            informations[0].Description.Should().Be("Occurs every 2 weeks on monday and wednesday every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
+            informations[0].Description.Should().Be("Occurs every 2 weeks on monday and wednesday every 2 hours between 4:00 and 8:00 starting on 1/1/2020");
         }
 
         [Fact]
@@ -162,7 +162,7 @@ namespace SchedulerTest
             var informations = scheduler.CalculateNextExecution(1);
 
             informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 2, 4, 0, 0));
-            informations[0].Description.Should().Be("Occurs every 2 weeks on monday and thursday every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
+            informations[0].Description.Should().Be("Occurs every 2 weeks on monday and thursday every 2 hours between 4:00 and 8:00 starting on 1/1/2020");
         }
 
         [Fact]
@@ -186,7 +186,7 @@ namespace SchedulerTest
             var informations = scheduler.CalculateNextExecution(1);
 
             informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 3, 4, 0, 0));
-            informations[0].Description.Should().Be("Occurs every 2 weeks on monday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
+            informations[0].Description.Should().Be("Occurs every 2 weeks on monday and friday every 2 hours between 4:00 and 8:00 starting on 1/1/2020");
         }
 
         [Fact]
@@ -210,7 +210,7 @@ namespace SchedulerTest
             var informations = scheduler.CalculateNextExecution(1);
 
             informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 3, 4, 0, 0));
-            informations[0].Description.Should().Be("Occurs every 2 weeks on monday, tuesday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
+            informations[0].Description.Should().Be("Occurs every 2 weeks on monday, tuesday and friday every 2 hours between 4:00 and 8:00 starting on 1/1/2020");
         }
 
         [Fact]
@@ -234,7 +234,7 @@ namespace SchedulerTest
             var informations = scheduler.CalculateNextExecution(1);
 
             informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 1, 4, 0, 0));
-            informations[0].Description.Should().Be("Occurs every 2 weeks on monday, wednesday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
+            informations[0].Description.Should().Be("Occurs every 2 weeks on monday, wednesday and friday every 2 hours between 4:00 and 8:00 starting on 1/1/2020");
         }
 
         [Fact]
@@ -258,7 +258,7 @@ namespace SchedulerTest
             var informations = scheduler.CalculateNextExecution(1);
 
             informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 2, 4, 0, 0));
-            informations[0].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
+            informations[0].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 and 8:00 starting on 1/1/2020");
         }
 
         [Fact]
@@ -282,7 +282,7 @@ namespace SchedulerTest
             var informations = scheduler.CalculateNextExecution(1);
 
             informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 2, 4, 0, 0));
-            informations[0].Description.Should().Be("Occurs every 2 weeks on monday, tuesday, thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
+            informations[0].Description.Should().Be("Occurs every 2 weeks on monday, tuesday, thursday and friday every 2 hours between 4:00 and 8:00 starting on 1/1/2020");
         }
 
         [Fact]
@@ -306,7 +306,7 @@ namespace SchedulerTest
             var informations = scheduler.CalculateNextExecution(1);
 
             informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 1, 4, 0, 0));
-            informations[0].Description.Should().Be("Occurs every 2 weeks on monday, tuesday, wednesday and thursday every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
+            informations[0].Description.Should().Be("Occurs every 2 weeks on monday, tuesday, wednesday and thursday every 2 hours between 4:00 and 8:00 starting on 1/1/2020");
         }
 
         [Fact]
@@ -330,7 +330,7 @@ namespace SchedulerTest
             var informations = scheduler.CalculateNextExecution(1);
 
             informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 1, 4, 0, 0));
-            informations[0].Description.Should().Be("Occurs every 2 weeks on monday, wednesday, thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
+            informations[0].Description.Should().Be("Occurs every 2 weeks on monday, wednesday, thursday and friday every 2 hours between 4:00 and 8:00 starting on 1/1/2020");
         }
 
         [Fact]
@@ -354,7 +354,7 @@ namespace SchedulerTest
             var informations = scheduler.CalculateNextExecution(1);
 
             informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 1, 4, 0, 0));
-            informations[0].Description.Should().Be("Occurs every 2 weeks on tuesday and wednesday every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
+            informations[0].Description.Should().Be("Occurs every 2 weeks on tuesday and wednesday every 2 hours between 4:00 and 8:00 starting on 1/1/2020");
         }
 
         [Fact]
@@ -378,7 +378,7 @@ namespace SchedulerTest
             var informations = scheduler.CalculateNextExecution(1);
 
             informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 1, 4, 0, 0));
-            informations[0].Description.Should().Be("Ocurre cada 2 semanas en martes y miercoles cada 2 horas entre las 4:00 AM y las 8:00 AM empezando el 01/01/2020");
+            informations[0].Description.Should().Be("Ocurre cada 2 semanas en martes y miercoles cada 2 horas entre las 4:00 y las 8:00 empezando el 01/01/2020");
         }
 
         [Fact]
@@ -402,7 +402,7 @@ namespace SchedulerTest
             var informations = scheduler.CalculateNextExecution(1);
 
             informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 2, 4, 0, 0));
-            informations[0].Description.Should().Be("Occurs every 2 weeks on tuesday and thursday every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
+            informations[0].Description.Should().Be("Occurs every 2 weeks on tuesday and thursday every 2 hours between 4:00 and 8:00 starting on 1/1/2020");
         }
 
         [Fact]
@@ -426,7 +426,7 @@ namespace SchedulerTest
             var informations = scheduler.CalculateNextExecution(1);
 
             informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 3, 4, 0, 0));
-            informations[0].Description.Should().Be("Occurs every 2 weeks on tuesday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
+            informations[0].Description.Should().Be("Occurs every 2 weeks on tuesday and friday every 2 hours between 4:00 and 8:00 starting on 1/1/2020");
         }
 
         [Fact]
@@ -450,7 +450,7 @@ namespace SchedulerTest
             var informations = scheduler.CalculateNextExecution(1);
 
             informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 1, 4, 0, 0));
-            informations[0].Description.Should().Be("Occurs every 2 weeks on tuesday, wednesday and thursday every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
+            informations[0].Description.Should().Be("Occurs every 2 weeks on tuesday, wednesday and thursday every 2 hours between 4:00 and 8:00 starting on 1/1/2020");
         }
 
         [Fact]
@@ -474,7 +474,7 @@ namespace SchedulerTest
             var informations = scheduler.CalculateNextExecution(1);
 
             informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 1, 4, 0, 0));
-            informations[0].Description.Should().Be("Occurs every 2 weeks on tuesday, wednesday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
+            informations[0].Description.Should().Be("Occurs every 2 weeks on tuesday, wednesday and friday every 2 hours between 4:00 and 8:00 starting on 1/1/2020");
         }
 
         [Fact]
@@ -498,7 +498,7 @@ namespace SchedulerTest
             var informations = scheduler.CalculateNextExecution(1);
 
             informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 1, 4, 0, 0));
-            informations[0].Description.Should().Be("Occurs every 2 weeks on wednesday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
+            informations[0].Description.Should().Be("Occurs every 2 weeks on wednesday and friday every 2 hours between 4:00 and 8:00 starting on 1/1/2020");
         }
 
         [Fact]
@@ -522,7 +522,7 @@ namespace SchedulerTest
             var informations = scheduler.CalculateNextExecution(1);
 
             informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 1, 4, 0, 0));
-            informations[0].Description.Should().Be("Occurs every 2 weeks on wednesday and thursday every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
+            informations[0].Description.Should().Be("Occurs every 2 weeks on wednesday and thursday every 2 hours between 4:00 and 8:00 starting on 1/1/2020");
         }
 
         [Fact]
@@ -546,7 +546,7 @@ namespace SchedulerTest
             var informations = scheduler.CalculateNextExecution(1);
 
             informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 1, 4, 0, 0));
-            informations[0].Description.Should().Be("Occurs every 2 weeks on wednesday, thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
+            informations[0].Description.Should().Be("Occurs every 2 weeks on wednesday, thursday and friday every 2 hours between 4:00 and 8:00 starting on 1/1/2020");
         }
 
         [Fact]
@@ -569,7 +569,7 @@ namespace SchedulerTest
             var informations = scheduler.CalculateNextExecution(1);
 
             informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 2, 4, 0, 0));
-            informations[0].Description.Should().Be("Occurs every 2 weeks on thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
+            informations[0].Description.Should().Be("Occurs every 2 weeks on thursday and friday every 2 hours between 4:00 and 8:00 starting on 1/1/2020");
         }
 
         [Fact]
@@ -593,7 +593,7 @@ namespace SchedulerTest
             var informations = scheduler.CalculateNextExecution(1);
 
             informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 15, 4, 0, 0));
-            informations[0].Description.Should().Be("Occurs every 2 weeks on monday, tuesday, wednesday, thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/15/2020");
+            informations[0].Description.Should().Be("Occurs every 2 weeks on monday, tuesday, wednesday, thursday and friday every 2 hours between 4:00 and 8:00 starting on 1/15/2020");
         }
 
         [Fact]
@@ -617,7 +617,7 @@ namespace SchedulerTest
             var informations = scheduler.CalculateNextExecution(1);
 
             informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 15, 4, 0, 0));
-            informations[0].Description.Should().Be("Ocurre cada 2 semanas en lunes, martes, miercoles, jueves y viernes cada 2 horas entre las 4:00 AM y las 8:00 AM empezando el 15/01/2020");
+            informations[0].Description.Should().Be("Ocurre cada 2 semanas en lunes, martes, miercoles, jueves y viernes cada 2 horas entre las 4:00 y las 8:00 empezando el 15/01/2020");
         }
 
         [Fact]
@@ -641,22 +641,22 @@ namespace SchedulerTest
             var informations = scheduler.CalculateNextExecution(6);
 
             informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 15, 4, 0, 0));
-            informations[0].Description.Should().Be("Occurs every 2 weeks on monday, tuesday, wednesday, thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/15/2020");
+            informations[0].Description.Should().Be("Occurs every 2 weeks on monday, tuesday, wednesday, thursday and friday every 2 hours between 4:00 and 8:00 starting on 1/15/2020");
 
             informations[1].NextExecutionTime.Should().Be(new DateTime(2020, 1, 15, 6, 0, 0));
-            informations[1].Description.Should().Be("Occurs every 2 weeks on monday, tuesday, wednesday, thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/15/2020");
+            informations[1].Description.Should().Be("Occurs every 2 weeks on monday, tuesday, wednesday, thursday and friday every 2 hours between 4:00 and 8:00 starting on 1/15/2020");
 
             informations[2].NextExecutionTime.Should().Be(new DateTime(2020, 1, 15, 8, 0, 0));
-            informations[2].Description.Should().Be("Occurs every 2 weeks on monday, tuesday, wednesday, thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/15/2020");
+            informations[2].Description.Should().Be("Occurs every 2 weeks on monday, tuesday, wednesday, thursday and friday every 2 hours between 4:00 and 8:00 starting on 1/15/2020");
 
             informations[3].NextExecutionTime.Should().Be(new DateTime(2020, 1, 16, 4, 0, 0));
-            informations[3].Description.Should().Be("Occurs every 2 weeks on monday, tuesday, wednesday, thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/15/2020");
+            informations[3].Description.Should().Be("Occurs every 2 weeks on monday, tuesday, wednesday, thursday and friday every 2 hours between 4:00 and 8:00 starting on 1/15/2020");
 
             informations[4].NextExecutionTime.Should().Be(new DateTime(2020, 1, 16, 6, 0, 0));
-            informations[4].Description.Should().Be("Occurs every 2 weeks on monday, tuesday, wednesday, thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/15/2020");
+            informations[4].Description.Should().Be("Occurs every 2 weeks on monday, tuesday, wednesday, thursday and friday every 2 hours between 4:00 and 8:00 starting on 1/15/2020");
 
             informations[5].NextExecutionTime.Should().Be(new DateTime(2020, 1, 16, 8, 0, 0));
-            informations[5].Description.Should().Be("Occurs every 2 weeks on monday, tuesday, wednesday, thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/15/2020");
+            informations[5].Description.Should().Be("Occurs every 2 weeks on monday, tuesday, wednesday, thursday and friday every 2 hours between 4:00 and 8:00 starting on 1/15/2020");
         }
 
         [Fact]
@@ -680,10 +680,10 @@ namespace SchedulerTest
             var informations = scheduler.CalculateNextExecution(2);
 
             informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 2, 5, 0, 0));
-            informations[0].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
+            informations[0].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 and 8:00 starting on 1/1/2020");
 
             informations[1].NextExecutionTime.Should().Be(new DateTime(2020, 1, 2, 7, 0, 0));
-            informations[1].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
+            informations[1].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 and 8:00 starting on 1/1/2020");
         }
 
         [Fact]
@@ -707,13 +707,13 @@ namespace SchedulerTest
             var informations = scheduler.CalculateNextExecution(3);
 
             informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 3, 6, 0, 0));
-            informations[0].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/3/2020");
+            informations[0].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 and 8:00 starting on 1/3/2020");
 
             informations[1].NextExecutionTime.Should().Be(new DateTime(2020, 1, 3, 8, 0, 0));
-            informations[1].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/3/2020");
+            informations[1].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 and 8:00 starting on 1/3/2020");
 
             informations[2].NextExecutionTime.Should().Be(new DateTime(2020, 1, 13, 4, 0, 0));
-            informations[2].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/3/2020");
+            informations[2].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 and 8:00 starting on 1/3/2020");
         }
 
         [Fact]
@@ -737,13 +737,13 @@ namespace SchedulerTest
             var informations = scheduler.CalculateNextExecution(3);
 
             informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 3, 6, 0, 0));
-            informations[0].Description.Should().Be("Occurs every 3 weeks on monday, thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/3/2020");
+            informations[0].Description.Should().Be("Occurs every 3 weeks on monday, thursday and friday every 2 hours between 4:00 and 8:00 starting on 1/3/2020");
 
             informations[1].NextExecutionTime.Should().Be(new DateTime(2020, 1, 3, 8, 0, 0));
-            informations[1].Description.Should().Be("Occurs every 3 weeks on monday, thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/3/2020");
+            informations[1].Description.Should().Be("Occurs every 3 weeks on monday, thursday and friday every 2 hours between 4:00 and 8:00 starting on 1/3/2020");
 
             informations[2].NextExecutionTime.Should().Be(new DateTime(2020, 1, 20, 4, 0, 0));
-            informations[2].Description.Should().Be("Occurs every 3 weeks on monday, thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/3/2020");
+            informations[2].Description.Should().Be("Occurs every 3 weeks on monday, thursday and friday every 2 hours between 4:00 and 8:00 starting on 1/3/2020");
         }
 
         [Fact]
@@ -767,13 +767,13 @@ namespace SchedulerTest
             var informations = scheduler.CalculateNextExecution(3);
 
             informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 3, 6, 0, 0));
-            informations[0].Description.Should().Be("Occurs every 4 weeks on monday, thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/3/2020");
+            informations[0].Description.Should().Be("Occurs every 4 weeks on monday, thursday and friday every 2 hours between 4:00 and 8:00 starting on 1/3/2020");
 
             informations[1].NextExecutionTime.Should().Be(new DateTime(2020, 1, 3, 8, 0, 0));
-            informations[1].Description.Should().Be("Occurs every 4 weeks on monday, thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/3/2020");
+            informations[1].Description.Should().Be("Occurs every 4 weeks on monday, thursday and friday every 2 hours between 4:00 and 8:00 starting on 1/3/2020");
 
             informations[2].NextExecutionTime.Should().Be(new DateTime(2020, 1, 27, 4, 0, 0));
-            informations[2].Description.Should().Be("Occurs every 4 weeks on monday, thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/3/2020");
+            informations[2].Description.Should().Be("Occurs every 4 weeks on monday, thursday and friday every 2 hours between 4:00 and 8:00 starting on 1/3/2020");
         }
 
         [Fact]
@@ -797,16 +797,16 @@ namespace SchedulerTest
             var informations = scheduler.CalculateNextExecution(4);
 
             informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 2, 4, 0, 0));
-            informations[0].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
+            informations[0].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 and 8:00 starting on 1/1/2020");
 
             informations[1].NextExecutionTime.Should().Be(new DateTime(2020, 1, 2, 6, 0, 0));
-            informations[1].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
+            informations[1].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 and 8:00 starting on 1/1/2020");
 
             informations[2].NextExecutionTime.Should().Be(new DateTime(2020, 1, 2, 8, 0, 0));
-            informations[2].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
+            informations[2].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 and 8:00 starting on 1/1/2020");
 
             informations[3].NextExecutionTime.Should().Be(new DateTime(2020, 1, 3, 4, 0, 0));
-            informations[3].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
+            informations[3].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 and 8:00 starting on 1/1/2020");
         }
 
         [Fact]
@@ -830,7 +830,7 @@ namespace SchedulerTest
             var informations = scheduler.CalculateNextExecution(5);
 
             informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 2, 4, 0, 0));
-            informations[0].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
+            informations[0].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 and 8:00 starting on 1/1/2020");
         }
 
         [Fact]
@@ -854,22 +854,22 @@ namespace SchedulerTest
             var informations = scheduler.CalculateNextExecution(6);
 
             informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 2, 4, 0, 0));
-            informations[0].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
+            informations[0].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 and 8:00 starting on 1/1/2020");
 
             informations[1].NextExecutionTime.Should().Be(new DateTime(2020, 1, 2, 6, 0, 0));
-            informations[1].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
+            informations[1].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 and 8:00 starting on 1/1/2020");
 
             informations[2].NextExecutionTime.Should().Be(new DateTime(2020, 1, 2, 8, 0, 0));
-            informations[2].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
+            informations[2].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 and 8:00 starting on 1/1/2020");
 
             informations[3].NextExecutionTime.Should().Be(new DateTime(2020, 1, 3, 4, 0, 0));
-            informations[3].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
+            informations[3].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 and 8:00 starting on 1/1/2020");
 
             informations[4].NextExecutionTime.Should().Be(new DateTime(2020, 1, 3, 6, 0, 0));
-            informations[4].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
+            informations[4].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 and 8:00 starting on 1/1/2020");
 
             informations[5].NextExecutionTime.Should().Be(new DateTime(2020, 1, 3, 8, 0, 0));
-            informations[5].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
+            informations[5].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 and 8:00 starting on 1/1/2020");
         }
 
         [Fact]
@@ -893,25 +893,25 @@ namespace SchedulerTest
             var informations = scheduler.CalculateNextExecution(7);
 
             informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 1, 6, 4, 0, 0));
-            informations[0].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/5/2020");
+            informations[0].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 and 8:00 starting on 1/5/2020");
 
             informations[1].NextExecutionTime.Should().Be(new DateTime(2020, 1, 6, 6, 0, 0));
-            informations[1].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/5/2020");
+            informations[1].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 and 8:00 starting on 1/5/2020");
 
             informations[2].NextExecutionTime.Should().Be(new DateTime(2020, 1, 6, 8, 0, 0));
-            informations[2].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/5/2020");
+            informations[2].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 and 8:00 starting on 1/5/2020");
 
             informations[3].NextExecutionTime.Should().Be(new DateTime(2020, 1, 9, 4, 0, 0));
-            informations[3].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/5/2020");
+            informations[3].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 and 8:00 starting on 1/5/2020");
 
             informations[4].NextExecutionTime.Should().Be(new DateTime(2020, 1, 9, 6, 0, 0));
-            informations[4].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/5/2020");
+            informations[4].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 and 8:00 starting on 1/5/2020");
 
             informations[5].NextExecutionTime.Should().Be(new DateTime(2020, 1, 9, 8, 0, 0));
-            informations[5].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/5/2020");
+            informations[5].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 and 8:00 starting on 1/5/2020");
 
             informations[6].NextExecutionTime.Should().Be(new DateTime(2020, 1, 10, 4, 0, 0));
-            informations[6].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 AM and 8:00 AM starting on 1/5/2020");
+            informations[6].Description.Should().Be("Occurs every 2 weeks on monday, thursday and friday every 2 hours between 4:00 and 8:00 starting on 1/5/2020");
 
         }
 
@@ -937,7 +937,7 @@ namespace SchedulerTest
             var informations = scheduler.CalculateNextExecution(1);
 
             informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2 ,8, 4, 0, 0));
-            informations[0].Description.Should().Be("Occurs day 8 every 3 months every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
+            informations[0].Description.Should().Be("Occurs day 8 every 3 months every 2 hours between 4:00 and 8:00 starting on 1/1/2020");
         }
 
         [Fact]
@@ -962,7 +962,7 @@ namespace SchedulerTest
             var informations = scheduler.CalculateNextExecution(1);
 
             informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 8, 4, 0, 0));
-            informations[0].Description.Should().Be("Ocurre el dia 8 cada 3 meses cada 2 horas entre las 4:00 AM y las 8:00 AM empezando el 01/01/2020");
+            informations[0].Description.Should().Be("Ocurre el dia 8 cada 3 meses cada 2 horas entre las 4:00 y las 8:00 empezando el 01/01/2020");
         }
 
         [Fact]
@@ -987,16 +987,16 @@ namespace SchedulerTest
             var informations = scheduler.CalculateNextExecution(4);
 
             informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 8, 4, 0, 0));
-            informations[0].Description.Should().Be("Occurs day 8 every 3 months every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
+            informations[0].Description.Should().Be("Occurs day 8 every 3 months every 2 hours between 4:00 and 8:00 starting on 1/1/2020");
 
             informations[1].NextExecutionTime.Should().Be(new DateTime(2020, 2, 8, 6, 0, 0));
-            informations[1].Description.Should().Be("Occurs day 8 every 3 months every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
+            informations[1].Description.Should().Be("Occurs day 8 every 3 months every 2 hours between 4:00 and 8:00 starting on 1/1/2020");
 
             informations[2].NextExecutionTime.Should().Be(new DateTime(2020, 2, 8, 8, 0, 0));
-            informations[2].Description.Should().Be("Occurs day 8 every 3 months every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
+            informations[2].Description.Should().Be("Occurs day 8 every 3 months every 2 hours between 4:00 and 8:00 starting on 1/1/2020");
 
             informations[3].NextExecutionTime.Should().Be(new DateTime(2020, 5, 8, 4, 0, 0));
-            informations[3].Description.Should().Be("Occurs day 8 every 3 months every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
+            informations[3].Description.Should().Be("Occurs day 8 every 3 months every 2 hours between 4:00 and 8:00 starting on 1/1/2020");
         }
 
         [Fact]
@@ -1614,7 +1614,7 @@ namespace SchedulerTest
             var informations = scheduler.CalculateNextExecution(1);
 
             informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 1, 4, 0, 0));
-            informations[0].Description.Should().Be("Occurs the first day of every 3 months every 1 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
+            informations[0].Description.Should().Be("Occurs the first day of every 3 months every 1 hours between 4:00 and 8:00 starting on 1/1/2020");
         }
 
         [Fact]
@@ -1639,7 +1639,7 @@ namespace SchedulerTest
             var informations = scheduler.CalculateNextExecution(1);
 
             informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 2, 1, 4, 0, 0));
-            informations[0].Description.Should().Be("Ocurre el primer dia cada 3 meses cada 1 horas entre las 4:00 AM y las 8:00 AM empezando el 01/01/2020");
+            informations[0].Description.Should().Be("Ocurre el primer dia cada 3 meses cada 1 horas entre las 4:00 y las 8:00 empezando el 01/01/2020");
         }
 
         [Fact]
@@ -1739,13 +1739,13 @@ namespace SchedulerTest
             var informations = scheduler.CalculateNextExecution(4);
 
             informations[0].NextExecutionTime.Should().Be(new DateTime(2020, 3, 1, 4, 0, 0));
-            informations[0].Description.Should().Be("Occurs the first weekend day of every 3 months every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
+            informations[0].Description.Should().Be("Occurs the first weekend day of every 3 months every 2 hours between 4:00 and 8:00 starting on 1/1/2020");
             informations[1].NextExecutionTime.Should().Be(new DateTime(2020, 3, 1, 6, 0, 0));
-            informations[1].Description.Should().Be("Occurs the first weekend day of every 3 months every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
+            informations[1].Description.Should().Be("Occurs the first weekend day of every 3 months every 2 hours between 4:00 and 8:00 starting on 1/1/2020");
             informations[2].NextExecutionTime.Should().Be(new DateTime(2020, 3, 1, 8, 0, 0));
-            informations[2].Description.Should().Be("Occurs the first weekend day of every 3 months every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
+            informations[2].Description.Should().Be("Occurs the first weekend day of every 3 months every 2 hours between 4:00 and 8:00 starting on 1/1/2020");
             informations[3].NextExecutionTime.Should().Be(new DateTime(2020, 6, 6, 4, 0, 0));
-            informations[3].Description.Should().Be("Occurs the first weekend day of every 3 months every 2 hours between 4:00 AM and 8:00 AM starting on 1/1/2020");
+            informations[3].Description.Should().Be("Occurs the first weekend day of every 3 months every 2 hours between 4:00 and 8:00 starting on 1/1/2020");
         }
 
         [Fact]

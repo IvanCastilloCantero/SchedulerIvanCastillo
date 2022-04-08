@@ -38,10 +38,8 @@ namespace Scheduler
                 scheduler.Frequency,
                 scheduler.OccursEvery.ToString(),
                 StringsResources.UnitTimeResources[scheduler.UnitTime],
-                scheduler.StartingAt.ToString(scheduler.CultureInfo.DateTimeFormat.ShortTimePattern),
-                scheduler.StartingAt.ToString("tt", CultureInfo.InvariantCulture),
-                scheduler.EndingAt.ToString(scheduler.CultureInfo.DateTimeFormat.ShortTimePattern),
-                scheduler.EndingAt.ToString("tt", CultureInfo.InvariantCulture),
+                scheduler.StartingAt.ToShortTimeString(),
+                scheduler.EndingAt.ToShortTimeString(),
                 scheduler.StartDate.ToString(scheduler.CultureInfo.DateTimeFormat.ShortDatePattern)
                 );
         }
@@ -54,10 +52,8 @@ namespace Scheduler
                 scheduler.Frequency,
                 scheduler.OccursEvery.ToString(),
                 StringsResources.UnitTimeResources[scheduler.UnitTime],
-                scheduler.StartingAt.ToString(scheduler.CultureInfo.DateTimeFormat.ShortTimePattern),
-                scheduler.StartingAt.ToString("tt", CultureInfo.InvariantCulture),
-                scheduler.EndingAt.ToString(scheduler.CultureInfo.DateTimeFormat.ShortTimePattern),
-                scheduler.EndingAt.ToString("tt", CultureInfo.InvariantCulture),
+                scheduler.StartingAt.ToShortTimeString(),
+                scheduler.EndingAt.ToShortTimeString(),
                 scheduler.StartDate.ToString(scheduler.CultureInfo.DateTimeFormat.ShortDatePattern)
                 );
         }
@@ -68,8 +64,7 @@ namespace Scheduler
                 StringsResources.GetResource("Once"),
                 StringsResources.ExecutionTypeResources[scheduler.Type],
                 nextExecutionTime.ToString(scheduler.CultureInfo.DateTimeFormat.ShortDatePattern),
-                nextExecutionTime.ToString(scheduler.CultureInfo.DateTimeFormat.ShortTimePattern),
-                nextExecutionTime.ToString("tt", CultureInfo.InvariantCulture),
+                nextExecutionTime.ToShortTimeString(),
                 scheduler.StartDate.ToString(scheduler.CultureInfo.DateTimeFormat.ShortDatePattern)
                 );
         }
@@ -106,10 +101,8 @@ namespace Scheduler
                 days,
                 scheduler.OccursEvery,
                 StringsResources.UnitTimeResources[scheduler.UnitTime],
-                scheduler.StartingAt.ToString(scheduler.CultureInfo.DateTimeFormat.ShortTimePattern),
-                scheduler.StartingAt.ToString("tt", CultureInfo.InvariantCulture),
-                scheduler.EndingAt.ToString(scheduler.CultureInfo.DateTimeFormat.ShortTimePattern),
-                scheduler.EndingAt.ToString("tt", CultureInfo.InvariantCulture),
+                scheduler.StartingAt.ToShortTimeString(),
+                scheduler.EndingAt.ToShortTimeString(),
                 scheduler.CurrentDate.ToString(scheduler.CultureInfo.DateTimeFormat.ShortDatePattern)
                 );
         }

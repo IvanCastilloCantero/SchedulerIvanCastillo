@@ -27,7 +27,7 @@ namespace Scheduler
             if (Culture.Name.Equals("es-ES"))
             {
                 AddStringES();
-            } 
+            }
             else
             {
                 AddStringUS();
@@ -46,7 +46,7 @@ namespace Scheduler
             {
                 CultureInfo = new CultureInfo("es-ES"),
                 Code = "RecurringMonthlyThe",
-                Description = "Ocurre el {0} {1} cada {2} meses cada {3} {4} entre las {5} {6} y las {7} {8} empezando el {9}"
+                Description = "Ocurre el {0} {1} cada {2} meses cada {3} {4} entre las {5} y las {6} empezando el {7}"
             }
             );
 
@@ -54,7 +54,7 @@ namespace Scheduler
             {
                 CultureInfo = new CultureInfo("es-ES"),
                 Code = "RecurringMonthlyDay",
-                Description = "Ocurre el dia {0} cada {1} meses cada {2} {3} entre las {4} {5} y las {6} {7} empezando el {8}"
+                Description = "Ocurre el dia {0} cada {1} meses cada {2} {3} entre las {4} y las {5} empezando el {6}"
             }
             );
 
@@ -62,7 +62,7 @@ namespace Scheduler
             {
                 CultureInfo = new CultureInfo("es-ES"),
                 Code = "Once",
-                Description = "Ocurre {0}. El calendario sera usado el {1} a las {2} {3} empezando el {4}"
+                Description = "Ocurre {0}. El calendario sera usado el {1} a las {2} empezando el {3}"
             }
             );
 
@@ -70,7 +70,7 @@ namespace Scheduler
             {
                 CultureInfo = new CultureInfo("es-ES"),
                 Code = "RecurringWeekly",
-                Description = "Ocurre cada {0} semanas {1} cada {2} {3} entre las {4} {5} y las {6} {7} empezando el {8}"
+                Description = "Ocurre cada {0} semanas {1} cada {2} {3} entre las {4} y las {5} empezando el {6}"
             }
             );
 
@@ -89,7 +89,7 @@ namespace Scheduler
                 Description = "y"
             }
             );
-            
+
             AddEnumResourcesES();
         }
 
@@ -101,7 +101,7 @@ namespace Scheduler
             AddDayOfWeekResourcesES();
             AddExecutionTypeResourcesES();
         }
-        
+
         private static void AddUnitTimeResourcesES()
         {
             UnitTimeResources.Add(UnitTime.Hours, "horas");
@@ -154,7 +154,7 @@ namespace Scheduler
             {
                 CultureInfo = new CultureInfo("en-US"),
                 Code = "RecurringMonthlyThe",
-                Description = "Occurs the {0} {1} of every {2} months every {3} {4} between {5}{6} and {7}{8} starting on {9}"
+                Description = "Occurs the {0} {1} of every {2} months every {3} {4} between {5} and {6} starting on {7}"
             }
             );
 
@@ -162,7 +162,7 @@ namespace Scheduler
             {
                 CultureInfo = new CultureInfo("en-US"),
                 Code = "RecurringMonthlyDay",
-                Description = "Occurs day {0} every {1} months every {2} {3} between {4}{5} and {6}{7} starting on {8}"
+                Description = "Occurs day {0} every {1} months every {2} {3} between {4} and {5} starting on {6}"
             }
             );
 
@@ -170,7 +170,7 @@ namespace Scheduler
             {
                 CultureInfo = new CultureInfo("en-US"),
                 Code = "Once",
-                Description = "Occurs {0}. Schedule will be used on {1} at {2}{3} starting on {4}"
+                Description = "Occurs {0}. Schedule will be used on {1} at {2} starting on {3}"
             }
             );
 
@@ -178,7 +178,7 @@ namespace Scheduler
             {
                 CultureInfo = new CultureInfo("en-US"),
                 Code = "RecurringWeekly",
-                Description = "Occurs every {0} weeks {1} every {2} {3} between {4}{5} and {6}{7} starting on {8}"
+                Description = "Occurs every {0} weeks {1} every {2} {3} between {4} and {5} starting on {6}"
             }
             );
 
@@ -207,9 +207,9 @@ namespace Scheduler
             AddDayOccurrencyResourcesUS();
             AddOccurrencyResourcesUS();
             AddDayOfWeekResourcesUS();
-            AddExecutionTypeResourcesUS();            
+            AddExecutionTypeResourcesUS();
         }
-        
+
         private static void AddUnitTimeResourcesUS()
         {
             UnitTimeResources.Add(UnitTime.Hours, "hours");
